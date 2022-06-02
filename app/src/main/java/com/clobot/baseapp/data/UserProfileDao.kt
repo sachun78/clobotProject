@@ -13,7 +13,7 @@ interface UserProfileDao {
     fun update(userProfile: UserProfile)
 
     @Delete
-    fun delete(id: Int)
+    fun delete(userProfile: UserProfile)
 
     @Query("SELECT * FROM UserProfile")
     fun getAll(): LiveData<List<UserProfile>>

@@ -24,8 +24,8 @@ class UserProfileRepo(application: Application) {
         userProfileDao.update(userProfile)
     }
 
-    fun delete(id: Int) {
-        userProfileDao.delete(id)
+    fun delete(userProfile: UserProfile) {
+        userProfileDao.delete(userProfile)
     }
 
     fun getAll(): LiveData<List<UserProfile>> {

@@ -18,8 +18,8 @@ class UserProfileViewModel(application: Application): AndroidViewModel(applicati
         repo.update(userProfile)
     }
 
-    fun delete(id: Int) {
-        repo.delete(id)
+    fun delete(userProfile: UserProfile) {
+        repo.delete(userProfile)
     }
 
     fun getAll(): LiveData<List<UserProfile>> {
