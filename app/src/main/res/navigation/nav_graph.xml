@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/main">
+
+    <fragment
+        android:id="@+id/main"
+        android:name="kr.co.clobot.robot.common.main.view.main"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_main_to_enjoy"
+            app:destination="@id/enjoy" />
+        <action
+            android:id="@+id/action_main_to_theater"
+            app:destination="@id/theater" />
+    </fragment>
+    <fragment
+        android:id="@+id/enjoy"
+        android:name="kr.co.clobot.robot.common.main.view.enjoy"
+        android:label="fragment_enjoy"
+        tools:layout="@layout/fragment_enjoy" />
+    <fragment
+        android:id="@+id/theater"
+        android:name="kr.co.clobot.robot.common.main.view.theater"
+        android:label="fragment_theater"
+        tools:layout="@layout/fragment_theater" >
+        <action
+            android:id="@+id/action_theater_to_theater_map"
+            app:destination="@id/theater_map" />
+    </fragment>
+    <fragment
+        android:id="@+id/theater_map"
+        android:name="kr.co.clobot.robot.common.main.view.theater_map"
+        android:label="fragment_theater_map"
+        tools:layout="@layout/fragment_theater_map" />
+</navigation>

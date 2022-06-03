@@ -5,7 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import androidx.core.app.ActivityCompat
+import androidx.navigation.findNavController
 import kr.co.clobot.robot.common.databinding.ActivityMainBinding
 
 class MainActivity : RobotActivity() {
@@ -25,6 +27,23 @@ class MainActivity : RobotActivity() {
         setContentView(mActivityMainBinding.root)
 
         verifyStoragePermissions(this)
+
+        var homeBtn : Button = mActivityMainBinding.homeBtn
+        var backBtn : Button = mActivityMainBinding.backBtn
+
+        val navController = findNavController(R.id.nav_host_fragment_content_main)
+
+        backBtn.setOnClickListener{
+            //navController.navigateUp(appBarConfiguration)
+            navController.navigateUp()
+        }
+
+        homeBtn.setOnClickListener {
+            //val navController = findNavController(R.id.nav_host_fragment_content_main)
+            //navController.navigateUp()
+            //startActivity(Intent(this, MainActivity::class.java))
+            navController.navigate(R.id.main)
+        }
     }
 
     private fun verifyStoragePermissions(activity: MainActivity) {

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".main.view.main">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/qiMessage"
+        android:layout_width="match_parent"
+        android:layout_height="160px"
+        android:layout_weight="5"
+        android:src="@drawable/hi_qi" />
+
+    <GridLayout
+        android:id="@+id/main_grid"
+        app:layout_constraintTop_toBottomOf="@id/qiMessage"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="1020px"
+        android:layout_height="700px"
+        android:layout_marginTop="240px"
+        android:layout_gravity="center_horizontal"
+        android:columnCount="3">
+
+        <ImageView
+            android:id="@+id/main_i1"
+            android:layout_width="320px"
+            android:layout_height="700px"
+            android:src="@drawable/menucategory1" />
+
+        <ImageView
+            android:id="@+id/main_i2"
+            android:layout_width="320px"
+            android:layout_height="700px"
+            android:layout_marginLeft="30px"
+            android:layout_marginRight="30px"
+            android:src="@drawable/menucategory2" />
+
+        <ImageView
+            android:id="@+id/main_i3"
+            android:layout_width="320px"
+            android:layout_height="700px"
+            android:src="@drawable/menucategory3" />
+    </GridLayout>
+
+    <ImageView
+        android:id="@+id/main_i4"
+        android:layout_width="658px"
+        android:layout_height="232px"
+        android:layout_gravity="center"
+        android:layout_marginTop="60px"
+        app:layout_constraintTop_toBottomOf="@id/main_grid"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/main_i5" />
+</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>

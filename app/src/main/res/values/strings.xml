@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">APIDemo</string>
+    <string name="app_name">0547Test</string>
 
     <string name="device_status_info_title">Device Status</string>
     <string name="action_activation">Robot Activation</string>
@@ -16,5 +16,7 @@
     <string name="string_emergency">EMERGENCY</string>
     <string name="string_bumper_detect">BUMPER_DETECT</string>
     <string name="string_ok">OK</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

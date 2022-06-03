@@ -16,4 +16,9 @@
 
     <color name="white">#FFFFFF</color>
     <color name="material_blue_grey_300">#ff90a4ae</color>
+
+<!--    TK-->
+    <color name="transparency">#00FFD9EC</color>
+    <color name="select">#84754E</color>
+    <color name="gray">#BDBDBD</color>
 </resources>

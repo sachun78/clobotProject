@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".main.view.theater_map">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b1"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:layout_marginLeft="42px"
+        android:background="@drawable/clicked_btn"
+        android:text="해오름극장"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginLeft="4px"
+        android:id="@+id/theater_b2"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:text="달오름극장"
+        app:layout_constraintLeft_toRightOf="@id/theater_b1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b3"
+        android:layout_marginLeft="4px"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:text="별오름극장"
+        app:layout_constraintLeft_toRightOf="@id/theater_b2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b4"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:text="하늘극장"
+        android:layout_marginLeft="4px"
+        app:layout_constraintLeft_toRightOf="@id/theater_b3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b5"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:layout_marginLeft="42px"
+        android:layout_marginTop="4px"
+        android:background="@drawable/clicked_btn"
+        android:text="공연예술박물관"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/theater_b1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b6"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:text="뜰아래연습장"
+        android:layout_marginTop="4px"
+        android:layout_marginLeft="4px"
+        app:layout_constraintLeft_toRightOf="@id/theater_b5"
+        app:layout_constraintTop_toBottomOf="@id/theater_b2" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b7"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:layout_marginTop="4px"
+        android:background="@drawable/clicked_btn"
+        android:text="구내식당"
+        android:layout_marginLeft="4px"
+        app:layout_constraintLeft_toRightOf="@id/theater_b6"
+        app:layout_constraintTop_toBottomOf="@id/theater_b3" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b8"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:layout_marginTop="4px"
+        android:layout_marginLeft="4px"
+        android:text="문화공관"
+        app:layout_constraintLeft_toRightOf="@id/theater_b7"
+        app:layout_constraintTop_toBottomOf="@id/theater_b4" />
+
+    <ImageView
+        android:id="@+id/theater_map_i1"
+        android:layout_width="match_parent"
+        android:layout_height="614px"
+        android:layout_marginBottom="24px"
+        app:layout_constraintBottom_toTopOf="@id/theater_map_i2" />
+
+    <ImageView
+        android:id="@+id/theater_map_i2"
+        android:layout_width="match_parent"
+        android:layout_height="542px"
+        android:layout_marginBottom="150px"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
