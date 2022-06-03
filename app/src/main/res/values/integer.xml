@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="config_shortAnimTime">250</integer>
+    <integer name="config_mediumAnimTime">450</integer>
+    <integer name="config_led_default_cycletime">120</integer>
+    <integer name="config_led_default_brightness">120</integer>
+</resources>
