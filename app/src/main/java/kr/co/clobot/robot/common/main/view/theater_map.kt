@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import kr.co.clobot.robot.common.MainActivity
 import kr.co.clobot.robot.common.R
 import kr.co.clobot.robot.common.databinding.FragmentTheaterMapBinding
 
