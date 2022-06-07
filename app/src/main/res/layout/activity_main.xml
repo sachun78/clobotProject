@@ -1,52 +1,77 @@
- <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_img">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="210px"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/AppTheme.PopupOverlay">
+        <!--            국립극장 아이콘-->
+        <!--                    <Button-->
+        <!--                        android:id="@+id/theaterIcon"-->
+        <!--                        android:layout_width="187px"-->
+        <!--                        android:layout_height="54px"-->
+        <!--                        android:layout_marginStart="16dp"-->
+        <!--                        android:layout_marginTop="20dp"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:visibility="visible"-->
+        <!--                        app:layout_constraintStart_toStartOf="parent"-->
+        <!--                        app:layout_constraintTop_toTopOf="parent" />-->
+
+        <!--뒤로가기 버튼-->
+        <Button
+            android:background="@color/white"
+            android:id="@+id/backBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10px"
+            app:layout_constraintRight_toLeftOf="@id/homeBtn"/>
+
+        <!--홈 버튼 -->
+        <Button
+            android:enabled="true"
+            android:background="@color/white"
+            android:id="@+id/homeBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:text="home"
+            android:layout_weight="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10px"
+            app:layout_constraintRight_toLeftOf="@id/micBtn"/>
+
+        <Button
+            android:id="@+id/micBtn"
+            android:layout_width="160px"
+            android:layout_height="160px"
+            android:layout_weight="1"
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background_img"
-        android:orientation="vertical">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="210px"
-            app:layout_constraintTop_toTopOf="parent"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <!--홈 버튼 -->
-            <Button
-                android:id="@+id/homeBtn"
-                android:layout_width="72px"
-                android:layout_height="72px"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="10px"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:enabled="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintRight_toLeftOf="@id/micBtn"
-                app:layout_constraintTop_toTopOf="parent"
-                android:text="home"/>
-
-            <Button
-                android:id="@+id/micBtn"
-                android:layout_width="160px"
-                android:layout_height="160px"
-                android:layout_weight="1"
-                android:background="@color/white"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        android:orientation ="vertical">
 
         <FrameLayout
             android:id="@+id/fragment_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="210px"
-            android:layout_weight="10"
-            app:layout_constraintBottom_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

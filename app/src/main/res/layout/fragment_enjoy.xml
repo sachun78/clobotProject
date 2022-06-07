@@ -4,7 +4,7 @@ xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
 android:layout_weight="10"
-    tools:context=".main.view.enjoy"
+tools:context=".main.view.enjoy"
 android:background="@drawable/enjoy_background_image">
 
 <ImageView

@@ -11,6 +11,7 @@ import android.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -42,15 +43,15 @@ class MainActivity : RobotActivity() {
         verifyStoragePermissions(this)
 
         var homeBtn : Button = mActivityMainBinding.homeBtn
+        var backBtn : Button = mActivityMainBinding.backBtn
 
         //기본 화면 세팅(mainActivity가 gnb -> 그 위에 main)
         supportFragmentManager.beginTransaction().replace(R.id.fragment_main, main()).commit()
 
-//        backBtn.setOnClickListener{
-//            //navController.navigateUp(appBarConfiguration)
-//            navController.navigateUp()
-//        }
-//
+        backBtn.setOnClickListener{
+            supportFragmentManager.popBackStack()
+        }
+
         homeBtn.setOnClickListener {
             //val navController = findNavController(R.id.nav_host_fragment_content_main)
             //navController.navigateUp()
@@ -66,8 +67,7 @@ class MainActivity : RobotActivity() {
 //                navController.popBackStack(navHostFragment.id, true)
 //            }
 //            navController.navigate(R.id.main)
-//            navigation.reset({})
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, main()).commit()
+            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         }
     }
 
@@ -80,15 +80,17 @@ class MainActivity : RobotActivity() {
             }
 
             2 -> { //국립극장 둘러보기
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater()).addToBackStack(null).commit()
+
             }
 
             3 -> { //국립국장 즐기기
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy()).addToBackStack(null).commit()
             }
 
             31 -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_map()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_map()).addToBackStack(null).commit()
+//                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_map()).commit()
             }
         }
     }
