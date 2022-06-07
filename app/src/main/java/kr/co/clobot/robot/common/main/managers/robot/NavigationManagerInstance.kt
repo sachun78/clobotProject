@@ -1,4 +1,4 @@
-package kr.co.clobot.robot.common.main.managers
+package kr.co.clobot.robot.common.main.managers.robot
 
 import android.content.Context
 import com.lge.robot.platform.navigation.navigation.NavigationManager

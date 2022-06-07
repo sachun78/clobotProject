@@ -16,9 +16,9 @@ import com.lge.robot.platform.power.IPowerStateListener
 import com.lge.robot.platform.power.PowerManager
 import kr.co.clobot.robot.common.main.data.BatteryEvent
 import kr.co.clobot.robot.common.main.data.NaviError
-import kr.co.clobot.robot.common.main.managers.MonitoringManagerInstance
-import kr.co.clobot.robot.common.main.managers.NavigationManagerInstance
-import kr.co.clobot.robot.common.main.managers.PowerManagerInstance
+import kr.co.clobot.robot.common.main.managers.robot.MonitoringManagerInstance
+import kr.co.clobot.robot.common.main.managers.robot.NavigationManagerInstance
+import kr.co.clobot.robot.common.main.managers.robot.PowerManagerInstance
 import kr.co.clobot.robot.common.main.model.NavigationMessage
 
 

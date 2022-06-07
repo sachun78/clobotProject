@@ -15,7 +15,7 @@ import kr.co.clobot.robot.common.main.data.NaviErrorStatus
 import kr.co.clobot.robot.common.main.data.RobotErrorConstant
 import kr.co.clobot.robot.common.main.database.BatteryDatabase
 import kr.co.clobot.robot.common.main.database.BatteryEntity
-import kr.co.clobot.robot.common.main.managers.PowerManagerInstance
+import kr.co.clobot.robot.common.main.managers.robot.PowerManagerInstance
 import kr.co.clobot.robot.common.main.model.NavigationMessage
 import kr.co.clobot.robot.common.main.model.NavigationModel
 
