@@ -21,7 +21,7 @@
             android:layout_marginBottom="10px"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:background="@color/white"
+            android:background="@color/gray"
             android:text="back" />
         <!--홈 버튼 -->
         <Button
@@ -31,7 +31,7 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10px"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@color/gray"
             android:enabled="true"
             android:layout_gravity="center"
             android:text="home" />
@@ -41,7 +41,7 @@
             android:layout_width="160px"
             android:layout_height="160px"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@color/gray"
             android:text="test"
             android:layout_gravity="center"/>
 
@@ -52,7 +52,7 @@
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10px"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@color/gray"
             android:enabled="true"
             android:text="kor"
             android:layout_gravity="center"/>
@@ -64,7 +64,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10px"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@color/gray"
             android:layout_gravity="center"
             android:text="en" />
     </androidx.appcompat.widget.Toolbar>

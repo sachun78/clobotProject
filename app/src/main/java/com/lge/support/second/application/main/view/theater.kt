@@ -33,6 +33,10 @@ class theater : Fragment() {
             mActivity.changeFragment(21)
         }
 
+        rootView.findViewById<ImageView>(R.id.theater_i2).setOnClickListener {
+            mActivity.changeFragment(22)
+        }
+
         return rootView
     }
 

@@ -21,14 +21,11 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.lge.support.second.application.main.model.ActionType
 import com.lge.support.second.application.main.model.TkTestViewModel
-import com.lge.support.second.application.main.view.enjoy
-import com.lge.support.second.application.main.view.main
+import com.lge.support.second.application.main.view.*
 import com.lge.support.second.application.main.view.subView.subScreen
-import com.lge.support.second.application.main.view.theater
 import kr.co.clobot.robot.common.R
 import kr.co.clobot.robot.common.databinding.ActivityMainBinding
 import java.util.*
-import com.lge.support.second.application.main.view.theater_map as theater_map1
 
 class MainActivity : RobotActivity() {
     private val TAG = MainActivity::class.java.simpleName
@@ -92,6 +89,7 @@ class MainActivity : RobotActivity() {
         var backBtn : Button = findViewById(R.id.backBtn)
         var korBtn : Button = findViewById(R.id.korBtn)
         var enBtn : Button = findViewById(R.id.enBtn)
+        //var qiInfoImg : ImageView = findViewById(R.id.qiMessage)
         displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager//디스플레이 매니저 할당
 
 
@@ -149,6 +147,11 @@ class MainActivity : RobotActivity() {
             setLocate("en")
             recreate()
         }
+
+        findViewById<ImageView>(R.id.qiMessage).setOnClickListener {
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat()).addToBackStack(null).commit()
+        }
+
         ////////////main-Button Listener end////////////
 
     } //onCreate
@@ -178,7 +181,7 @@ class MainActivity : RobotActivity() {
     fun changeFragment(index : Int){ //string으로 바꿀 거 생각
         when(index) {
             1 -> { //국립극장 공연보기
-                    //supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_map()).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, play()).addToBackStack(null).commit()
             }
 
             2 -> { //국립극장 둘러보기
@@ -187,14 +190,24 @@ class MainActivity : RobotActivity() {
             }
 
             3 -> { //국립국장 즐기기
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy()).addToBackStack(null).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy())
+                    .addToBackStack(null).commit()
             }
 
             21 -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main,
-                    theater_map1()
+                    theater_map()
                 ).addToBackStack(null).commit()
 //                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_map()).commit()
+            }
+
+            22 -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_parking_bus())
+                    .addToBackStack(null).commit()
+            }
+
+            51 -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_1()).addToBackStack(null).commit()
             }
         }
     }

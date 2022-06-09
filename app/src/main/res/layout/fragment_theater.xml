@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="1550px">
+    android:background="@drawable/theater_background_image"
+    android:layout_height="wrap_content">
 
 
 <!--        <ImageView-->
