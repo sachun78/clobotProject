@@ -2,8 +2,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_exit"
-        android:orderInCategory="900"
-        android:title="EXIT"
-        app:showAsAction="never" />
+        android:id="@+id/backBtn"
+        android:enabled="true"
+        android:title="뒤로가기"
+        android:iconTint="@color/white"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/homeBtn"
+        android:enabled="true"
+        android:title="홈"
+        android:iconTint="@color/white"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/micBtn"
+        android:enabled="true"
+        android:title="마이크"
+        android:iconTint="@color/white"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/korBtn"
+        android:enabled="true"
+        android:title="한"
+        android:iconTint="@color/white"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/enBtn"
+        android:enabled="true"
+        android:title="en"
+        android:iconTint="@color/white"
+        app:showAsAction="always"/>
+
 </menu>

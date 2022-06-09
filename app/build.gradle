@@ -8,7 +8,7 @@ android {
     compileSdkVersion 29
 
     defaultConfig {
-        applicationId "kr.co.clobot.robot.common"
+        applicationId "com.lge.support.second.application"
         minSdkVersion 29
         targetSdkVersion 29
         versionCode 1
@@ -40,8 +40,10 @@ android {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha01'
-    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha01'
+//    //라이브 데이터 - 옵저버 패턴 관련(데이터 변경 사항)
+//    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.0-alpha01'
+//    //뷰모델 - 라이프사이클 관련
+//    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0-alpha01'
     def room_version = "2.3.0"
 
     implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
@@ -61,7 +63,4 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt("androidx.room:room-compiler:$room_version")
-
-    implementation("androidx.navigation:navigation-fragment-ktx:2.3.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.3.0")
 }

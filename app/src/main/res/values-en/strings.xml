@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">clobot_test</string>
+    <string name="theater_map_t1">theater1</string>
+    <string name="theater_map_t2">theater2</string>
+    <string name="theater_map_t3">theater3</string>
+    <string name="theater_map_t4">theater4</string>
+    <string name="theater_map_t5">theater5</string>
+    <string name="theater_map_t6">theater6</string>
+    <string name="theater_map_t7">theater7</string>
+    <string name="theater_map_t8">theater8</string>
+</resources>

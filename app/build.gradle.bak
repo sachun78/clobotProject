@@ -8,7 +8,7 @@ android {
     compileSdkVersion 30
 
     defaultConfig {
-        applicationId "kr.co.clobot.fifth.application"
+        applicationId "com.lge.support.second.application"
         minSdkVersion 29
         targetSdkVersion 30
         versionCode 1

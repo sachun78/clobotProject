@@ -1,22 +1,29 @@
 <resources>
-    <string name="app_name">0547Test</string>
+    <string name="app_name">clobot_test</string>
 
-    <string name="device_status_info_title">Device Status</string>
-    <string name="action_activation">Robot Activation</string>
-    <string name="navigation_not_working">navigation is not working now</string>
-    <string name="navigation_drawer_open">drawer open</string>
-    <string name="navigation_drawer_close">drawer close</string>
-    <string name="spinner_prompt">asdtest</string>
-    <string name="string_gkr_start">GKR Start</string>
-    <string name="string_gkr_running">GKR is running now</string>
-    <string name="string_reboot_robot">Reboot Robot Please</string>
-    <string name="string_map_loading_fail">MAP LOADING FAILED</string>
-    <string name="string_out_of_area">OUT OF AREA</string>
-    <string name="string_location_error">SALM ERROR</string>
-    <string name="string_emergency">EMERGENCY</string>
-    <string name="string_bumper_detect">BUMPER_DETECT</string>
-    <string name="string_ok">OK</string>
+    <string name="device_status_info_title" translatable="false">Device Status</string>
+    <string name="action_activation" translatable="false">Robot Activation</string>
+    <string name="navigation_not_working" translatable="false">navigation is not working now</string>
+    <string name="navigation_drawer_open" translatable="false">drawer open</string>
+    <string name="navigation_drawer_close" translatable="false">drawer close</string>
+    <string name="spinner_prompt" translatable="false">asdtest</string>
+    <string name="string_gkr_start" translatable="false">GKR Start</string>
+    <string name="string_gkr_running" translatable="false">GKR is running now</string>
+    <string name="string_reboot_robot" translatable="false">Reboot Robot Please</string>
+    <string name="string_map_loading_fail" translatable="false">MAP LOADING FAILED</string>
+    <string name="string_out_of_area" translatable="false">OUT OF AREA</string>
+    <string name="string_location_error" translatable="false">SALM ERROR</string>
+    <string name="string_emergency" translatable="false">EMERGENCY</string>
+    <string name="string_bumper_detect" translatable="false">BUMPER_DETECT</string>
+    <string name="string_ok" translatable="false">OK</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="theater_map_t1">해오름극장</string>
+    <string name="theater_map_t2">달오름극장</string>
+    <string name="theater_map_t3">별오름극장</string>
+    <string name="theater_map_t4">하늘극장</string>
+    <string name="theater_map_t5">공연예술박물관</string>
+    <string name="theater_map_t6">뜰아래연습장</string>
+    <string name="theater_map_t7">구내식당</string>
+    <string name="theater_map_t8">문화공간</string>
 </resources>
