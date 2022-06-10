@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="1710px"
+    android:background="@color/black"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b1"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:layout_marginLeft="42px"
+        android:background="@drawable/clicked_btn"
+        android:text="@string/theater_map_t1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_marginLeft="4px"
+        android:id="@+id/theater_b2"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:text="@string/theater_map_t2"
+        app:layout_constraintLeft_toRightOf="@id/theater_b1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b3"
+        android:layout_marginLeft="4px"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:text="@string/theater_map_t3"
+        app:layout_constraintLeft_toRightOf="@id/theater_b2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b4"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:text="@string/theater_map_t4"
+        android:layout_marginLeft="4px"
+        app:layout_constraintLeft_toRightOf="@id/theater_b3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b5"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:layout_marginLeft="42px"
+        android:layout_marginTop="4px"
+        android:background="@drawable/clicked_btn"
+        android:text="@string/theater_map_t5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/theater_b1" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b6"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:text="@string/theater_map_t6"
+        android:layout_marginTop="4px"
+        android:layout_marginLeft="4px"
+        app:layout_constraintLeft_toRightOf="@id/theater_b5"
+        app:layout_constraintTop_toBottomOf="@id/theater_b2" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b7"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:layout_marginTop="4px"
+        android:background="@drawable/clicked_btn"
+        android:text="@string/theater_map_t7"
+        android:layout_marginLeft="4px"
+        app:layout_constraintLeft_toRightOf="@id/theater_b6"
+        app:layout_constraintTop_toBottomOf="@id/theater_b3" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/theater_b8"
+        android:layout_width="246px"
+        android:layout_height="120px"
+        android:background="@drawable/clicked_btn"
+        android:layout_marginTop="4px"
+        android:layout_marginLeft="4px"
+        android:text="@string/theater_map_t8"
+        app:layout_constraintLeft_toRightOf="@id/theater_b7"
+        app:layout_constraintTop_toBottomOf="@id/theater_b4" />
+
+    <ImageView
+        android:id="@+id/theater_map_i1"
+        android:layout_width="match_parent"
+        android:layout_height="614px"
+        android:layout_marginBottom="24px"
+        app:layout_constraintBottom_toTopOf="@id/theater_map_i2" />
+
+    <ImageView
+        android:id="@+id/theater_map_i2"
+        android:layout_width="match_parent"
+        android:layout_height="542px"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="250px"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

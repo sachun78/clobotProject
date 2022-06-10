@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="1550px">
+
+    <!--<ImageView-->
+    <!--    android:id="@+id/qiMessage"-->
+    <!--    android:layout_width="match_parent"-->
+    <!--    android:layout_height="160px"-->
+    <!--    android:layout_weight="5"-->
+    <!--    android:src="@drawable/hi_qi"/>-->
+
+    <GridLayout
+        android:layout_width="670px"
+        android:layout_height="1230px"
+        android:layout_gravity="center_horizontal"
+        android:columnCount="2"
+        android:rowCount="2">
+
+        <ImageView
+            android:id="@+id/enjoy_i1"
+            android:layout_width="320px"
+            android:layout_height="600px"
+            android:layout_marginRight="15px"
+            android:layout_marginBottom="30px"
+            android:src="@drawable/enjoy_menucategory1" />
+
+        <ImageView
+            android:id="@+id/enjoy_i2"
+            android:layout_width="320px"
+            android:layout_height="600px"
+            android:layout_marginLeft="15px"
+            android:layout_marginBottom="30px"
+            android:src="@drawable/enjoy_menucategory2" />
+
+        <ImageView
+            android:id="@+id/enjoy_i3"
+            android:layout_width="320px"
+            android:layout_height="600px"
+            android:layout_marginRight="15px"
+            android:src="@drawable/enjoy_menucategory3" />
+
+        <ImageView
+            android:id="@+id/enjoy_i4"
+            android:layout_width="320px"
+            android:layout_height="600px"
+            android:layout_marginLeft="15px"
+            android:src="@drawable/enjoy_menucategory4" />
+    </GridLayout>
+</FrameLayout>
