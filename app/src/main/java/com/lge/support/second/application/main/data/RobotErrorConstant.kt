@@ -42,7 +42,7 @@ object RobotErrorConstant {
         SONAR,
         MICOM
     )
-    val ROBOT_ERROR_CONFIGS: ArrayList<ErrorConfig> = ArrayList(
+    private val ROBOT_ERROR_CONFIGS: ArrayList<ErrorConfig> = ArrayList(
         Arrays.asList( //RP Errors
             //TODO : add failed POI name as Locale
             ErrorConfig(
