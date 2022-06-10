@@ -24,7 +24,6 @@ import com.example.googlecloudmanager.GoogleTTS
 import com.example.googlecloudmanager.Language
 import com.lge.support.second.application.main.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
-import com.lge.support.second.application.main.model.ActionType
 import com.lge.support.second.application.main.model.TkTestViewModel
 import com.lge.support.second.application.main.view.*
 import com.lge.support.second.application.main.view.subView.SubScreen
@@ -58,6 +57,7 @@ class MainActivity : RobotActivity() {
     private lateinit var displayManager: DisplayManager
     private lateinit var displays: Array<Display>
     lateinit var subTest: SubScreen
+    lateinit var head: HeadPresentation
     //lateinit var subTest2 : SubScreen2
 
     private val viewModel: ChatbotViewModel by lazy {
@@ -121,6 +121,9 @@ class MainActivity : RobotActivity() {
         if (displays.size > 0) {
             subTest = SubScreen(this, displays[1])
             subTest.show()
+
+            head = HeadPresentation(this, displays[2])
+            head.show()
         }
 
         /////////////////////////////////viewmodel test/////////////////////////////////
@@ -191,7 +194,7 @@ class MainActivity : RobotActivity() {
                 return@observe
             }
             GoogleTTS.speak(this, it.data.result.fulfillment.speech[0])
-//            secondDisplay.changeText(it.data.result.fulfillment.speech[0])
+            head.changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
             it.data.result.fulfillment.messages.forEach { message ->
                 Log.d("ViewModel Observe", message.image.toString())
             }
