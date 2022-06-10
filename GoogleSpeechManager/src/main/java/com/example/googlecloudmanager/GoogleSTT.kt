@@ -126,13 +126,13 @@ object GoogleSTT {
 
     fun speechToTextFlow(): Flow<Resource<Boolean>> = flow {
         if (isRecoding) {
-            emit(Resource.Error("Already Using Recoding Resource. please try later!"))
+            emit(Resource.Error<Boolean>("Already Using Recoding Resource. please try later!"))
         }
 
         try {
             isRecoding = true
             val isFirstRequest = AtomicBoolean(true)
-            emit(Resource.Loading(false))
+            emit(Resource.Loading<Boolean>(false))
             requestStream = speechClient?.streamingRecognizeCallable()
                 ?.splitCall(object : ResponseObserver<StreamingRecognizeResponse> {
                     override fun onStart(controller: StreamController?) {
@@ -182,9 +182,9 @@ object GoogleSTT {
             // 8초 뒤 입력 종료 (3초 뒤 시작 , 5초 동안 음성 인식)
             delay(speech_timeout)
             speech_stop()
-            emit(Resource.Success(true))
+            emit(Resource.Success<Boolean>(true))
         } catch (e: IOException) {
-            emit(Resource.Error("Couldn't reach server. Check your internet connection."))
+            emit(Resource.Error<Boolean>("Couldn't reach server. Check your internet connection."))
         }
     }
 }
