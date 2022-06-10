@@ -86,17 +86,16 @@ class MainActivity : RobotActivity() {
 
 
         if(displayManager != null) {
-
             displays = displayManager.displays
 
             if (displays.size > 0) {
                 subTest = SubScreen(this, displays[1])
-                //subTest.show()
+                subTest.show()
             }
         }
 
         /////////////////////////////////viewmodel test/////////////////////////////////
-        //tkTestViewModel = ViewModelProvider(this).get(TkTestViewModel::class.java)
+//        tkTestViewModel = ViewModelProvider(this).get(TkTestViewModel::class.java)
 //        private val viewModel: NavigationModel by viewModels()
 
 //        tkTestViewModel.currentValue.observe(this, Observer{

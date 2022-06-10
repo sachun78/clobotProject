@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QIRobotLauncher</string>
+
+    <string name="theater_map_t1">theater1</string>
+    <string name="theater_map_t2">theater2</string>
+    <string name="theater_map_t3">theater3</string>
+    <string name="theater_map_t4">theater4</string>
+    <string name="theater_map_t5">theater5</string>
+    <string name="theater_map_t6">theater6</string>
+    <string name="theater_map_t7">theater7</string>
+    <string name="theater_map_t8">theater8</string>
+
+    <string name="chat_t1">궁금하신 게 있나요?</string>
+    <string name="chat_t2">잠시 후,삐 소리가 난 후 \n말씀해 주세요.</string>
+    <string name="chat_t3">말하기 힘든 환경이라면? 아래의 질문에서 골라주세요</string>
+</resources>
