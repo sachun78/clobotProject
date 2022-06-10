@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/activity_main">
+    <androidx.appcompat.widget.Toolbar
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="210px"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="center"
+        app:menu="@menu/main">
+        <!--뒤로가기 버튼-->
+        <Button
+            android:id="@+id/backBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10px"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:background="@color/gray"
+            android:text="back" />
+        <!--홈 버튼 -->
+        <Button
+            android:id="@+id/homeBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10px"
+            android:layout_weight="1"
+            android:background="@color/gray"
+            android:enabled="true"
+            android:layout_gravity="center"
+            android:text="home" />
+
+        <Button
+            android:id="@+id/micBtn"
+            android:layout_width="160px"
+            android:layout_height="160px"
+            android:layout_weight="1"
+            android:background="@color/gray"
+            android:text="test"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/korBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10px"
+            android:layout_weight="1"
+            android:background="@color/gray"
+            android:enabled="true"
+            android:text="kor"
+            android:layout_gravity="center"/>
+
+        <Button
+            android:id="@+id/enBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10px"
+            android:layout_weight="1"
+            android:background="@color/gray"
+            android:layout_gravity="center"
+            android:text="en" />
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/qiMessage"
+        android:layout_width="match_parent"
+        android:layout_height="160px"
+        android:layout_weight="5"
+        android:src="@drawable/hi_qi"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+</androidx.constraintlayout.widget.ConstraintLayout>

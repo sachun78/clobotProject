@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@drawable/theater_background_image"
+    android:layout_height="wrap_content">
+
+
+<!--        <ImageView-->
+<!--            android:id="@+id/qiMessage"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="160px"-->
+<!--            android:layout_weight="5"-->
+<!--            android:src="@drawable/hi_qi"-->
+<!--            app:layout_constraintTop_toTopOf="parent"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            app:layout_constraintStart_toStartOf="parent"/>-->
+
+        <GridLayout
+            android:id="@+id/theater_grid"
+            android:layout_width="1020px"
+            android:layout_height="700px"
+            android:columnCount="3"
+            android:layout_gravity="center_horizontal">
+
+            <ImageView
+                android:id="@+id/theater_i1"
+                android:layout_width="320px"
+                android:layout_height="700px"
+                android:src="@drawable/theater_menucategory1" />
+
+            <ImageView
+                android:id="@+id/theater_i2"
+                android:layout_width="320px"
+                android:layout_height="700px"
+                android:layout_marginLeft="30px"
+                android:layout_marginRight="30px"
+                android:src="@drawable/theater_menucategory2" />
+
+            <ImageView
+                android:id="@+id/theater_i3"
+                android:layout_width="320px"
+                android:layout_height="700px"
+                android:src="@drawable/theater_menucategory3" />
+        </GridLayout>
+
+</FrameLayout>
