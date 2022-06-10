@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap
+            android:src="@drawable/tile_background"
+            android:tileMode="repeat" />
+    </item>
+    <item
+        android:top="24dp"
+        android:gravity="center"
+        android:width="102dp"
+        android:height="45dp">
+        <bitmap
+            android:src="@drawable/lg_logo"/>
+    </item>
+</layer-list>
