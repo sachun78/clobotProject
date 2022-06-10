@@ -13,7 +13,7 @@ import com.lge.support.second.application.main.data.BatteryEvent
 import com.lge.support.second.application.main.data.NaviError
 import com.lge.support.second.application.main.data.NaviErrorStatus
 import com.lge.support.second.application.main.data.RobotErrorConstant
-import com.lge.support.second.application.main.database.BatteryDatabase
+import com.lge.support.second.application.main.database.CommonDatabase
 import com.lge.support.second.application.main.database.BatteryEntity
 import com.lge.support.second.application.main.managers.robot.PowerManagerInstance
 import com.lge.support.second.application.main.model.NavigationMessage
@@ -41,12 +41,12 @@ open class RobotActivity : AppCompatActivity() {
 
     private val viewModel: NavigationModel by viewModels()
 
-    private var mBatteryDatabase: BatteryDatabase? = null
+    private var mCommonDatabase: CommonDatabase? = null
 
 
     override fun onAttachFragment(fragment: Fragment?) {
         super.onAttachFragment(fragment)
-        mBatteryDatabase = BatteryDatabase.getInstance(this)
+        mCommonDatabase = CommonDatabase.getInstance(this)
         makeDisposable()
     }
 
@@ -98,7 +98,7 @@ open class RobotActivity : AppCompatActivity() {
             }
             if (batteryEn != null) {
                 GlobalScope.launch(Dispatchers.IO) {
-                    mBatteryDatabase?.batteryDao()?.insertBatteryInfo(batteryEn)
+                    mCommonDatabase?.batteryDao()?.insertBatteryInfo(batteryEn)
                 }
             }
         }

@@ -20,9 +20,9 @@ class NaviErrorStatus {
         }
     }
 
-    fun updateNVDeviceStatus(naviStatus: RobotError): Boolean {
+    private fun updateNVDeviceStatus(naviStatus: RobotError): Boolean {
         val descriptions = naviStatus.description
-        if (TextUtils.isEmpty(descriptions) == false) {
+        if (!TextUtils.isEmpty(descriptions)) {
             return try {
                 val nvJson = JSONObject(descriptions)
                 val naviTypeErrorConfigs = getTypeErrorConfigs(ErrorConfig.TYPE_NAVI_ERR)

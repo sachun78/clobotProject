@@ -10,5 +10,4 @@ class NavigationMessage {
     constructor(msg: Int) {
         _msg = msg
     }
-
 }
