@@ -20,16 +20,16 @@
 
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 
-    <string name="theater_map_t1">ÇØ¿À¸§±ØÀå</string>
-    <string name="theater_map_t2">´Þ¿À¸§±ØÀå</string>
-    <string name="theater_map_t3">º°¿À¸§±ØÀå</string>
-    <string name="theater_map_t4">ÇÏ´Ã±ØÀå</string>
-    <string name="theater_map_t5">°ø¿¬¿¹¼ú¹Ú¹°°ü</string>
-    <string name="theater_map_t6">¶ã¾Æ·¡¿¬½ÀÀå</string>
-    <string name="theater_map_t7">±¸³»½Ä´ç</string>
-    <string name="theater_map_t8">¹®È­°ø°£</string>
+    <string name="theater_map_t1">í•´ì˜¤ë¦„ê·¹ìž¥</string>
+    <string name="theater_map_t2">ë‹¬ì˜¤ë¦„ê·¹ìž¥</string>
+    <string name="theater_map_t3">ë³„ì˜¤ë¦„ê·¹ìž¥</string>
+    <string name="theater_map_t4">í•˜ëŠ˜ê·¹ìž¥</string>
+    <string name="theater_map_t5">ê³µì—°ì˜ˆìˆ ë°•ë¬¼ê´€</string>
+    <string name="theater_map_t6">ëœ°ì•„ëž˜ì—°ìŠµìž¥</string>
+    <string name="theater_map_t7">êµ¬ë‚´ì‹ë‹¹</string>
+    <string name="theater_map_t8">ë¬¸í™”ê³µê°„</string>
 
-    <string name="chat_t1">±Ã±ÝÇÏ½Å °Ô ÀÖ³ª¿ä?</string>
-    <string name="chat_t2">Àá½Ã ÈÄ,»ß ¼Ò¸®°¡ ³­ ÈÄ \n¸»¾¸ÇØ ÁÖ¼¼¿ä.</string>
-    <string name="chat_t3">¸»ÇÏ±â Èûµç È¯°æÀÌ¶ó¸é? ¾Æ·¡ÀÇ Áú¹®¿¡¼­ °ñ¶óÁÖ¼¼¿ä</string>
+    <string name="chat_t1">ê¶ê¸ˆí•˜ì‹  ê²Œ ìžˆë‚˜ìš”?</string>
+    <string name="chat_t2">ìž ì‹œ í›„,ì‚ ì†Œë¦¬ê°€ ë‚œ í›„ \në§ì”€í•´ ì£¼ì„¸ìš”.</string>
+    <string name="chat_t3">ë§í•˜ê¸° íž˜ë“  í™˜ê²½ì´ë¼ë©´? ì•„ëž˜ì˜ ì§ˆë¬¸ì—ì„œ ê³¨ë¼ì£¼ì„¸ìš”</string>
 </resources>
