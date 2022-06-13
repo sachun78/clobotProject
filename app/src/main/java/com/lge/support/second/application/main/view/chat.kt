@@ -48,6 +48,7 @@ class chat : Fragment() {
 
         binding.chatI1.setOnClickListener {
             (activity as MainActivity).changeFragment("answer-1")
+            MainActivity.viewModel.getResponse("하이 큐아이")
         }
     }
 

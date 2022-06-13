@@ -279,6 +279,11 @@ class MainActivity : RobotActivity() {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_1())
                     .addToBackStack(null).commit()
             }
+
+            "play-clip" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, play_clip())
+                    .addToBackStack(null).commit()
+            }
         }
     }
 
