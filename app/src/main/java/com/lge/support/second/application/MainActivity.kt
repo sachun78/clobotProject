@@ -19,9 +19,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProvider
-import com.example.googlecloudmanager.GoogleSTT
-import com.example.googlecloudmanager.GoogleTTS
-import com.example.googlecloudmanager.Language
+import com.example.googlecloudmanager.GoogleTranslateV3
+import com.example.googlecloudmanager.common.Language
+import com.example.googlecloudmanager.data.GoogleCloudApi
+import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.main.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
 import com.lge.support.second.application.main.model.TkTestViewModel
@@ -73,6 +74,7 @@ class MainActivity : RobotActivity() {
 
     private val chatbotService = ChatbotApi.getInstance()
 
+    private lateinit var googleService: GoogleCloudApi;
     //var qiBtn : ImageView = findViewById(R.id.qiMessage)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -93,20 +95,22 @@ class MainActivity : RobotActivity() {
 //        var qiView : View = findViewById(R.id.test_toolbar)
 //        var qiVisibility : ImageView = qiView.findViewById(R.id.qiMessage)
         var fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_main)
+        val googleCredential: InputStream? = this.resources?.openRawResource(R.raw.credential)
+        googleService = GoogleCloudApi.getInstance(googleCredential!!, UUID.randomUUID().toString())
 
-        val googleSttCredential: InputStream? = this.resources?.openRawResource(R.raw.credential)
-        if (googleSttCredential != null) {
-            GoogleSTT.initialize(
-                googleSttCredential,
-                UUID.randomUUID().toString(),
-                Language.Korean
-            )
+//        val googleSttCredential: InputStream? = this.resources?.openRawResource(R.raw.credential)
+//        if (googleSttCredential != null) {
+//            GoogleSTT.initialize(
+//                googleSttCredential,
+//                UUID.randomUUID().toString(),
+//            )
+//        }
 
-        }
-        val googleTtsCredential: InputStream? = this.resources?.openRawResource(R.raw.credential)
-        if (googleTtsCredential != null) {
-            GoogleTTS.initialize(
-                googleTtsCredential,
+        val googleTranslateCredential: InputStream? =
+            this.resources?.openRawResource(R.raw.credential)
+        if (googleTranslateCredential != null) {
+            GoogleTranslateV3.initialize(
+                googleTranslateCredential,
                 UUID.randomUUID().toString(),
             )
         }
@@ -121,13 +125,16 @@ class MainActivity : RobotActivity() {
 
         viewModel = ViewModelProvider(
             this@MainActivity,
-            ChatbotViewModel.Factory(ChatbotRepository(chatbotService))
+            ChatbotViewModel.Factory(
+                ChatbotRepository(chatbotService),
+                GoogleCloudRepository(googleService)
+            )
         ).get(ChatbotViewModel::class.java)
 
 
         displays = displayManager.displays
 
-        if (displays.size > 0) {
+        if (displays.isNotEmpty()) {
             subTest = SubScreen(this, displays[1])
             subTest.show()
 
@@ -173,8 +180,8 @@ class MainActivity : RobotActivity() {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
                 .addToBackStack(null).commit()
-            
-            viewModel.getResponse("하이 큐아이")
+
+            viewModel.speechResponse()
         }
         backBtn.setOnClickListener {
             supportFragmentManager.popBackStack()
@@ -184,11 +191,15 @@ class MainActivity : RobotActivity() {
         }
         korBtn.setOnClickListener {
             setLocate("ko")
+            // TODO(Set Language to ko)
+//            GoogleSTT.setLanguage(Language.Korean)
             recreate()
             //supportFragmentManager.beginTransaction().detach().attach().commit()
         }
         enBtn.setOnClickListener {
             setLocate("en")
+            // TODO(Set Language to en)
+//            GoogleSTT.setLanguage(Language.English)
             recreate()
             //refreshFragment(this, supportFragmentManager)
         }
@@ -206,13 +217,14 @@ class MainActivity : RobotActivity() {
             if (it == null) {
                 return@observe
             }
-            GoogleTTS.speak(this, it.data.result.fulfillment.speech[0])
+//            GoogleTTS.speak(this, it.data.result.fulfillment.speech[0])
+            viewModel.speak(this, it.data.result.fulfillment.speech[0])
             head.changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
             it.data.result.fulfillment.messages.forEach { message ->
                 Log.d("ViewModel Observe", message.image.toString())
             }
         }
-        //viewModel.getResponse("하이 큐아이")
+        viewModel.getResponse("intro", "intro")
     } //onCreate
 
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {

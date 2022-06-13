@@ -1,7 +1,6 @@
-package com.example.googlecloudmanager
+package com.example.googlecloudmanager.common.util
 
 import android.media.*
-import android.os.Handler
 import android.util.Log
 import com.google.protobuf.ByteString
 import java.util.concurrent.Executors
@@ -9,7 +8,10 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
 class AudioEmitter {
-    private val TAG: String = "AudioEmitter"
+    companion object {
+        private const val TAG: String = "AudioEmitter"
+    }
+
     private var mAudioRecorder: AudioRecord? = null
     private var mAudioExecutor: ScheduledExecutorService? = null
     private lateinit var mBuffer: ByteArray

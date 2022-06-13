@@ -6,11 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.googlecloudmanager.GoogleTTS
 import com.lge.support.second.application.MainActivity
-import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentAnswer1Binding
-
 
 class answer_1 : Fragment() {
     private var _binding: FragmentAnswer1Binding? = null
@@ -34,7 +31,13 @@ class answer_1 : Fragment() {
                 return@observe
             }
             /////////fragment??? this => getActivity().getApplicationContext()
-            GoogleTTS.speak(getActivity()?.getApplicationContext(), it.data.result.fulfillment.speech[0])
+            activity?.getApplicationContext()
+                ?.let { it1 ->
+                    MainActivity.viewModel.speak(
+                        it1,
+                        it.data.result.fulfillment.speech[0]
+                    )
+                }
             changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
             it.data.result.fulfillment.messages.forEach { message ->
                 Log.d("ViewModel Observe", message.image.toString())
