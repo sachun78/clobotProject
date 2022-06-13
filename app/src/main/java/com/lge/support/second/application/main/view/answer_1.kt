@@ -13,10 +13,6 @@ class answer_1 : Fragment() {
     private var _binding: FragmentAnswer1Binding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,28 +22,23 @@ class answer_1 : Fragment() {
         _binding = FragmentAnswer1Binding.inflate(inflater, container, false)
 
         MainActivity.viewModel.queryResult.observe(viewLifecycleOwner) {
-            Log.d("ViewModel", "chatbot data change, $it")
             if (it == null) {
                 return@observe
             }
             /////////fragment??? this => getActivity().getApplicationContext()
-            activity?.getApplicationContext()
-                ?.let { it1 ->
-                    MainActivity.viewModel.speak(
-                        it1,
-                        it.data.result.fulfillment.speech[0]
-                    )
-                }
-            changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
-            it.data.result.fulfillment.messages.forEach { message ->
-                Log.d("ViewModel Observe", message.image.toString())
-            }
+            changeText(it.data.in_str)
+            changeText2(it.data.result.fulfillment.speech[0])
+            //Toast.makeText(activity as MainActivity, page_id, Toast.LENGTH_SHORT).show()
         }
 
         return binding.root
     }
 
     fun changeText(text: String?) {
-        binding.answer1T.setText(text)
+        binding.answer1T1.setText(text)
+    }
+
+    fun changeText2(text: String?) {
+        binding.answer1T2.setText(text)
     }
 }

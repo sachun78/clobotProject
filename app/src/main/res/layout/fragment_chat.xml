@@ -54,6 +54,7 @@
             android:text="@string/chat_t3" />
 
         <GridView
+            android:numColumns="2"
             android:id="@+id/chat_gridView"
             android:layout_width="1000px"
             android:layout_height="880px"

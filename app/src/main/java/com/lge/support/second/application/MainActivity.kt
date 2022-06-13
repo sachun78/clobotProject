@@ -43,6 +43,8 @@ class MainActivity : RobotActivity() {
 
         lateinit var viewModel: ChatbotViewModel
 
+        lateinit var page_id: String
+
         private val PERMISSIONS_STORAGE = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -223,6 +225,7 @@ class MainActivity : RobotActivity() {
             it.data.result.fulfillment.messages.forEach { message ->
                 Log.d("ViewModel Observe", message.image.toString())
             }
+            page_id = it.data.result.fulfillment.custom_code.page_id
         }
         viewModel.getResponse("intro", "intro")
     } //onCreate
@@ -287,7 +290,7 @@ class MainActivity : RobotActivity() {
                     .addToBackStack(null).commit()
             }
 
-            "answer-1" -> {
+            "answer_1" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_1())
                     .addToBackStack(null).commit()
             }
