@@ -30,11 +30,11 @@ class theater : Fragment() {
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.VISIBLE
 
         menu1.setOnClickListener {
-            mActivity.changeFragment(21)
+            mActivity.changeFragment("theater-map")
         }
 
         rootView.findViewById<ImageView>(R.id.theater_i2).setOnClickListener {
-            mActivity.changeFragment(22)
+            mActivity.changeFragment("theater-parking")
         }
 
         return rootView

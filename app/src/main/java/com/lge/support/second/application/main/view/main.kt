@@ -30,15 +30,15 @@ class main : Fragment() {
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.VISIBLE
 
         menu1.setOnClickListener {
-            mActivity.changeFragment(1)
+            mActivity.changeFragment("play")
         }
 
         menu2.setOnClickListener {
-            mActivity.changeFragment(2)
+            mActivity.changeFragment("theater")
         }
 
         menu3.setOnClickListener {
-            mActivity.changeFragment(3)
+            mActivity.changeFragment("enjoy")
         }
 
         return binding.root

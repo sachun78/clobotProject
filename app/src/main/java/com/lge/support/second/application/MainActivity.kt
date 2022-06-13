@@ -39,6 +39,9 @@ class MainActivity : RobotActivity() {
     companion object {
         const val tk_TAG: String = "logForTest"
         lateinit var tkTestViewModel: TkTestViewModel
+
+        lateinit var viewModel: ChatbotViewModel
+
         private val PERMISSIONS_STORAGE = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -60,12 +63,13 @@ class MainActivity : RobotActivity() {
     lateinit var head: HeadPresentation
     //lateinit var subTest2 : SubScreen2
 
-    private val viewModel: ChatbotViewModel by lazy {
-        ViewModelProvider(
-            this@MainActivity,
-            ChatbotViewModel.Factory(ChatbotRepository(chatbotService))
-        ).get(ChatbotViewModel::class.java)
-    }
+    //위에 전역 변수로 뺌
+//    private val viewModel: ChatbotViewModel by lazy {
+//        ViewModelProvider(
+//            this@MainActivity,
+//            ChatbotViewModel.Factory(ChatbotRepository(chatbotService))
+//        ).get(ChatbotViewModel::class.java)
+//    }
 
     private val chatbotService = ChatbotApi.getInstance()
 
@@ -115,6 +119,11 @@ class MainActivity : RobotActivity() {
         //var qiInfoImg : ImageView = findViewById(R.id.qiMessage)
         displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
+        viewModel = ViewModelProvider(
+            this@MainActivity,
+            ChatbotViewModel.Factory(ChatbotRepository(chatbotService))
+        ).get(ChatbotViewModel::class.java)
+
 
         displays = displayManager.displays
 
@@ -161,6 +170,10 @@ class MainActivity : RobotActivity() {
         ////////////main-Button Listener////////////
         micBtn.setOnClickListener {
 //            tkTestViewModel.updateValue(actionType = ActionType.Test, 1)
+            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
+                .addToBackStack(null).commit()
+            
             viewModel.getResponse("하이 큐아이")
         }
         backBtn.setOnClickListener {
@@ -199,7 +212,7 @@ class MainActivity : RobotActivity() {
                 Log.d("ViewModel Observe", message.image.toString())
             }
         }
-        viewModel.getResponse("하이 큐아이")
+        //viewModel.getResponse("하이 큐아이")
     } //onCreate
 
 //    override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -230,25 +243,25 @@ class MainActivity : RobotActivity() {
     }
 
     //fragment change
-    fun changeFragment(index: Int) {
-        when (index) {
-            1 -> {
+    fun changeFragment(page_id: String) {
+        when (page_id) {
+            "play" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, play())
                     .addToBackStack(null).commit()
             }
 
-            2 -> {
+            "theater" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater())
                     .addToBackStack(null).commit()
 
             }
 
-            3 -> {
+            "enjoy" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy())
                     .addToBackStack(null).commit()
             }
 
-            21 -> {
+            "theater-map" -> {
                 supportFragmentManager.beginTransaction().replace(
                     R.id.fragment_main,
                     theater_map()
@@ -256,13 +269,13 @@ class MainActivity : RobotActivity() {
 //                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_map()).commit()
             }
 
-            22 -> {
+            "theater-parking" -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_main, theater_parking_bus())
                     .addToBackStack(null).commit()
             }
 
-            51 -> {
+            "answer-1" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_1())
                     .addToBackStack(null).commit()
             }

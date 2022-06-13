@@ -47,7 +47,7 @@ class chat : Fragment() {
         })
 
         binding.chatI1.setOnClickListener {
-            (activity as MainActivity).changeFragment(51)
+            (activity as MainActivity).changeFragment("answer-1")
         }
     }
 

@@ -15,7 +15,6 @@
         android:layout_gravity="center_horizontal"/>
 
     <ScrollView
-        android:id="@+id/answer1_t"
         android:layout_width="match_parent"
         android:layout_height="1532px"
         android:paddingTop="10px"
@@ -24,6 +23,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <TextView
+            android:id="@+id/answer1_t"
             android:textColor="@color/white"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
