@@ -84,4 +84,7 @@ dependencies {
     // gcp
     implementation platform('com.google.cloud:libraries-bom:25.2.0')
     implementation 'com.google.cloud:google-cloud-speech'
+
+    // gson
+    implementation 'com.google.code.gson:gson:2.9.0'
 }

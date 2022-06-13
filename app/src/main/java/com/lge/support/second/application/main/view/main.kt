@@ -9,6 +9,7 @@ import android.widget.ImageView
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentMainBinding
+import com.lge.support.second.application.main.managers.mqtt.MessageConnecter
 
 class main : Fragment() {
 
@@ -39,6 +40,10 @@ class main : Fragment() {
 
         menu3.setOnClickListener {
             mActivity.changeFragment("enjoy")
+        }
+
+        binding.mainI4.setOnClickListener{
+            val mqttInstance: MessageConnecter = MessageConnecter()
         }
 
         return binding.root
