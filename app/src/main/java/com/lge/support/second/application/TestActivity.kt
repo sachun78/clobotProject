@@ -16,29 +16,30 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
 
-        tkTestViewModel = MainActivity.tkTestViewModel
-//        참고 private val viewModel: NavigationModel by viewModels()
-
-        tkTestViewModel.currentValue.observe(this, Observer{
-            Log.i(MainActivity.tk_TAG, "MainActivity - tkTestViewModel - currentValue live Data 변경 : $it")
-        })
-
+//        tkTestViewModel = MainActivity.tkTestViewModel
+////        참고 private val viewModel: NavigationModel by viewModels()
+//
+//        tkTestViewModel.currentValue.observe(this, Observer{
+//            Log.i(MainActivity.tk_TAG, "MainActivity - tkTestViewModel - currentValue live Data 변경 : $it")
+//        })
+//
         var finishButton : Button = findViewById<Button>(R.id.testActivityBtn)
-        var testButton : Button = findViewById<Button>(R.id.testVMBtn)
-
-        testButton.setOnClickListener {
-            tkTestViewModel.updateValue(actionType = ActionType.Test, 1)
-        }
-
+//        var testButton : Button = findViewById<Button>(R.id.testVMBtn)
+//
+//        testButton.setOnClickListener {
+//            tkTestViewModel.updateValue(actionType = ActionType.Test, 1)
+//        }
+//
         finishButton.setOnClickListener {
             this.finish()
         }
-
-        Log.i(MainActivity.tk_TAG, "testActivity onCreate");
-    }
-
-    override fun onDestroy() {
-        Log.i(MainActivity.tk_TAG, "testActivity onDestroy");
-        super.onDestroy()
+//
+//        Log.i(MainActivity.tk_TAG, "testActivity onCreate");
+//    }
+//
+//    override fun onDestroy() {
+//        Log.i(MainActivity.tk_TAG, "testActivity onDestroy");
+//        super.onDestroy()
+//    }
     }
 }

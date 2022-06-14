@@ -223,7 +223,7 @@ class MainActivity : RobotActivity() {
             viewModel.speak(this, it.data.result.fulfillment.speech[0])
             head.changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
             it.data.result.fulfillment.messages.forEach { message ->
-                Log.d("ViewModel Observe", message.image.toString())
+//                Log.d("ViewModel Observe", message.image.toString())
             }
             page_id = it.data.result.fulfillment.custom_code.page_id
         }
@@ -343,11 +343,18 @@ class MainActivity : RobotActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
+
         if (id == R.id.action_exit) {
             moveTaskToBack(true);
             android.os.Process.killProcess(android.os.Process.myPid());
             System.exit(1);
         }
+        /////////////////////test Activity///////////////////////////
+        else if(id == R.id.testBtn) {
+            val testIntent = Intent(this, TestActivity::class.java)
+            startActivity(testIntent)
+        }
+
         return super.onOptionsItemSelected(item)
     }
 }

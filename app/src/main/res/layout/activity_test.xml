@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".TestActivity">
 
-    <Button
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/testActivityBtn"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_height="55dp"
-        android:layout_width="100dp"
-        android:text="finish Activity"
-        android:id="@+id/testVMBtn"
-        />
+<!--    <Button-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintBottom_toTopOf="@id/testActivityBtn"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent"-->
+<!--        android:layout_height="55dp"-->
+<!--        android:layout_width="100dp"-->
+<!--        android:text="finish Activity"-->
+<!--        android:id="@+id/testVMBtn"-->
+<!--        />-->
 
     <Button
         app:layout_constraintTop_toTopOf="parent"
