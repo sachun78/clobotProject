@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LifecycleOwner
 import com.lge.robot.platform.data.*
 import com.lge.robot.platform.navigation.NavigationMessageType
 import com.lge.support.second.application.main.data.BatteryEvent
@@ -27,7 +28,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 
-open class RobotActivity : AppCompatActivity() {
+open class RobotActivity : AppCompatActivity(), LifecycleOwner {
 
     private val TAG = RobotActivity::class.java.simpleName
 
@@ -58,7 +59,7 @@ open class RobotActivity : AppCompatActivity() {
         mErrorDisposable.dispose()
     }
 
-    private fun makeDisposable() {
+    protected fun makeDisposable() {
         mNaviDisposable = EventBus.instance.receiveEvent(EventBus.NAVI_TOPIC)
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribeBy(
@@ -130,9 +131,11 @@ open class RobotActivity : AppCompatActivity() {
     }
 
     private fun naviEventOccured(data: Any?) {
+        println(data)
         when (data) {
             is NaviStatus2 -> {
                 viewModel.updateNaviStaus(data)
+                println("NaviStatus2: $data")
             }
             is SLAM3DPos -> {
                 Log.d(TAG, "API SLAM3DPos pause")

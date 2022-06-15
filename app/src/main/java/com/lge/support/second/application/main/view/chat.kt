@@ -7,10 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.lifecycle.ViewModelProvider
+import com.example.googlecloudmanager.data.GoogleCloudApi
+import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatBinding
+import com.lge.support.second.application.main.data.chatbot.ChatbotApi
+import com.lge.support.second.application.main.model.ChatbotViewModel
+import com.lge.support.second.application.main.repository.ChatbotRepository
 import com.lge.support.second.application.main.view.adapter.questionModel
+import java.io.InputStream
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class chat : Fragment() {
@@ -25,6 +34,17 @@ class chat : Fragment() {
     )
     var click: Boolean = false
 
+//    private val viewModel: ChatbotViewModel by lazy {
+//        ViewModelProvider(
+//            requireActivity(),
+//            ChatbotViewModel.Factory(ChatbotRepository(chatbotService), GoogleCloudRepository(googleService))
+//        ).get(ChatbotViewModel::class.java)
+//    }
+//
+//    private val chatbotService = ChatbotApi.getInstance()
+//    private val googleCredential: InputStream = this.resources.openRawResource(R.raw.credential)
+//    private val googleService: GoogleCloudApi =GoogleCloudApi.getInstance(googleCredential, UUID.randomUUID().toString())
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -34,7 +54,7 @@ class chat : Fragment() {
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
 
-        if(click == false) {
+        if (click == false) {
             for (i in questions.indices) {
                 modalList.add(questionModel(questions[i]))
             }
@@ -63,6 +83,8 @@ class chat : Fragment() {
             MainActivity.viewModel.getResponse(questions[i])
             (activity as MainActivity).changeFragment("${MainActivity.page_id}")
         }
+
+        MainActivity.viewModel.speechResponse()
     }
 
 }

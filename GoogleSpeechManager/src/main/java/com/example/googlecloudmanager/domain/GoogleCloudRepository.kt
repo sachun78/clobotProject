@@ -77,7 +77,7 @@ class GoogleCloudRepository constructor(
     fun speachToText(): Flow<Resource<String>> = callbackFlow {
         if (isRecoding) {
             //TODO(return after send)
-            sendBlocking(Resource.Error<String>("Already Using Recoding Resource. please try later!"))
+            sendBlocking(Resource.Error("Already Using Recoding Resource. please try later!"))
         }
         try {
             val isFirstRequest = AtomicBoolean(true)
@@ -94,7 +94,7 @@ class GoogleCloudRepository constructor(
                         response?.resultsCount!! > 0 -> {
                             val transcript = response.getResults(0).getAlternatives(0).transcript
                             speech_text = transcript
-                            sendBlocking(Resource.Loading<String>(transcript))
+                            sendBlocking(Resource.Listen(transcript))
                         }
                         else -> println(response.error)
                     }
@@ -111,12 +111,13 @@ class GoogleCloudRepository constructor(
 
             requestStream = api.getSpeechClient().streamingRecognizeCallable().splitCall(callback)
 
+            sendBlocking(Resource.Loading("1"))
             delay(1000)
-            println("1")
+            sendBlocking(Resource.Loading("2"))
             delay(1000)
-            println("2")
+            sendBlocking(Resource.Loading("3"))
             delay(1000)
-            println("3")
+
             val tone = ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
             tone.startTone(ToneGenerator.TONE_PROP_BEEP, 250)
 
@@ -140,9 +141,9 @@ class GoogleCloudRepository constructor(
             // 8초 뒤 입력 종료 (3초 뒤 시작 , 5초 동안 음성 인식)
             delay(5000)
             speechStop()
-            sendBlocking(Resource.Success<String>(speech_text))
+            sendBlocking(Resource.Complete(speech_text))
         } catch (e: IOException) {
-            sendBlocking(Resource.Error<String>("Couldn't reach server. Check your internet connection."))
+            sendBlocking(Resource.Error("Couldn't reach server. Check your internet connection."))
         }
 
         awaitClose {

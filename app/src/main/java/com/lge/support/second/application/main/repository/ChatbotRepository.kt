@@ -27,10 +27,6 @@ class ChatbotRepository constructor(
     }
 
     operator fun invoke(param: ChatRequest): Flow<Resource<ChatbotData>> = flow {
-        Log.d(
-            TAG,
-            "invoked with param, ${param.in_str}"
-        )
         try {
             emit(Resource.Loading<ChatbotData>())
             val result = getQueryResult(param).serialize()

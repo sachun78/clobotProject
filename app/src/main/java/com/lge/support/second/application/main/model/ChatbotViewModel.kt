@@ -1,6 +1,7 @@
 package com.lge.support.second.application.main.model
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.googlecloudmanager.GoogleTranslateV3
 import com.example.googlecloudmanager.common.Language
@@ -18,15 +19,13 @@ class ChatbotViewModel(
     private val repository: ChatbotRepository,
     private val googleRepositiory: GoogleCloudRepository
 ) : ViewModel() {
+    private val TAG = "ChatbotViewModel"
     private val _queryResult: MutableLiveData<ChatbotData> = MutableLiveData<ChatbotData>()
     val queryResult: LiveData<ChatbotData> get() = _queryResult
     private val _speechText: MutableLiveData<String> = MutableLiveData()
     val speechText: LiveData<String> get() = _speechText
 
-    fun speak(_context: Context, text: String) {
-        googleRepositiory.speak(_context, text)
-    }
-
+    // Use Chatbot
     fun getResponse(in_str: String, in_type: String? = null) {
         val domain_id = "national_th"
         val in_str = in_str
@@ -55,13 +54,17 @@ class ChatbotViewModel(
         }.launchIn(viewModelScope)
     }
 
+    // Use GoogleCloud API
+    fun speak(_context: Context, text: String) {
+        googleRepositiory.speak(_context, text)
+    }
+
     // TODO(H, change R2 state)
     fun speechResponse() {
-        println("speechResponse")
         googleRepositiory.speachToText().onEach { result ->
             when (result) {
-                is R2.Success -> {
-                    println("get success")
+                is R2.Complete -> {
+                    Log.i(TAG, "onSuccess")
                     _speechText.value = result.data
                     var translated: String
 //                    GoogleTranslateV3.translate("Docent")
@@ -76,11 +79,15 @@ class ChatbotViewModel(
 //                    }
                 }
                 is R2.Loading -> {
-                    println("get loading")
+                    Log.i(TAG, "onLoading : ${result.data}")
+                    // _speechText.value = result.data
+                }
+                is R2.Listen -> {
+                    Log.i(TAG, "onListen")
                     _speechText.value = result.data
                 }
                 is R2.Error -> {
-                    println("get error")
+                    Log.i(TAG, "onError")
                     _speechText.value = ""
                 }
             }
