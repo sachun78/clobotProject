@@ -10,10 +10,10 @@ import java.util.ArrayList
 
 class PoiDbManager {
     companion object {
-        val TEST_MAP: String = "ROBOMEDIV2_OQC" /*"ROBOMEDIV2_OQC" prebuilt map resource*/
-        val TEST_MAP_FLOOR: String = "F3"       /*"F3"*/
-        val TEST_MAP_FLOOR_FLOAT: Float = 3.0F  /*"3.0"*/
-        val TEST_POI_B1_JSON = "ROBOMEDIV2_OQC_F3.poi"
+        val TEST_MAP: String = "CLOBOT_IPARK" /*"ROBOMEDIV2_OQC" prebuilt map resource*/
+        val TEST_MAP_FLOOR: String = "F7"       /*"F3"*/
+        val TEST_MAP_FLOOR_FLOAT: Float = 7.0F  /*"3.0"*/
+        val TEST_POI_B1_JSON = "CLOBOT_IPARK_F7.poi"
         val SDCARD_PATH = "/sdcard/porterbot/MAP_LGIDM/"
     }
 
@@ -64,5 +64,9 @@ class PoiDbManager {
 
     fun getAllPoi(): ArrayList<POI>? {
         return mPoi.allPOI
+    }
+    fun test(): POI {
+//        mPoi.chargerPosPOI
+        return mPoi.chargerPosPOI
     }
 }

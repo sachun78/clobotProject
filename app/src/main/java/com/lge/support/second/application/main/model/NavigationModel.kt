@@ -52,6 +52,7 @@ class NavigationModel : ViewModel() {
 
     fun updateNaviStaus(currentNaviStatus: NaviStatus2) {
         _naviStatus.value = currentNaviStatus
+        currentNaviStatus.toSimpleString()
     }
 
     fun updatePowerMode(currentPowerMode: Int) {
@@ -60,5 +61,22 @@ class NavigationModel : ViewModel() {
 
     fun updateNaviActionInfo(currentNaviActionInfo: NaviActionInfo) {
         _naviActionInfo.value = currentNaviActionInfo
+//        when (currentNaviActionInfo.actionStatus) {
+//            NaviActionInfo.ACTION_ID_EMPTY -> {
+//                println("action empty")
+//            }
+//            else -> {
+//                println(currentNaviActionInfo.actionStatus)
+//            }
+//        }
+//
+//        when (currentNaviActionInfo.motionStatus) {
+//            NaviActionInfo.MOTION_STATUS_COMPLETE -> {
+//                println("motion complete")
+//            }
+//            else -> {
+//                println(currentNaviActionInfo.motionStatus)
+//            }
+//        }
     }
 }

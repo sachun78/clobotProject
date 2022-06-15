@@ -42,7 +42,6 @@ class AudioEmitter {
         // start!
         Log.d(TAG, "Recording audio with buffer size of: ${mBuffer.size} bytes")
         mAudioRecorder!!.startRecording()
-        val tone = ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
 
         // stream bytes as they become available in chunks equal to the buffer size
         mAudioExecutor!!.scheduleAtFixedRate({

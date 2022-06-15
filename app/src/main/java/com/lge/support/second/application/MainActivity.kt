@@ -18,18 +18,29 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import com.example.googlecloudmanager.GoogleTranslateV3
 import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
+import com.lge.robot.platform.data.PosXYZDeg
+import com.lge.robot.platform.navigation.navigation.NavigationManager
+import com.lge.robot.platform.power.PowerManager
+import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.main.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
 import com.lge.support.second.application.main.model.TkTestViewModel
 import com.lge.support.second.application.main.view.*
 import com.lge.support.second.application.main.view.subView.SubScreen
 import com.lge.support.second.application.main.model.ChatbotViewModel
+import com.lge.support.second.application.main.poi.PoiDbManager
 import com.lge.support.second.application.main.repository.ChatbotRepository
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.io.InputStream
 import java.util.*
 
@@ -73,9 +84,8 @@ class MainActivity : RobotActivity() {
 //            ChatbotViewModel.Factory(ChatbotRepository(chatbotService))
 //        ).get(ChatbotViewModel::class.java)
 //    }
-
+    private lateinit var mNavigationManager: NavigationManager
     private val chatbotService = ChatbotApi.getInstance()
-
     private lateinit var googleService: GoogleCloudApi;
     //var qiBtn : ImageView = findViewById(R.id.qiMessage)
 
@@ -135,7 +145,6 @@ class MainActivity : RobotActivity() {
 
 
         displays = displayManager.displays
-
         if (displays.isNotEmpty()) {
             subTest = SubScreen(this, displays[1])
             subTest.show()
@@ -175,18 +184,27 @@ class MainActivity : RobotActivity() {
             language_code = language
         }
 
-
         ////////////main-Button Listener////////////
         micBtn.setOnClickListener {
 //            tkTestViewModel.updateValue(actionType = ActionType.Test, 1)
-            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
-                .addToBackStack(null).commit()
+//            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+//            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
+//                .addToBackStack(null).commit()
+//
+//            viewModel.speechResponse()
+//            val pois = mPoiManager.getAllPoi()
+//            println(pois)
+//            mNavigationManager.doUndockingEx()
+//            mPoiManager.getInitPosition()?.let { it1 -> moveWithPoi(it1) }
+//            val random = Random()
+//            pois?.get(random.nextInt(7))?.let { it1 -> moveWithPoi(it1) }
+//            moveWithPoi(mPoiManager.test())
 
-            viewModel.speechResponse()
+            RobotEventService.docking().launchIn(lifecycleScope)
         }
         backBtn.setOnClickListener {
-            supportFragmentManager.popBackStack()
+            RobotEventService.unDocking().launchIn(lifecycleScope)
+//            supportFragmentManager.popBackStack()
         }
         homeBtn.setOnClickListener {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
@@ -213,13 +231,16 @@ class MainActivity : RobotActivity() {
 
         ////////////main-Button Listener end////////////
 
-        // ViewModel Overserve TODO(Chatbot Request Base Action)
+        // Robot Service Observer
+        RobotEventService.mActionStatus.observe(this) { event ->
+            Log.d("MainActivity", "$event")
+        }
+        // ViewModel Observe TODO(Chatbot Request Base Action)
         viewModel.queryResult.observe(this) {
             Log.d("ViewModel", "chatbot data change, $it")
             if (it == null) {
                 return@observe
             }
-//            GoogleTTS.speak(this, it.data.result.fulfillment.speech[0])
             viewModel.speak(this, it.data.result.fulfillment.speech[0])
             head.changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
             it.data.result.fulfillment.messages.forEach { message ->
@@ -321,6 +342,11 @@ class MainActivity : RobotActivity() {
         RobotPlatform.instacne.connect(this)
         var start: Intent = Intent(this, RobotEventService::class.java)
         this.startService(start)
+//            .runCatching {
+//                mNavigationManager = NavigationManagerInstance.instance.getNavigationManager()
+//                var power: PowerManager = PowerManagerInstance.instance.getPowerManager()
+//                power.robotActivation()
+//            }
         super.onResume()
     }
 
@@ -350,7 +376,7 @@ class MainActivity : RobotActivity() {
             System.exit(1);
         }
         /////////////////////test Activity///////////////////////////
-        else if(id == R.id.testBtn) {
+        else if (id == R.id.testBtn) {
             val testIntent = Intent(this, TestActivity::class.java)
             startActivity(testIntent)
         }
