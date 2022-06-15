@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
-import com.lge.robot.platform.PlatformUtil.context
 import com.lge.robot.platform.navigation.navigation.NavigationManager
 import com.lge.robot.platform.power.PowerManager
 import com.lge.robot.platform.util.poi.data.POI
@@ -17,7 +16,6 @@ class TestActivity : AppCompatActivity() {
     lateinit var tkTestViewModel2: TkTestViewModel
 
     private lateinit var mNavigationManager: NavigationManager
-    private lateinit var listView: ListView
     private var mInitPos: POI? = null
     private var mPOIs: ArrayList<POI>? = null
 
@@ -25,12 +23,16 @@ class TestActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
 
+        //RobotPlatform.instacne.connect(this)
+
         mNavigationManager = NavigationManagerInstance.instance.getNavigationManager()
 
-        mInitPos = context?.let { PoiDbManager(it).getInitPosition() }
-        mPOIs  = context?.let { PoiDbManager(it).getAllPoi() }
+        //mInitPos = context?.let { PoiDbManager(it).getInitPosition() }
+        //mPOIs  = context?.let { PoiDbManager(it).getAllPoi() }
+        mInitPos = PoiDbManager(this).getInitPosition()
+        mPOIs = PoiDbManager(this).getAllPoi()
 
-        listView = findViewById<ListView>(R.id.listview)
+        var listView = findViewById<ListView>(R.id.listview)
 
         var listItems = arrayListOf<POI>()
         var adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
@@ -45,6 +47,7 @@ class TestActivity : AppCompatActivity() {
 
         findViewById<Button>(R.id.btn_pois).setOnClickListener {
             listItems.addAll(mPOIs ?: arrayListOf<POI>())
+            Log.i("HJBAE", "data: $listItems")
             adapter.notifyDataSetChanged()
         }
 
