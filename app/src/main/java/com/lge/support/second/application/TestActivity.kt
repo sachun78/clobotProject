@@ -31,8 +31,9 @@ class TestActivity : AppCompatActivity() {
         mPOIs  = context?.let { PoiDbManager(it).getAllPoi() }
 
         listView = findViewById<ListView>(R.id.listview)
+
         var listItems = arrayListOf<POI>()
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
+        var adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
         listView.adapter = adapter
 
         findViewById<Button>(R.id.btn_activation).setOnClickListener {
@@ -43,7 +44,7 @@ class TestActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_pois).setOnClickListener {
-            listItems = mPOIs ?: arrayListOf<POI>()
+            listItems.addAll(mPOIs ?: arrayListOf<POI>())
             adapter.notifyDataSetChanged()
         }
 
