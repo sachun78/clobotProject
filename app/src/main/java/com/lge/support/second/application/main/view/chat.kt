@@ -76,15 +76,14 @@ class chat : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gridView = binding.chatGridView
 
-
         binding.chatI1.setOnClickListener {
-            MainActivity.viewModel.getResponse("하이 큐아이")
+            MainActivity.viewModel.getResponse("하이 큐아이")d
             (activity as MainActivity).changeFragment("answer_1")
         }
 
         binding.chatGridView.setOnItemClickListener { adapterView, view, i, l ->
             MainActivity.viewModel.getResponse(questions[i])
-            (activity as MainActivity).changeFragment("${MainActivity.page_id}")
+            //(activity as MainActivity).changeFragment("${MainActivity.page_id}")
         }
 
         MainActivity.viewModel.speechResponse()
