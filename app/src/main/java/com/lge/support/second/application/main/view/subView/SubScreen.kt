@@ -11,7 +11,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import com.lge.support.second.application.MainActivity
-import com.lge.support.second.application.MainActivity.Companion.tkTestViewModel
 import com.lge.support.second.application.R
 
 

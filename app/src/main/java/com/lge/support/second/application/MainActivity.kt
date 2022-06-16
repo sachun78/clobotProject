@@ -2,12 +2,16 @@ package com.lge.support.second.application
 
 import android.Manifest
 import android.app.Activity
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.hardware.display.DisplayManager
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.Display
 import android.view.Menu
@@ -37,6 +41,8 @@ import com.lge.support.second.application.main.view.subView.SubScreen
 import com.lge.support.second.application.main.model.ChatbotViewModel
 import com.lge.support.second.application.main.poi.PoiDbManager
 import com.lge.support.second.application.main.repository.ChatbotRepository
+import com.lge.support.second.application.main.view.answer_1
+import com.lge.support.second.application.main.view.template.*
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -50,11 +56,25 @@ class MainActivity : RobotActivity() {
     //for viewmodel test log_Tag
     companion object {
         const val tk_TAG: String = "logForTest"
-        lateinit var tkTestViewModel: TkTestViewModel
+        //lateinit var tkTestViewModel: TkTestViewModel
 
         lateinit var viewModel: ChatbotViewModel
 
+        //////////////////chatbot 질의->화면 바꿔주기 위한 용도/////
         lateinit var page_id: String
+        lateinit var tpl_id: String
+        lateinit var r_status: String
+
+        /////////////////chatbot으로 들어온 page인지 확인 용//////
+        var chatPage : Boolean = false
+
+        ////////////////chatbot제공 이미지 파일이 여러개인 경우->mutable 리스트 사용////
+        var messageSize: Int = 0
+        val BitmapArray = ArrayList<Bitmap>()
+        ///////////////chatbot제공 이미지 한 개인 경우............................
+        lateinit var url: String
+        lateinit var urlDecoder: ByteArray
+        lateinit var urlBitmap: Bitmap
 
         private val PERMISSIONS_STORAGE = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -102,11 +122,7 @@ class MainActivity : RobotActivity() {
 
         Log.i(tk_TAG, "MainActivity OnCreate")
 
-//        var qiBtn : ImageView = findViewById(R.id.qiMessage)
-//        qiBtn.visibility = View.INVISIBLE
-//        var qiView : View = findViewById(R.id.test_toolbar)
-//        var qiVisibility : ImageView = qiView.findViewById(R.id.qiMessage)
-        var fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_main)
+//        var fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_main)
         val googleCredential: InputStream? = this.resources?.openRawResource(R.raw.credential)
         googleService = GoogleCloudApi.getInstance(googleCredential!!, UUID.randomUUID().toString())
 
@@ -143,8 +159,8 @@ class MainActivity : RobotActivity() {
             )
         ).get(ChatbotViewModel::class.java)
 
-
         displays = displayManager.displays
+
         if (displays.isNotEmpty()) {
             subTest = SubScreen(this, displays[1])
             subTest.show()
@@ -203,11 +219,14 @@ class MainActivity : RobotActivity() {
             RobotEventService.docking().launchIn(lifecycleScope)
         }
         backBtn.setOnClickListener {
-            RobotEventService.unDocking().launchIn(lifecycleScope)
-//            supportFragmentManager.popBackStack()
+//            RobotEventService.unDocking().launchIn(lifecycleScope)
+            supportFragmentManager.popBackStack()
+//            GoogleTTS.stop()
         }
         homeBtn.setOnClickListener {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+//            GoogleTTS.stop()
+            //chatPage = false
         }
         korBtn.setOnClickListener {
             setLocate("ko")
@@ -228,7 +247,6 @@ class MainActivity : RobotActivity() {
             supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
                 .addToBackStack(null).commit()
         }
-
         ////////////main-Button Listener end////////////
 
         // Robot Service Observer
@@ -243,10 +261,60 @@ class MainActivity : RobotActivity() {
             }
             viewModel.speak(this, it.data.result.fulfillment.speech[0])
             head.changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
-            it.data.result.fulfillment.messages.forEach { message ->
+//            it.data.result.fulfillment.messages.forEach { message ->
 //                Log.d("ViewModel Observe", message.image.toString())
-            }
+//            }
             page_id = it.data.result.fulfillment.custom_code.page_id
+            tpl_id = it.data.result.fulfillment.template_id
+            r_status = it.data.result.fulfillment.response_status
+
+            ///////test --------------- check
+            Log.d("tk_test", "page_id is : " + page_id)
+            Log.d("tk_test", "template_id is : " + tpl_id)
+            Log.d("tk_test", "response_status is : " + r_status)
+
+            ////////////////url 없는 경우 error => 있을 때만 받아옴/////////
+            if (!it.data.result.fulfillment.messages.isNullOrEmpty()) {
+                if (!it.data.result.fulfillment.messages[0].image.isNullOrEmpty()) {
+                    messageSize = it.data.result.fulfillment.messages.size
+                    Log.d("tk_test", "message list size is " + messageSize)
+
+                    for (i in 0..messageSize - 1) {
+                        url = it.data.result.fulfillment.messages[0].image[i].url.substring(
+                            it.data.result.fulfillment.messages[0].image[0].url.indexOf(",") + 1
+                        )
+                        urlDecoder = Base64.decode(url, Base64.DEFAULT)
+
+                        Log.d("tk_test", "urlDecode is " + urlDecoder)
+
+                        urlBitmap = BitmapFactory.decodeByteArray(urlDecoder, 0, urlDecoder.size)
+                        BitmapArray.add(urlBitmap)
+                        Log.d("tk_test", "bitmap array is " + BitmapArray.get(i))
+                    }
+
+                    if (BitmapArray.size > messageSize) {
+                        for (i in messageSize..BitmapArray.size - 1) {
+                            BitmapArray.removeAt(i)
+                        }
+                    }
+                }
+            }
+            ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
+
+            ///////////////////chatbot질의 페이지에서만 page바꿔줌. 나머지는 발화만
+            if(chatPage == true){
+                if (page_id != "") { //////////////page id가 존재
+                    if (tpl_id == "") {///////////tpl_id는 없음
+                        if (r_status == "match") ///tpl_id가 공백일 경우에는 response_status값이 match -> page_id
+                            changeFragment(page_id)
+                    } else //////tpl_id가 있음
+                        changeFragment(page_id)
+                } else { /////////page id가 없음
+                    if (tpl_id != "") { /////////template id는 있음
+                        changeFragment(tpl_id)
+                    }
+                }
+            }
         }
         viewModel.getResponse("intro", "intro")
     } //onCreate
@@ -272,12 +340,6 @@ class MainActivity : RobotActivity() {
         editor.apply()
     }
 
-    //fragment
-    fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
-        var ft: FragmentTransaction = fragmentManager.beginTransaction()
-        ft.detach(fragment).attach(fragment).commit()
-    }
-
     //fragment change
     fun changeFragment(page_id: String) {
         when (page_id) {
@@ -289,7 +351,6 @@ class MainActivity : RobotActivity() {
             "theater" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater())
                     .addToBackStack(null).commit()
-
             }
 
             "enjoy" -> {
@@ -298,26 +359,48 @@ class MainActivity : RobotActivity() {
             }
 
             "theater-map" -> {
-                supportFragmentManager.beginTransaction().replace(
-                    R.id.fragment_main,
-                    theater_map()
-                ).addToBackStack(null).commit()
-//                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_map()).commit()
-            }
-
-            "theater-parking" -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_main, theater_parking_bus())
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_map())
                     .addToBackStack(null).commit()
             }
 
-            "answer_1" -> {
+            "theater-parking" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_parking_bus())
+                    .addToBackStack(null).commit()
+            }
+
+//            "enjoy-exhbn" -> {
+//                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy_1())
+//                    .addToBackStack(null).commit()
+//            }
+
+            /////////////////////////////chat bot/////////////////////////////
+            "answer_1", "tpl-com-00" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_1())
                     .addToBackStack(null).commit()
             }
 
-            "play-clip" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, play_clip())
+            "answer_2", "tpl-com-01" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_2())
+                    .addToBackStack(null).commit()
+            }
+
+            "answer-list_1", "tpl-com-02" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_list_1())
+                    .addToBackStack(null).commit()
+            }
+
+            "answer_3", "tpl-com-03" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_3())
+                    .addToBackStack(null).commit()
+            }
+
+            "answer-list_2", "tpl-com-04" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_list_2())
+                    .addToBackStack(null).commit()
+            }
+
+            "answer_4", "tpl-com-05" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_4())
                     .addToBackStack(null).commit()
             }
         }
@@ -379,6 +462,20 @@ class MainActivity : RobotActivity() {
         else if (id == R.id.testBtn) {
             val testIntent = Intent(this, TestActivity::class.java)
             startActivity(testIntent)
+        }
+	
+	else if(id==R.id.enginBtn) {
+//            var settingintent : Intent = Intent(this, TestActivity::class.java)
+//            this.startActivity(settingintent)
+            var intent = packageManager.getLaunchIntentForPackage("com.lge.engineermenu")
+            //intent?.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+
+            var options = ActivityOptions.makeBasic()
+            options.launchDisplayId = 1
+
+            subTest.hide()
+            startActivity(intent, options.toBundle())
+            //startActivity(intent)
         }
 
         return super.onOptionsItemSelected(item)

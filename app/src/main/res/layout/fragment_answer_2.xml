@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/answer2_t1"
+        android:layout_width="980px"
+        android:layout_height="96px"
+        android:layout_gravity="center_horizontal"
+        android:text="STT" />
+
+    <TextView
+        android:layout_marginTop="26px"
+        android:id="@+id/answer2_t2"
+        android:layout_width="match_parent"
+        android:layout_height="230px"
+        android:lineSpacingMultiplier="1.2"
+        android:text="로봇 speech(100자 제한)"
+        android:maxLength="100"
+        android:textColor="@color/white"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="1304px"
+        android:paddingTop="10px">
+        <TextView
+            android:id="@+id/answer2_t3"
+            android:text="/description()/"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+<!--    <ImageView-->
+<!--        android:id="@+id/tpl03_i1"-->
+<!--        android:layout_width="1000px"-->
+<!--        android:layout_height="1225px"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintLeft_toLeftOf="parent"-->
+<!--        app:layout_constraintRight_toRightOf="parent" />-->
+
+
+</LinearLayout>

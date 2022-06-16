@@ -9,8 +9,16 @@
         app:showAsAction="never"/>
     <item
         android:id="@+id/testBtn"
-        android:orderInCategory="900"
+        android:orderInCategory="1"
         android:title="TEST"
+        android:enabled="true"
+        app:showAsAction="never"/>
+	
+	<!--    orderInCategory : 우선 순위 (숫자 낮을 수록 위에)-->
+    <item
+        android:id="@+id/enginBtn"
+        android:orderInCategory="2"
+        android:title="Engineering Mode"
         android:enabled="true"
         app:showAsAction="never"/>
 </menu>

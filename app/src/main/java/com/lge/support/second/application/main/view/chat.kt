@@ -66,6 +66,9 @@ class chat : Fragment() {
 
         binding.chatGridView.adapter = customAdapter
 
+        ///////chat page 진입 확인용//////////
+        MainActivity.chatPage = true
+
         return binding.root
     }
 

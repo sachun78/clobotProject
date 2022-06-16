@@ -46,6 +46,7 @@ class main : Fragment() {
             val mqttInstance: MessageConnecter = MessageConnecter()
         }
 
+        MainActivity.chatPage = false
         return binding.root
     }
 
