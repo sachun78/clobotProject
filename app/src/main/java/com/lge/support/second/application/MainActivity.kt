@@ -3,6 +3,7 @@ package com.lge.support.second.application
 import android.Manifest
 import android.app.Activity
 import android.app.ActivityOptions
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -11,6 +12,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.hardware.display.DisplayManager
 import android.os.Bundle
+import android.os.Handler
 import android.util.Base64
 import android.util.Log
 import android.view.Display
@@ -18,6 +20,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -30,11 +33,14 @@ import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.robot.platform.data.PosXYZDeg
+import com.lge.robot.platform.data.Time
 import com.lge.robot.platform.navigation.navigation.NavigationManager
 import com.lge.robot.platform.power.PowerManager
 import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.main.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
+import com.lge.support.second.application.main.managers.robot.NavigationManagerInstance
+import com.lge.support.second.application.main.managers.robot.PowerManagerInstance
 import com.lge.support.second.application.main.model.TkTestViewModel
 import com.lge.support.second.application.main.view.*
 import com.lge.support.second.application.main.view.subView.SubScreen
@@ -97,13 +103,6 @@ class MainActivity : RobotActivity() {
     lateinit var head: HeadPresentation
     //lateinit var subTest2 : SubScreen2
 
-    //위에 전역 변수로 뺌
-//    private val viewModel: ChatbotViewModel by lazy {
-//        ViewModelProvider(
-//            this@MainActivity,
-//            ChatbotViewModel.Factory(ChatbotRepository(chatbotService))
-//        ).get(ChatbotViewModel::class.java)
-//    }
     private lateinit var mNavigationManager: NavigationManager
     private val chatbotService = ChatbotApi.getInstance()
     private lateinit var googleService: GoogleCloudApi;
@@ -143,12 +142,12 @@ class MainActivity : RobotActivity() {
             )
         }
 
+        ///////////////////지역 변수 선언 및 초기화////////////////
         var micBtn: Button = findViewById(R.id.micBtn)
         var homeBtn: Button = findViewById(R.id.homeBtn)
         var backBtn: Button = findViewById(R.id.backBtn)
         var korBtn: Button = findViewById(R.id.korBtn)
         var enBtn: Button = findViewById(R.id.enBtn)
-        //var qiInfoImg : ImageView = findViewById(R.id.qiMessage)
         displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
         viewModel = ViewModelProvider(
@@ -168,25 +167,6 @@ class MainActivity : RobotActivity() {
             head = HeadPresentation(this, displays[2])
             head.show()
         }
-
-        /////////////////////////////////viewmodel test/////////////////////////////////
-//        tkTestViewModel = ViewModelProvider(this).get(TkTestViewModel::class.java)
-//        private val viewModel: NavigationModel by viewModels()
-
-//        tkTestViewModel.currentValue.observe(this, Observer{
-//            Log.i(tk_TAG, "MainActivity - tkTestViewModel - currentValue live Data change : $it")
-//
-//            if(it.toInt() %3 == 0){
-//                subTest.show()
-//            }
-//            else if(it.toInt() %3 == 1){
-//                subTest.show()
-//            }
-//            else if (it.toInt() %3 == 2){
-//                subTest.hide()
-//            }
-//        })
-        /////////////////////////////////viewmodel test end /////////////////////////////////
 
         verifyStoragePermissions(this)
         ActivityCompat.requestPermissions(
@@ -217,14 +197,16 @@ class MainActivity : RobotActivity() {
 //            moveWithPoi(mPoiManager.test())
 
             RobotEventService.docking().launchIn(lifecycleScope)
+            subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
         }
         backBtn.setOnClickListener {
 //            RobotEventService.unDocking().launchIn(lifecycleScope)
             supportFragmentManager.popBackStack()
-//            GoogleTTS.stop()
+            viewModel.stop()
         }
         homeBtn.setOnClickListener {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            viewModel.stop()
 //            GoogleTTS.stop()
             //chatPage = false
         }
@@ -233,20 +215,36 @@ class MainActivity : RobotActivity() {
             // TODO(Set Language to ko)
 //            GoogleSTT.setLanguage(Language.Korean)
             recreate()
-            //supportFragmentManager.beginTransaction().detach().attach().commit()
         }
         enBtn.setOnClickListener {
             setLocate("en")
             // TODO(Set Language to en)
 //            GoogleSTT.setLanguage(Language.English)
             recreate()
-            //refreshFragment(this, supportFragmentManager)
         }
 
         findViewById<ImageView>(R.id.qiMessage).setOnClickListener {
+            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
                 .addToBackStack(null).commit()
+
+//            var testintent : Intent = Intent(this, popupActivity::class.java)
+//            startActivity(testintent)
+
+            var builder : AlertDialog.Builder = AlertDialog.Builder(this)
+            builder.setTitle("test").setMessage("나중에 커스텀 필요한 부분")
+            var alertDialog : AlertDialog = builder.create()
+
+//            Handler().postDelayed({
+//                alertDialog.show()
+//            }, 1000/100)
+            alertDialog.show()
+
+            Handler().postDelayed({
+                alertDialog.hide()
+            }, 2900) ///////////2.9sec
         }
+
         ////////////main-Button Listener end////////////
 
         // Robot Service Observer
@@ -425,11 +423,11 @@ class MainActivity : RobotActivity() {
         RobotPlatform.instacne.connect(this)
         var start: Intent = Intent(this, RobotEventService::class.java)
         this.startService(start)
-//            .runCatching {
-//                mNavigationManager = NavigationManagerInstance.instance.getNavigationManager()
-//                var power: PowerManager = PowerManagerInstance.instance.getPowerManager()
-//                power.robotActivation()
-//            }
+            .runCatching {
+                mNavigationManager = NavigationManagerInstance.instance.getNavigationManager()
+                var power: PowerManager = PowerManagerInstance.instance.getPowerManager()
+                power.robotActivation()
+            }
         super.onResume()
     }
 

@@ -1,5 +1,6 @@
 package com.lge.support.second.application.main.view
 
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,7 +19,17 @@ class theater_map : Fragment() {
     private val binding get() = _binding!!
 
     //선택된 버튼
-    lateinit var selectedBtn : Button
+    lateinit var selectedBtn: Button
+
+    ////////////////////////////발화는 한 번만 => 한 번 발화 하면 true로 바꿔서 발화 안 되게
+    var ttsA: Boolean = false
+    var ttsB: Boolean = false
+    var ttsC: Boolean = false
+    var ttsD: Boolean = false
+    var ttsE: Boolean = false
+    var ttsF: Boolean = false
+    var ttsG: Boolean = false
+    var ttsH: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +41,12 @@ class theater_map : Fragment() {
         selectedBtn = binding.theaterB1
         selectedBtn.isSelected = true
 
+        MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t1))
+        ttsA = true
+
+//        binding.theaterMapI2.setImageDrawable(BitmapDrawable(MainActivity.BitmapArray[0]))
+//        binding.theaterMapI1.setImageDrawable(BitmapDrawable(MainActivity.BitmapArray[1]))
+//
         val mActivity = activity as MainActivity
 //        mActivity.changeVisibility(0)
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
@@ -40,30 +57,52 @@ class theater_map : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         binding.theaterB1.setOnClickListener {
             selectedBtn.isSelected = false
+
+            //MainActivity.viewModel.stop()
 
             selectedBtn = binding.theaterB1
             selectedBtn.isSelected = true
         }
 
-        binding.theaterB2.setOnClickListener{
+        binding.theaterB2.setOnClickListener {
             selectedBtn.isSelected = false
+
+            //MainActivity.viewModel.stop()
+
+            if (ttsB == false) {
+                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t2))
+                ttsB = true
+            }
 
             selectedBtn = binding.theaterB2
             selectedBtn.isSelected = true
         }
 
-        binding.theaterB3.setOnClickListener{
+        binding.theaterB3.setOnClickListener {
             selectedBtn.isSelected = false
+
+            //MainActivity.viewModel.stop()
+
+            if (ttsC == false) {
+                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t3))
+                ttsC = true
+            }
 
             selectedBtn = binding.theaterB3
             selectedBtn.isSelected = true
         }
 
-        binding.theaterB4.setOnClickListener{
+        binding.theaterB4.setOnClickListener {
             selectedBtn.isSelected = false
+
+            //MainActivity.viewModel.stop()
+
+            if (ttsD == false) {
+                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t4))
+                ttsD = true
+            }
 
             binding.theaterMapI2.setImageResource(R.color.white)
             binding.theaterMapI1.setImageResource(R.color.gray)
@@ -72,15 +111,29 @@ class theater_map : Fragment() {
             selectedBtn.isSelected = true
         }
 
-        binding.theaterB5.setOnClickListener{
+        binding.theaterB5.setOnClickListener {
             selectedBtn.isSelected = false
+
+            MainActivity.viewModel.stop()
+
+//            if (ttsE == false) {
+//                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t5))
+//                ttsE = true
+//            }
 
             selectedBtn = binding.theaterB5
             selectedBtn.isSelected = true
         }
 
-        binding.theaterB6.setOnClickListener{
+        binding.theaterB6.setOnClickListener {
             selectedBtn.isSelected = false
+
+            MainActivity.viewModel.stop()
+
+//            if (ttsF == false) {
+//                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t6))
+//                ttsF = true
+//            }
 
             binding.theaterMapI1.setImageResource(R.color.select)
 
@@ -88,8 +141,15 @@ class theater_map : Fragment() {
             selectedBtn.isSelected = true
         }
 
-        binding.theaterB7.setOnClickListener{
+        binding.theaterB7.setOnClickListener {
             selectedBtn.isSelected = false
+
+            //MainActivity.viewModel.stop()
+
+            if (ttsG == false) {
+                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t7))
+                ttsG = true
+            }
 
             binding.theaterMapI2.setImageResource(R.color.gray)
             binding.theaterMapI1.setImageResource(R.color.white)
@@ -98,8 +158,15 @@ class theater_map : Fragment() {
             selectedBtn.isSelected = true
         }
 
-        binding.theaterB8.setOnClickListener{
+        binding.theaterB8.setOnClickListener {
             selectedBtn.isSelected = false
+
+            //MainActivity.viewModel.stop()
+
+            if (ttsH == false) {
+                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t8))
+                ttsH = true
+            }
 
             selectedBtn = binding.theaterB8
             selectedBtn.isSelected = true

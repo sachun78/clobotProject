@@ -1,7 +1,12 @@
 package com.lge.support.second.application.main.view
 
+import android.app.AlertDialog
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
+import android.util.Base64
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -76,9 +81,14 @@ class chat : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gridView = binding.chatGridView
 
+        Handler().postDelayed({
+            binding.chatT2.setText("듣고 있어요")
+        }, 3000) ///////////2.9sec
+
         binding.chatI1.setOnClickListener {
-            MainActivity.viewModel.getResponse("하이 큐아이")d
-            (activity as MainActivity).changeFragment("answer_1")
+//            MainActivity.viewModel.getResponse("하이 큐아이")
+//            (activity as MainActivity).changeFragment("answer_1")
+            MainActivity.viewModel.speechResponse()
         }
 
         binding.chatGridView.setOnItemClickListener { adapterView, view, i, l ->
@@ -87,6 +97,7 @@ class chat : Fragment() {
         }
 
         MainActivity.viewModel.speechResponse()
+        MainActivity.viewModel.ischatfirst = true
     }
 
 }

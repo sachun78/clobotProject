@@ -19,6 +19,8 @@ class ChatbotViewModel(
     private val repository: ChatbotRepository,
     private val googleRepositiory: GoogleCloudRepository
 ) : ViewModel() {
+
+    var ischatfirst : Boolean = false
     private val TAG = "ChatbotViewModel"
     private val _queryResult: MutableLiveData<ChatbotData> = MutableLiveData<ChatbotData>()
     val queryResult: LiveData<ChatbotData> get() = _queryResult
@@ -58,9 +60,14 @@ class ChatbotViewModel(
     fun speak(_context: Context, text: String) {
         googleRepositiory.speak(_context, text)
     }
-
+    fun stop() {
+        googleRepositiory.stop()
+    }
     // TODO(H, change R2 state)
     fun speechResponse() {
+        if(ischatfirst == true) {
+            googleRepositiory.ischatfirst = true
+        }
         googleRepositiory.speachToText().onEach { result ->
             when (result) {
                 is R2.Complete -> {

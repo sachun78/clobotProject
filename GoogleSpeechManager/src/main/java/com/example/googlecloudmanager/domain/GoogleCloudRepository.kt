@@ -1,5 +1,7 @@
 package com.example.googlecloudmanager.domain
 
+import android.app.AlertDialog
+import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -29,6 +31,8 @@ import java.util.concurrent.atomic.AtomicBoolean
 class GoogleCloudRepository constructor(
     private val api: GoogleCloudApi
 ) {
+
+    var ischatfirst = false
     private val TAG = "GoogleCloudRepository"
     private val mp = MediaPlayer()
     private var audioEmitter: AudioEmitter = AudioEmitter()
@@ -111,12 +115,14 @@ class GoogleCloudRepository constructor(
 
             requestStream = api.getSpeechClient().streamingRecognizeCallable().splitCall(callback)
 
-            sendBlocking(Resource.Loading("1"))
-            delay(1000)
-            sendBlocking(Resource.Loading("2"))
-            delay(1000)
-            sendBlocking(Resource.Loading("3"))
-            delay(1000)
+            if(ischatfirst == false) {
+                sendBlocking(Resource.Loading("1"))
+                delay(1000)
+                sendBlocking(Resource.Loading("2"))
+                delay(1000)
+                sendBlocking(Resource.Loading("3"))
+                delay(1000)
+            }
 
             val tone = ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
             tone.startTone(ToneGenerator.TONE_PROP_BEEP, 250)
