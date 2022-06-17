@@ -4,12 +4,15 @@ import android.Manifest
 import android.app.Activity
 import android.app.ActivityOptions
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
 import android.os.Bundle
 import android.os.Handler
@@ -212,21 +215,33 @@ class MainActivity : AppCompatActivity() {
 
 //            var testintent : Intent = Intent(this, popupActivity::class.java)
 //            startActivity(testintent)
+            var dialog = Dialog(this)
+            dialog.setContentView(R.layout.count_dialog)
+            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
 
-            var builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            builder.setTitle("test").setMessage("나중에 커스텀 필요한 부분")
-            var alertDialog: AlertDialog = builder.create()
+            var text : TextView = dialog.findViewById(R.id.dialog_testText)
+            text.setText("3")
 
-//            Handler().postDelayed({
-//                alertDialog.show()
-//            }, 1000/100)
-            alertDialog.show()
-
+            /////////0.01초 뒤 부터 카운트 (3)
             Handler().postDelayed({
-                alertDialog.hide()
+                dialog.show()
+            }, 1000/100)
+            ////////1초 보여주고 2
+            Handler().postDelayed({
+                dialog.hide()
+                text.setText("2")
+                dialog.show()
+            }, 1000)
+            //////1초 보여주고 1
+            Handler().postDelayed({
+                dialog.hide()
+                text.setText("1")
+                dialog.show()
+            }, 2000)
+            Handler().postDelayed({
+                dialog.hide()
             }, 2900) ///////////2.9sec
         }
-
         ////////////main-Button Listener end////////////
 
         // Robot Service Observer
@@ -287,7 +302,8 @@ class MainActivity : AppCompatActivity() {
                     if (tpl_id == "") {///////////tpl_id는 없음
                         if (r_status == "match") ///tpl_id가 공백일 경우에는 response_status값이 match -> page_id
                             changeFragment(page_id)
-                    } else //////tpl_id가 있음
+                    }
+                    else //////tpl_id가 있음
                         changeFragment(page_id)
                 } else { /////////page id가 없음
                     if (tpl_id != "") { /////////template id는 있음
