@@ -87,4 +87,7 @@ dependencies {
 
     // gson
     implementation 'com.google.code.gson:gson:2.9.0'
+
+    // xlsx
+    implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
 }
