@@ -148,6 +148,7 @@ class GoogleCloudRepository constructor(
             delay(5000)
             speechStop()
             sendBlocking(Resource.Complete(speech_text))
+            close()
         } catch (e: IOException) {
             sendBlocking(Resource.Error("Couldn't reach server. Check your internet connection."))
         }

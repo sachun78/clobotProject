@@ -10,7 +10,7 @@ import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.main.managers.robot.NavigationManagerInstance
 import com.lge.support.second.application.main.managers.robot.PowerManagerInstance
 import com.lge.support.second.application.main.model.TkTestViewModel
-import com.lge.support.second.application.main.poi.PoiDbManager
+import com.lge.support.second.application.main.managers.robot.PoiDbManager
 
 class TestActivity : AppCompatActivity() {
     lateinit var tkTestViewModel2: TkTestViewModel
@@ -39,10 +39,10 @@ class TestActivity : AppCompatActivity() {
         listView.adapter = adapter
 
         findViewById<Button>(R.id.btn_activation).setOnClickListener {
-            var power: PowerManager = PowerManagerInstance.instance.getPowerManager()
-            power.robotActivation()
+            var power: PowerManager? = PowerManagerInstance.instance.getPowerManager()
+            power?.robotActivation()
             Toast.makeText(this, "Activation !!!", Toast.LENGTH_SHORT).show()
-            Log.i("HJBAE", "powerMode: ${power.getPowerMode()}")
+            Log.i("HJBAE", "powerMode: ${power?.getPowerMode()}")
         }
 
         findViewById<Button>(R.id.btn_pois).setOnClickListener {

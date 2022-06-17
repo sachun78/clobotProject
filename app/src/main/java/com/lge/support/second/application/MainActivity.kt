@@ -21,50 +21,40 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.LifecycleCoroutineScope
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import com.example.googlecloudmanager.GoogleTranslateV3
-import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
-import com.lge.robot.platform.data.PosXYZDeg
-import com.lge.robot.platform.data.Time
 import com.lge.robot.platform.navigation.navigation.NavigationManager
-import com.lge.robot.platform.power.PowerManager
-import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.main.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
-import com.lge.support.second.application.main.managers.robot.NavigationManagerInstance
-import com.lge.support.second.application.main.managers.robot.PowerManagerInstance
-import com.lge.support.second.application.main.model.TkTestViewModel
 import com.lge.support.second.application.main.view.*
 import com.lge.support.second.application.main.view.subView.SubScreen
-import com.lge.support.second.application.main.model.ChatbotViewModel
-import com.lge.support.second.application.main.poi.PoiDbManager
+import com.lge.support.second.application.main.model.MainViewModel
 import com.lge.support.second.application.main.repository.ChatbotRepository
+import com.lge.support.second.application.main.repository.RobotRepository
 import com.lge.support.second.application.main.view.answer_1
 import com.lge.support.second.application.main.view.template.*
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import java.io.InputStream
 import java.util.*
 
-class MainActivity : RobotActivity() {
+class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.java.simpleName
+
+    init {
+        instance = this
+    }
 
     //for viewmodel test log_Tag
     companion object {
+        lateinit var instance: MainActivity
         const val tk_TAG: String = "logForTest"
         //lateinit var tkTestViewModel: TkTestViewModel
 
-        lateinit var viewModel: ChatbotViewModel
+        lateinit var viewModel: MainViewModel
 
         //////////////////chatbot 질의->화면 바꿔주기 위한 용도/////
         lateinit var page_id: String
@@ -72,11 +62,12 @@ class MainActivity : RobotActivity() {
         lateinit var r_status: String
 
         /////////////////chatbot으로 들어온 page인지 확인 용//////
-        var chatPage : Boolean = false
+        var chatPage: Boolean = false
 
         ////////////////chatbot제공 이미지 파일이 여러개인 경우->mutable 리스트 사용////
         var messageSize: Int = 0
         val BitmapArray = ArrayList<Bitmap>()
+
         ///////////////chatbot제공 이미지 한 개인 경우............................
         lateinit var url: String
         lateinit var urlDecoder: ByteArray
@@ -91,6 +82,10 @@ class MainActivity : RobotActivity() {
         )
         private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
         private const val REQUEST_EXTERNAL_STORAGE = 1
+
+        fun mainContext(): Context {
+            return instance
+        }
     }
 
     private lateinit var mActivityMainBinding: ActivityMainBinding
@@ -125,14 +120,6 @@ class MainActivity : RobotActivity() {
         val googleCredential: InputStream? = this.resources?.openRawResource(R.raw.credential)
         googleService = GoogleCloudApi.getInstance(googleCredential!!, UUID.randomUUID().toString())
 
-//        val googleSttCredential: InputStream? = this.resources?.openRawResource(R.raw.credential)
-//        if (googleSttCredential != null) {
-//            GoogleSTT.initialize(
-//                googleSttCredential,
-//                UUID.randomUUID().toString(),
-//            )
-//        }
-
         val googleTranslateCredential: InputStream? =
             this.resources?.openRawResource(R.raw.credential)
         if (googleTranslateCredential != null) {
@@ -148,15 +135,17 @@ class MainActivity : RobotActivity() {
         var backBtn: Button = findViewById(R.id.backBtn)
         var korBtn: Button = findViewById(R.id.korBtn)
         var enBtn: Button = findViewById(R.id.enBtn)
+
         displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
         viewModel = ViewModelProvider(
             this@MainActivity,
-            ChatbotViewModel.Factory(
+            MainViewModel.Factory(
                 ChatbotRepository(chatbotService),
-                GoogleCloudRepository(googleService)
+                GoogleCloudRepository(googleService),
+                RobotRepository()
             )
-        ).get(ChatbotViewModel::class.java)
+        ).get(MainViewModel::class.java)
 
         displays = displayManager.displays
 
@@ -189,14 +178,7 @@ class MainActivity : RobotActivity() {
 //
 //            viewModel.speechResponse()
 //            val pois = mPoiManager.getAllPoi()
-//            println(pois)
-//            mNavigationManager.doUndockingEx()
-//            mPoiManager.getInitPosition()?.let { it1 -> moveWithPoi(it1) }
-//            val random = Random()
-//            pois?.get(random.nextInt(7))?.let { it1 -> moveWithPoi(it1) }
-//            moveWithPoi(mPoiManager.test())
-
-            RobotEventService.docking().launchIn(lifecycleScope)
+            viewModel.dockingRequest()
             subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
         }
         backBtn.setOnClickListener {
@@ -231,9 +213,9 @@ class MainActivity : RobotActivity() {
 //            var testintent : Intent = Intent(this, popupActivity::class.java)
 //            startActivity(testintent)
 
-            var builder : AlertDialog.Builder = AlertDialog.Builder(this)
+            var builder: AlertDialog.Builder = AlertDialog.Builder(this)
             builder.setTitle("test").setMessage("나중에 커스텀 필요한 부분")
-            var alertDialog : AlertDialog = builder.create()
+            var alertDialog: AlertDialog = builder.create()
 
 //            Handler().postDelayed({
 //                alertDialog.show()
@@ -248,9 +230,9 @@ class MainActivity : RobotActivity() {
         ////////////main-Button Listener end////////////
 
         // Robot Service Observer
-        RobotEventService.mActionStatus.observe(this) { event ->
-            Log.d("MainActivity", "$event")
-        }
+//        RobotEventService.mActionStatus.observe(this) { event ->
+//            Log.d("MainActivity", "$event")
+//        }
         // ViewModel Observe TODO(Chatbot Request Base Action)
         viewModel.queryResult.observe(this) {
             Log.d("ViewModel", "chatbot data change, $it")
@@ -300,7 +282,7 @@ class MainActivity : RobotActivity() {
             ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
 
             ///////////////////chatbot질의 페이지에서만 page바꿔줌. 나머지는 발화만
-            if(chatPage == true){
+            if (chatPage == true) {
                 if (page_id != "") { //////////////page id가 존재
                     if (tpl_id == "") {///////////tpl_id는 없음
                         if (r_status == "match") ///tpl_id가 공백일 경우에는 response_status값이 match -> page_id
@@ -362,7 +344,8 @@ class MainActivity : RobotActivity() {
             }
 
             "theater-parking" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater_parking_bus())
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main, theater_parking_bus())
                     .addToBackStack(null).commit()
             }
 
@@ -383,7 +366,8 @@ class MainActivity : RobotActivity() {
             }
 
             "answer-list_1", "tpl-com-02" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_list_1())
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main, answer_list_1())
                     .addToBackStack(null).commit()
             }
 
@@ -393,7 +377,8 @@ class MainActivity : RobotActivity() {
             }
 
             "answer-list_2", "tpl-com-04" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_list_2())
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main, answer_list_2())
                     .addToBackStack(null).commit()
             }
 
@@ -408,7 +393,6 @@ class MainActivity : RobotActivity() {
         val permission = ActivityCompat.checkSelfPermission(
             activity, Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
-
         if (permission != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(
                 activity,
@@ -421,19 +405,11 @@ class MainActivity : RobotActivity() {
 
     override fun onResume() {
         RobotPlatform.instacne.connect(this)
-        var start: Intent = Intent(this, RobotEventService::class.java)
-        this.startService(start)
-            .runCatching {
-                mNavigationManager = NavigationManagerInstance.instance.getNavigationManager()
-                var power: PowerManager = PowerManagerInstance.instance.getPowerManager()
-                power.robotActivation()
-            }
         super.onResume()
+        Log.d(TAG, "API Demo resume")
     }
 
     override fun onPause() {
-        var start: Intent = Intent(this, RobotEventService::class.java)
-        this.stopService(start)
         super.onPause()
         Log.d(TAG, "API Demo pause")
     }
@@ -460,9 +436,7 @@ class MainActivity : RobotActivity() {
         else if (id == R.id.testBtn) {
             val testIntent = Intent(this, TestActivity::class.java)
             startActivity(testIntent)
-        }
-	
-	else if(id==R.id.enginBtn) {
+        } else if (id == R.id.enginBtn) {
 //            var settingintent : Intent = Intent(this, TestActivity::class.java)
 //            this.startActivity(settingintent)
             var intent = packageManager.getLaunchIntentForPackage("com.lge.engineermenu")

@@ -1,29 +1,17 @@
 package com.lge.support.second.application.main.view
 
-import android.app.AlertDialog
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.os.Handler
-import android.util.Base64
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.lifecycle.ViewModelProvider
-import com.example.googlecloudmanager.data.GoogleCloudApi
-import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatBinding
-import com.lge.support.second.application.main.data.chatbot.ChatbotApi
-import com.lge.support.second.application.main.model.ChatbotViewModel
-import com.lge.support.second.application.main.repository.ChatbotRepository
 import com.lge.support.second.application.main.view.adapter.questionModel
-import java.io.InputStream
-import java.util.*
 import kotlin.collections.ArrayList
 
 

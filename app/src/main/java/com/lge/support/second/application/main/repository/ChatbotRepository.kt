@@ -20,7 +20,7 @@ class ChatbotRepository constructor(
         val response = api.query(param)
         Log.d(
             TAG,
-            "in_str : ${response.data.in_str},\n speech: ${response.data.result.fulfillment.speech}"
+            "in_str : \"${response.data.in_str}\" \n speech: ${response.data.result.fulfillment.speech}"
         )
 
         return response
