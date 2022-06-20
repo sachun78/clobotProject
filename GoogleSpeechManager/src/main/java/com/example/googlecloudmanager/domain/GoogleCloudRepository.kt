@@ -1,15 +1,15 @@
 package com.example.googlecloudmanager.domain
 
-import android.app.AlertDialog
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.ToneGenerator
 import android.util.Log
+import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.common.util.AudioEmitter
 import com.example.googlecloudmanager.common.Resource
 import com.example.googlecloudmanager.data.GoogleCloudApi
+import com.example.googlecloudmanager.data.GoogleCloudApi.Companion.translateClient
 import com.google.api.gax.rpc.ClientStream
 import com.google.api.gax.rpc.ResponseObserver
 import com.google.api.gax.rpc.StreamController
@@ -17,6 +17,9 @@ import com.google.cloud.speech.v1.RecognitionConfig
 import com.google.cloud.speech.v1.StreamingRecognitionConfig
 import com.google.cloud.speech.v1.StreamingRecognizeRequest
 import com.google.cloud.speech.v1.StreamingRecognizeResponse
+import com.google.cloud.translate.v3.LocationName
+import com.google.cloud.translate.v3.TranslateTextRequest
+import com.google.cloud.translate.v3.TranslateTextResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
@@ -26,6 +29,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import java.lang.Exception
 import java.util.concurrent.atomic.AtomicBoolean
 
 class GoogleCloudRepository constructor(
@@ -33,6 +37,10 @@ class GoogleCloudRepository constructor(
 ) {
 
     var ischatfirst = false
+    var language: Language
+        get() = api.getLanguage()
+        set(value) = api.setLanguage(value)
+
     private val TAG = "GoogleCloudRepository"
     private val mp = MediaPlayer()
     private var audioEmitter: AudioEmitter = AudioEmitter()
@@ -115,7 +123,7 @@ class GoogleCloudRepository constructor(
 
             requestStream = api.getSpeechClient().streamingRecognizeCallable().splitCall(callback)
 
-            if(ischatfirst == false) {
+            if (ischatfirst == false) {
                 sendBlocking(Resource.Loading("1"))
                 delay(1000)
                 sendBlocking(Resource.Loading("2"))
@@ -134,7 +142,7 @@ class GoogleCloudRepository constructor(
                     builder.streamingConfig = StreamingRecognitionConfig.newBuilder()
                         .setConfig(
                             RecognitionConfig.newBuilder()
-                                .setLanguageCode("ko-KR")
+                                .setLanguageCode(api.getLanguage().toString())
                                 .setEncoding(RecognitionConfig.AudioEncoding.LINEAR16)
                                 .setSampleRateHertz(16000).build()
                         )
@@ -155,6 +163,29 @@ class GoogleCloudRepository constructor(
 
         awaitClose {
             Log.i(TAG, "callback flow finish.")
+        }
+    }
+
+    fun translate(text: String): String {
+        try {
+            val request: TranslateTextRequest = TranslateTextRequest.newBuilder()
+                .setParent(
+                    LocationName.newBuilder().setProject(GoogleCloudApi.projectId)
+                        .setLocation("global").build()
+                        .toString()
+                )
+                .setMimeType("text/plain")
+                .setSourceLanguageCode(language.toLocalString()) // TODO(Change Source Lang)
+                .setTargetLanguageCode("ko")
+                .addContents(text)
+                .build()
+            val response: TranslateTextResponse = translateClient.translateText(request)
+            val translatedText = response.getTranslations(0).translatedText
+            println(translatedText)
+            return translatedText
+        } catch (e: Exception) {
+            Log.e(TAG, "translate: $e")
+            throw RuntimeException(e)
         }
     }
 }

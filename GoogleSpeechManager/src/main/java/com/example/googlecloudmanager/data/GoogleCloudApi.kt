@@ -1,8 +1,8 @@
 package com.example.googlecloudmanager.data
 
 import android.util.Log
-import com.example.googlecloudmanager.ISpeech
 import com.example.googlecloudmanager.common.Constant
+import com.example.googlecloudmanager.common.Language
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
@@ -12,6 +12,7 @@ import com.google.cloud.texttospeech.v1.*
 import com.google.cloud.translate.v3.TranslationServiceClient
 import com.google.cloud.translate.v3.TranslationServiceSettings
 import com.google.protobuf.ByteString
+import org.apache.commons.codec.language.bm.Lang
 import java.io.File
 import java.io.FileOutputStream
 import java.io.InputStream
@@ -21,10 +22,18 @@ interface GoogleCloudApi {
         return _speechClient
     }
 
+    fun setLanguage(_language: Language) {
+        language = _language
+    }
+
+    fun getLanguage(): Language {
+        return language
+    }
+
     fun textToAudio(text: String, file: File) {
         val input: SynthesisInput = SynthesisInput.newBuilder().setText(text).build()
         val voice: VoiceSelectionParams = VoiceSelectionParams.newBuilder()
-            .setLanguageCode(ISpeech.language.toString())
+            .setLanguageCode(language.toString())
             .setSsmlGender(SsmlVoiceGender.MALE)
             .build()
         val audioConfig: AudioConfig =
@@ -43,8 +52,9 @@ interface GoogleCloudApi {
 
     companion object {
         private const val TAG = "GoogleCloudApi"
-        private lateinit var projectId: String
+        lateinit var projectId: String
         private lateinit var sessionId: String
+        private var language = Language.Korean
 
         // use on repository
         lateinit var ttsClient: TextToSpeechClient

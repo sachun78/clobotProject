@@ -3,7 +3,6 @@ package com.lge.support.second.application
 import android.Manifest
 import android.app.Activity
 import android.app.ActivityOptions
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
@@ -30,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
-import com.example.googlecloudmanager.GoogleTranslateV3
+import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.robot.platform.navigation.navigation.NavigationManager
@@ -105,6 +104,8 @@ class MainActivity : AppCompatActivity() {
         private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
         private const val REQUEST_EXTERNAL_STORAGE = 1
 
+        lateinit var subTest: SubScreen
+
         fun mainContext(): Context {
             return instance
         }
@@ -116,11 +117,9 @@ class MainActivity : AppCompatActivity() {
     //display
     private lateinit var displayManager: DisplayManager
     private lateinit var displays: Array<Display>
-    lateinit var subTest: SubScreen
     lateinit var head: HeadPresentation
     lateinit var standby : standby
 
-    private lateinit var mNavigationManager: NavigationManager
     private val chatbotService = ChatbotApi.getInstance()
     private lateinit var googleService: GoogleCloudApi;
     //var qiBtn : ImageView = findViewById(R.id.qiMessage)
@@ -141,15 +140,6 @@ class MainActivity : AppCompatActivity() {
 //        var fragment: Fragment? = supportFragmentManager.findFragmentById(R.id.fragment_main)
         val googleCredential: InputStream? = this.resources?.openRawResource(R.raw.credential)
         googleService = GoogleCloudApi.getInstance(googleCredential!!, UUID.randomUUID().toString())
-
-        val googleTranslateCredential: InputStream? =
-            this.resources?.openRawResource(R.raw.credential)
-        if (googleTranslateCredential != null) {
-            GoogleTranslateV3.initialize(
-                googleTranslateCredential,
-                UUID.randomUUID().toString(),
-            )
-        }
 
         ///////////////////지역 변수 선언 및 초기화////////////////
         var micBtn: Button = findViewById(R.id.micBtn)
@@ -203,31 +193,26 @@ class MainActivity : AppCompatActivity() {
 //                .addToBackStack(null).commit()
 //
 //            viewModel.speechResponse()
-//            val pois = mPoiManager.getAllPoi()
             viewModel.dockingRequest()
             subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
         }
         backBtn.setOnClickListener {
-//            RobotEventService.unDocking().launchIn(lifecycleScope)
             supportFragmentManager.popBackStack()
             viewModel.stop()
         }
         homeBtn.setOnClickListener {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             viewModel.stop()
-//            GoogleTTS.stop()
             //chatPage = false
         }
         korBtn.setOnClickListener {
             setLocate("ko")
-            // TODO(Set Language to ko)
-//            GoogleSTT.setLanguage(Language.Korean)
+            viewModel.setLanguage(Language.Korean)
             recreate()
         }
         enBtn.setOnClickListener {
             setLocate("en")
-            // TODO(Set Language to en)
-//            GoogleSTT.setLanguage(Language.English)
+            viewModel.setLanguage(Language.English)
             recreate()
         }
 
@@ -242,13 +227,13 @@ class MainActivity : AppCompatActivity() {
             dialog.setContentView(R.layout.count_dialog)
             dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
 
-            var text : TextView = dialog.findViewById(R.id.dialog_testText)
+            var text: TextView = dialog.findViewById(R.id.dialog_testText)
             text.setText("3")
 
             /////////0.01초 뒤 부터 카운트 (3)
             Handler().postDelayed({
                 dialog.show()
-            }, 1000/100)
+            }, 1000 / 100)
             ////////1초 보여주고 2
             Handler().postDelayed({
                 dialog.hide()
@@ -268,10 +253,21 @@ class MainActivity : AppCompatActivity() {
         ////////////main-Button Listener end////////////
 
         // Robot Service Observer
-//        RobotEventService.mActionStatus.observe(this) { event ->
-//            Log.d("MainActivity", "$event")
-//        }
+        viewModel.emergency.observe(this) {
+            if (it == true) {
+                println("emergency")
+                subTest.findViewById<TextView>(R.id.sub_textView).text = "emergency, enabled"
+            } else {
+                subTest.findViewById<TextView>(R.id.sub_textView).text = "emergency, disabled"
+            }
+        }
+
+        viewModel.batterySOC.observe(this) {
+            subTest.findViewById<TextView>(R.id.sub_textView).text = "battery, $it% remained"
+        }
+
         // ViewModel Observe TODO(Chatbot Request Base Action)
+
         viewModel.queryResult.observe(this) {
             Log.d("ViewModel", "chatbot data change, $it")
             if (it == null) {
@@ -353,8 +349,7 @@ class MainActivity : AppCompatActivity() {
                     if (tpl_id == "") {///////////tpl_id는 없음
                         if (r_status == "match") ///tpl_id가 공백일 경우에는 response_status값이 match -> page_id
                             changeFragment(page_id)
-                    }
-                    else //////tpl_id가 있음
+                    } else //////tpl_id가 있음
                         changeFragment(page_id)
                 } else { /////////page id가 없음
                     if (tpl_id != "") { /////////template id는 있음
@@ -363,15 +358,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+
         viewModel.getResponse("intro", "intro")
     } //onCreate
-
-//    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-//        when (item.getItemId()) {
-//            android.R.id.home -> finish()
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 
     ///////////////////////////////////////language
     private fun setLocate(Lang: String) {
@@ -471,7 +460,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onResume() {
-        RobotPlatform.instacne.connect(this)
         super.onResume()
         Log.d(TAG, "API Demo resume")
     }
@@ -479,6 +467,11 @@ class MainActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "API Demo pause")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        RobotPlatform.instacne.connect(this)
     }
 
     override fun onDestroy() {

@@ -18,6 +18,17 @@
 <!--        />-->
 
     <Button
+        android:id="@+id/btn_cruise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="cruise"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.899"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/testActivityBtn" />
+
+    <Button
         android:id="@+id/testActivityBtn"
         android:layout_width="100dp"
         android:layout_height="55dp"
