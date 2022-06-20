@@ -14,15 +14,18 @@ import com.lge.support.second.application.main.data.chatbot.ChatRequest
 import com.lge.support.second.application.main.data.chatbot.ChatbotData
 import com.lge.support.second.application.main.data.robot.NavigationMessage
 import com.lge.support.second.application.main.repository.ChatbotRepository
+import com.lge.support.second.application.main.repository.PageConfigRepo
 import com.lge.support.second.application.main.repository.RobotRepository
 import com.lge.support.second.application.main.util.Resource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 class MainViewModel(
     private val repository: ChatbotRepository,
     private val googleRepositiory: GoogleCloudRepository,
-    private val robotRepository: RobotRepository
+    private val robotRepository: RobotRepository,
+    private val pageConfigRepo: PageConfigRepo
 ) : ViewModel() {
 
     var ischatfirst: Boolean = false    ///////chat페이지 처음 진입하는 것인지 여부//////
@@ -89,6 +92,13 @@ class MainViewModel(
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    // PageConfig
+    fun pageConfigUpdate() {
+        viewModelScope.launch {
+            pageConfigRepo.doUpdata()
+        }
     }
 
     // Use Chatbot
@@ -277,7 +287,8 @@ class MainViewModel(
     class Factory(
         private val repository: ChatbotRepository,
         private val googleRepository: GoogleCloudRepository,
-        private val robotRepository: RobotRepository
+        private val robotRepository: RobotRepository,
+        private val pageConfigRepo: PageConfigRepo
     ) :
         ViewModelProvider.Factory { // factory pattern
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -285,7 +296,8 @@ class MainViewModel(
                 return MainViewModel(
                     this.repository,
                     this.googleRepository,
-                    this.robotRepository
+                    this.robotRepository,
+                    this.pageConfigRepo
                 ) as T
             }
             throw IllegalArgumentException("ViewModel Not Found")

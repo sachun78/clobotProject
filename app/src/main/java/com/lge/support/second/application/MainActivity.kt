@@ -40,6 +40,7 @@ import com.lge.support.second.application.main.view.*
 import com.lge.support.second.application.main.view.subView.SubScreen
 import com.lge.support.second.application.main.model.MainViewModel
 import com.lge.support.second.application.main.repository.ChatbotRepository
+import com.lge.support.second.application.main.repository.PageConfigRepo
 import com.lge.support.second.application.main.repository.RobotRepository
 import com.lge.support.second.application.main.view.answer_1
 import com.lge.support.second.application.main.view.subView.standby
@@ -164,7 +165,8 @@ class MainActivity : AppCompatActivity() {
             MainViewModel.Factory(
                 ChatbotRepository(chatbotService),
                 GoogleCloudRepository(googleService),
-                RobotRepository()
+                RobotRepository(),
+                PageConfigRepo()
             )
         ).get(MainViewModel::class.java)
 
