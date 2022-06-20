@@ -3,6 +3,7 @@ package com.lge.support.second.application.main.view
 import android.content.Context
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,21 +23,11 @@ class chat : Fragment() {
 
     var modalList = ArrayList<questionModel>()
     var questions = arrayOf(
-        "국립극장은 무엇을 하는 곳인가요?", "공연예매는 어떻게 해요?", "고객지원센터는 어디에요?",
-        "해오름극장이 어디에요?", "무대감독, 음향감독, 조명감독", "백스테이지 출입은 어떻게 하나요?"
+        "국립극장은 무엇을 하는 곳인가요?", "공연예매는 어떻게 해요?", "공연예술박물관",
+        "해오름극장", "무대감독, 음향감독, 조명감독", "백스테이지 출입은 어떻게 하나요?"
     )
+    ////////////"뜰아래극장이 어디에요?" "해오름극장이 어디에요?"고객지원센터는 어디에요?
     var click: Boolean = false
-
-//    private val viewModel: ChatbotViewModel by lazy {
-//        ViewModelProvider(
-//            requireActivity(),
-//            ChatbotViewModel.Factory(ChatbotRepository(chatbotService), GoogleCloudRepository(googleService))
-//        ).get(ChatbotViewModel::class.java)
-//    }
-//
-//    private val chatbotService = ChatbotApi.getInstance()
-//    private val googleCredential: InputStream = this.resources.openRawResource(R.raw.credential)
-//    private val googleService: GoogleCloudApi =GoogleCloudApi.getInstance(googleCredential, UUID.randomUUID().toString())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +37,8 @@ class chat : Fragment() {
 
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
+
+        MainActivity.viewModel.stop()
 
         if (click == false) {
             for (i in questions.indices) {
@@ -61,6 +54,8 @@ class chat : Fragment() {
 
         ///////chat page 진입 확인용//////////
         MainActivity.chatPage = true
+        /////chat page에서 음성 입력 3회만 가능////
+        MainActivity.notMachCnt = 0
 
         return binding.root
     }
@@ -69,20 +64,32 @@ class chat : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val gridView = binding.chatGridView
 
-        Handler().postDelayed({
-            binding.chatT2.setText("듣고 있어요")
-        }, 3000) ///////////2.9sec
+//        Handler().postDelayed({
+//            binding.chatT2.setText("듣고 있어요")
+//        }, 3000) ///////////2.9sec
 
         binding.chatI1.setOnClickListener {
-//            MainActivity.viewModel.getResponse("하이 큐아이")
-//            (activity as MainActivity).changeFragment("answer_1")
             MainActivity.viewModel.speechResponse()
         }
 
         binding.chatGridView.setOnItemClickListener { adapterView, view, i, l ->
+            //MainActivity.viewModel.speechStop()
             MainActivity.viewModel.getResponse(questions[i])
             //(activity as MainActivity).changeFragment("${MainActivity.page_id}")
         }
+
+//        var i = 0
+//        do {
+//            MainActivity.viewModel.speechResponse()
+//            i += 1
+//            Log.d("tk_test", "speak time " + i.toString())
+//        }
+//        while (i<3)
+
+//        for(i in 1..3) {
+//            if(MainActivity.r_status == "not_match")
+//                MainActivity.viewModel.speechResponse()
+//        }
 
         MainActivity.viewModel.speechResponse()
         MainActivity.viewModel.ischatfirst = true

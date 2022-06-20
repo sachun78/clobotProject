@@ -12,8 +12,10 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Base64
@@ -40,8 +42,15 @@ import com.lge.support.second.application.main.model.MainViewModel
 import com.lge.support.second.application.main.repository.ChatbotRepository
 import com.lge.support.second.application.main.repository.RobotRepository
 import com.lge.support.second.application.main.view.answer_1
+import com.lge.support.second.application.main.view.subView.standby
 import com.lge.support.second.application.main.view.template.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.consumesAll
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.InputStream
+import java.net.URL
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -64,17 +73,26 @@ class MainActivity : AppCompatActivity() {
         lateinit var tpl_id: String
         lateinit var r_status: String
 
+        ///////////////음성 입력 실패 횟수/////////////////////
+        var notMachCnt = 0
+
         /////////////////chatbot으로 들어온 page인지 확인 용//////
         var chatPage: Boolean = false
 
         ////////////////chatbot제공 이미지 파일이 여러개인 경우->mutable 리스트 사용////
         var messageSize: Int = 0
+        val urlArray = ArrayList<String>()
         val BitmapArray = ArrayList<Bitmap>()
 
-        ///////////////chatbot제공 이미지 한 개인 경우............................
-        lateinit var url: String
-        lateinit var urlDecoder: ByteArray
+        ///////////////chatbot제공 이미지 형식 총 2개
+        lateinit var url: String ///답변으로 온 url
+        lateinit var urlDecoder: ByteArray //디코딩이 필요한 경우 사용
         lateinit var urlBitmap: Bitmap
+        lateinit var uri : Uri //uri형식이라 바로 사용 가능한 경우
+
+        /////////
+        lateinit var inStr : String
+        lateinit var speechStr : String
 
         private val PERMISSIONS_STORAGE = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -99,7 +117,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var displays: Array<Display>
     lateinit var subTest: SubScreen
     lateinit var head: HeadPresentation
-    //lateinit var subTest2 : SubScreen2
+    lateinit var standby : standby
 
     private lateinit var mNavigationManager: NavigationManager
     private val chatbotService = ChatbotApi.getInstance()
@@ -155,6 +173,9 @@ class MainActivity : AppCompatActivity() {
         if (displays.isNotEmpty()) {
             subTest = SubScreen(this, displays[1])
             subTest.show()
+
+            standby = standby(this, displays[0])
+            standby.show()
 
             head = HeadPresentation(this, displays[2])
             head.show()
@@ -263,6 +284,15 @@ class MainActivity : AppCompatActivity() {
             tpl_id = it.data.result.fulfillment.template_id
             r_status = it.data.result.fulfillment.response_status
 
+            /////////////챗봇 질의 실패 횟수/////////
+            if(r_status == "not_match") {
+                notMachCnt += 1
+                if(notMachCnt == 3) { /////실패 세 번
+                    notMachCnt = 0 /////질의 페이지 벗어나니까 질의 가능 횟수 다시 부여.
+                    changeFragment("play") ///실패 페이지로 이동
+                }
+            }
+
             ///////test --------------- check
             Log.d("tk_test", "page_id is : " + page_id)
             Log.d("tk_test", "template_id is : " + tpl_id)
@@ -274,27 +304,46 @@ class MainActivity : AppCompatActivity() {
                     messageSize = it.data.result.fulfillment.messages.size
                     Log.d("tk_test", "message list size is " + messageSize)
 
-                    for (i in 0..messageSize - 1) {
-                        url = it.data.result.fulfillment.messages[0].image[i].url.substring(
-                            it.data.result.fulfillment.messages[0].image[0].url.indexOf(",") + 1
-                        )
-                        urlDecoder = Base64.decode(url, Base64.DEFAULT)
+                    if(it.data.result.fulfillment.messages[0].image[0].url.substring(0 until 5) == "https") {
+                        urlArray.clear()
+                        BitmapArray.clear()
 
-                        Log.d("tk_test", "urlDecode is " + urlDecoder)
+                        Log.i("tk_test", "img 1 : " + it.data.result.fulfillment.messages[0].image[0].url)
+                        Log.i("tk_test", "img 2 : " + it.data.result.fulfillment.messages[0].image[1].url)
 
-                        urlBitmap = BitmapFactory.decodeByteArray(urlDecoder, 0, urlDecoder.size)
-                        BitmapArray.add(urlBitmap)
-                        Log.d("tk_test", "bitmap array is " + BitmapArray.get(i))
+                        for(i in 0..messageSize) {
+                            url = it.data.result.fulfillment.messages[0].image[i].url
+//                            Log.d("tk_test", "img type is uri " + url) //맞는 값 얻어왔는지 확인
+
+                            urlArray.add(url) ///////string으로 들어가있음.
+                            Log.d("tk_test", "urlArray add done " + urlArray[i])
+                        }
                     }
+                    else { ///////////////http로 시작하지 않으면
+                        urlArray.clear()
+                        BitmapArray.clear()
 
-                    if (BitmapArray.size > messageSize) {
-                        for (i in messageSize..BitmapArray.size - 1) {
-                            BitmapArray.removeAt(i)
+                        for (i in 0..messageSize-1) {
+                            url = it.data.result.fulfillment.messages[0].image[i].url.substring(
+                                it.data.result.fulfillment.messages[0].image[0].url.indexOf(",") + 1
+                            )
+
+                            Log.d("tk_test", "url is " + url)
+                            urlDecoder = Base64.decode(url, Base64.DEFAULT)
+
+                            Log.d("tk_test", "urlDecode is " + urlDecoder)
+
+                            urlBitmap = BitmapFactory.decodeByteArray(urlDecoder, 0, urlDecoder.size)
+                            BitmapArray.add(urlBitmap)
+                            Log.d("tk_test", "bitmap array is " + BitmapArray.get(i))
                         }
                     }
                 }
             }
             ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
+
+            inStr = it.data.in_str
+            speechStr = it.data.result.fulfillment.speech[0]
 
             ///////////////////chatbot질의 페이지에서만 page바꿔줌. 나머지는 발화만
             if (chatPage == true) {
@@ -468,4 +517,11 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+}
+
+fun loadImage(imageUrl: String): Bitmap {
+    val url = URL(imageUrl)
+    val stream = url.openStream()
+
+    return BitmapFactory.decodeStream(stream)
 }

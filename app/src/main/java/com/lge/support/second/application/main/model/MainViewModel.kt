@@ -25,7 +25,7 @@ class MainViewModel(
     private val robotRepository: RobotRepository
 ) : ViewModel() {
 
-    var ischatfirst: Boolean = false
+    var ischatfirst: Boolean = false    ///////chat페이지 처음 진입하는 것인지 여부//////
     private val TAG = "ChatbotViewModel"
     private val _queryResult: MutableLiveData<ChatbotData> = MutableLiveData<ChatbotData>()
     val queryResult: LiveData<ChatbotData>
@@ -193,6 +193,10 @@ class MainViewModel(
         googleRepositiory.stop()
     }
 
+    fun speechStop() {
+        googleRepositiory.speechStop()
+    }
+
     // TODO(H, change R2 state)
     fun speechResponse() {
         if (ischatfirst == true) {
@@ -208,10 +212,10 @@ class MainViewModel(
 
                     // TODO(translate result data when language is not KOREAN)
                     speechText.value?.let {
-                        if (it == "") {
-                            // retry 3회까지
-                            return@onEach speechResponse()
-                        }
+//                        if (it == "") {
+//                            // retry 3회까지
+//                            return@onEach speechResponse()
+//                        }
                         getResponse(it)
                     }
 //                    if (GoogleSTT.getLanguage() != Language.Korean) {
