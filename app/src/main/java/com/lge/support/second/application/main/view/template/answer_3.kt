@@ -17,11 +17,13 @@ import android.widget.ImageSwitcher
 import android.widget.ImageView
 import android.widget.ViewSwitcher
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.MainActivity.Companion.urlArray
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentAnswer3Binding
 import kotlinx.coroutines.*
+import org.apache.log4j.chainsaw.Main
 import java.net.URI
 import java.net.URL
 import java.util.ArrayList
@@ -32,17 +34,14 @@ class answer_3 : Fragment() {
     private var _binding: FragmentAnswer3Binding? = null
     private val binding get() = _binding!!
 
-    lateinit var imageSwitcher: ImageSwitcher
+    lateinit var imageSwitcher: ImageView
+
+    //lateinit var imageSwitcher: ImageSwitcher
     lateinit var btnNext: Button
     lateinit var btnBack: Button
     var position: Int = 0
 
     val imgArray = ArrayList<Bitmap>()
-    val testArray = ArrayList<String>()
-
-    val job0 = CoroutineScope(Dispatchers.Main)
-
-    lateinit var testStr : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,51 +54,19 @@ class answer_3 : Fragment() {
         btnNext = binding.answer3B2
         btnBack = binding.answer3B1
 
-        //var drawable : Drawable = BitmapDrawable()
-
-        imageSwitcher.setFactory {
-            val imageView = ImageView(getActivity()?.getApplicationContext())
-            imageView.scaleType = ImageView.ScaleType.FIT_CENTER
-            imageView
-        }
 
         //////////bitmap 이미지들을 모아둔 배열이 비어있다면
         if (MainActivity.BitmapArray.isNullOrEmpty()) {
             imgArray.clear()
-            testArray.clear()
-            job0.launch {
-                for (i in 0..MainActivity.urlArray.size-1) {
-                    val bitmap = withContext(Dispatchers.IO) {
-                        loadImage(MainActivity.urlArray[position])
-                    }
-                    imgArray.add(bitmap)
-                    Log.d("tk_test", "imgArray [$i] " + imgArray[i])
-
-                    testStr = bitmap.toString().substring(17)
-                    testArray.add(testStr)
-                    Log.d("tk_test", "testArray [$i] " + testArray[i])
-                }
-//                val job1 = launch {
-                    imageSwitcher.setImageDrawable(BitmapDrawable(imgArray[position]))
-//                }
-            }
-        } else{
-            imgArray.clear()
-            for(i in 0..MainActivity.BitmapArray.size -1){
-                imgArray.add(MainActivity.BitmapArray[i])
-            }
-//            imageSwitcher.setImageDrawable(BitmapDrawable(MainActivity.BitmapArray[position]))
-            imageSwitcher.setImageDrawable(BitmapDrawable(imgArray[position]))
+            Glide.with(this).load(MainActivity.urlArray[position]).into(imageSwitcher)
         }
-
-
+        else {
+            imageSwitcher.setImageDrawable(BitmapDrawable(MainActivity.BitmapArray[position]))
+        }
 
         changeText(MainActivity.inStr)
         changeText2(MainActivity.speechStr)
-        //imageSwitcher.setImageDrawable(BitmapDrawable(imgArray[position]))
-//        for(i in 0..imgArray.size){
-//            Log.d("tk_test", "imgArray[$i] is " + imgArray[i])
-//        }
+
         return binding.root
     }
 
@@ -107,24 +74,36 @@ class answer_3 : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         btnBack.setOnClickListener {
+            if (MainActivity.BitmapArray.isNullOrEmpty()) {
+                if (position < MainActivity.urlArray.size - 1) {
+                    position += 1
+                    Glide.with(this).load(MainActivity.urlArray[position]).into(imageSwitcher)
+                }
+            }
+            else {
+                if (position < MainActivity.BitmapArray.size - 1) {
+                    position += 1
 
-            Log.d("tk_test", "back button click")
+                    imageSwitcher.setImageDrawable(BitmapDrawable(MainActivity.BitmapArray[position]))
 
-            if (position > 0) {
-                position -= 1
-
-
-                    imageSwitcher.setImageDrawable(BitmapDrawable(imgArray[position]))
-
-
+                }
             }
         }
 
         btnNext.setOnClickListener {
-            Log.d("tk_test", "next button click")
-            if (position < MainActivity.BitmapArray.size - 1) {
-                position += 1
-//                    imageSwitcher.setImageDrawable(BitmapDrawable(imgArray[position]))
+            if (MainActivity.BitmapArray.isNullOrEmpty()) {
+                if (position < MainActivity.urlArray.size - 1) {
+                    position += 1
+                    Glide.with(this).load(MainActivity.urlArray[position]).into(imageSwitcher)
+                }
+            }
+            else {
+                if (position < MainActivity.BitmapArray.size - 1) {
+                    position += 1
+
+                    imageSwitcher.setImageDrawable(BitmapDrawable(MainActivity.BitmapArray[position]))
+
+                }
             }
         }
     }
