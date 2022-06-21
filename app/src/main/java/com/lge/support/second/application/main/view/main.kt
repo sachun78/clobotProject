@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentMainBinding
@@ -29,6 +30,7 @@ class main : Fragment() {
 
 //        mActivity.changeVisibility(1)
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.VISIBLE
+        mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.VISIBLE
 
         menu1.setOnClickListener {
             mActivity.changeFragment("play")
@@ -43,7 +45,8 @@ class main : Fragment() {
         }
 
         binding.mainI4.setOnClickListener{
-            val mqttInstance: MessageConnecter = MessageConnecter()
+//            val mqttInstance: MessageConnecter = MessageConnecter()
+            mActivity.changeFragment("docent-end")
         }
 
         MainActivity.chatPage = false

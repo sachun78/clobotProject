@@ -40,5 +40,13 @@
         app:layout_constraintTop_toBottomOf="@id/top"
         app:layout_constraintEnd_toEndOf="parent"/>
 
+    <ImageView
+        android:layout_width="692px"
+        android:layout_height="148px"
+        android:src="@drawable/qr_img"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 

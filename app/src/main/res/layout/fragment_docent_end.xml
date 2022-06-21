@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    tools:context=".main.view.docent_end">
+
+    <TextView
+        android:layout_marginTop="120px"
+        android:gravity="center"
+        android:layout_width="1000px"
+        android:layout_height="80px"
+        android:text="해설 종료"/>
+    <TextView
+        android:gravity="center"
+        android:layout_width="690px"
+        android:layout_height="154px"
+        android:text="종료~~ \n 재미있게??"/>
+
+    <ImageView
+        android:layout_width="233px"
+        android:layout_height="276px"
+        android:src="@drawable/end_qi"/>
+    <TextView
+        android:gravity="center"
+        android:layout_width="960px"
+        android:layout_height="116px"
+        android:text="해설을 다시 들으시거나.. \n 다른 서비스.."/>
+
+    <GridLayout
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="209px"
+        android:layout_width="1000px"
+        android:layout_height="340px"
+        android:columnCount="2">
+        <androidx.appcompat.widget.AppCompatButton
+            android:text="다시 듣기"
+            android:layout_width="490px"
+            android:layout_height="160px"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:text="다른 해설 듣기"
+            android:layout_width="490px"
+            android:layout_height="160px"/>
+        <androidx.appcompat.widget.AppCompatButton
+            android:text="대화하기"
+            android:layout_width="490px"
+            android:layout_height="160px"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:text="종료 하기"
+            android:id="@+id/end_b4"
+            android:layout_width="490px"
+            android:layout_height="160px"/>
+
+    </GridLayout>
+</LinearLayout>

@@ -442,6 +442,11 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_4())
                     .addToBackStack(null).commit()
             }
+
+            "docent-end" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, docent_end())
+                    .addToBackStack(null).commit()
+            }
         }
     }
 
