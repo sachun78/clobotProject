@@ -2,10 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="1920px"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context=".main.view.docent_end">
+    tools:context=".main.view.docent_end"
+    android:background="@color/black">
 
     <TextView
         android:layout_marginTop="120px"
@@ -36,20 +37,29 @@
         android:layout_height="340px"
         android:columnCount="2">
         <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/border"
+            android:backgroundTint="@color/select"
             android:text="다시 듣기"
             android:layout_width="490px"
             android:layout_height="160px"/>
         <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/border"
+            android:backgroundTint="@color/select"
             android:text="다른 해설 듣기"
-            android:layout_width="490px"
-            android:layout_height="160px"/>
-        <androidx.appcompat.widget.AppCompatButton
-            android:text="대화하기"
             android:layout_width="490px"
             android:layout_height="160px"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/border"
+            android:text="대화하기"
+            android:backgroundTint="@color/dark_gray"
+            android:layout_width="490px"
+            android:layout_height="160px"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:background="@drawable/border"
             android:text="종료 하기"
+            android:backgroundTint="@color/dark_gray"
             android:id="@+id/end_b4"
             android:layout_width="490px"
             android:layout_height="160px"/>

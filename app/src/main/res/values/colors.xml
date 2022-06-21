@@ -21,4 +21,5 @@
     <color name="transparency">#00FFD9EC</color>
     <color name="select">#84754E</color>
     <color name="gray">#BDBDBD</color>
+    <color name="dark_gray">#3F3A3A</color>
 </resources>

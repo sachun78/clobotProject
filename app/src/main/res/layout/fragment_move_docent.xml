@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="1920px"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".main.view.docent.move_docent"
+    android:background="@color/black">
+
+    <androidx.appcompat.widget.AppCompatButton
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/border"
+        android:text="끝내기"
+        android:backgroundTint="@color/dark_gray"
+        android:id="@+id/move_docent_b1"
+        android:layout_marginTop="60px"
+        android:layout_width="259px"
+        android:layout_height="128px"/>
+
+    <TextView
+        android:id="@+id/move_docent_t1"
+        app:layout_constraintTop_toBottomOf="@+id/move_docent_b1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="1000px"
+        android:layout_height="144px"
+        android:layout_marginTop="40px"
+        android:text="text"
+        android:gravity="center"/>
+
+    <VideoView
+        android:layout_width="match_parent"
+        android:layout_height="1500px"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

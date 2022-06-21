@@ -32,6 +32,7 @@ class main : Fragment() {
 //        mActivity.changeVisibility(1)
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.VISIBLE
         mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.VISIBLE
+        mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.VISIBLE
 
         menu1.setOnClickListener {
             mActivity.changeFragment("play")
@@ -47,7 +48,7 @@ class main : Fragment() {
 
         binding.mainI4.setOnClickListener{
 //            val mqttInstance: MessageConnecter = MessageConnecter()
-            mActivity.changeFragment("docent-end")
+			mActivity.changeFragment("docent-end")
         }
 
         MainActivity.chatPage = false

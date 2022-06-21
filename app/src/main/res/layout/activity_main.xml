@@ -41,6 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <ImageView
+        android:id="@+id/qrImg"
         android:layout_width="692px"
         android:layout_height="148px"
         android:src="@drawable/qr_img"
