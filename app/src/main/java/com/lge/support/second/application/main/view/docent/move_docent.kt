@@ -1,5 +1,9 @@
 package com.lge.support.second.application.main.view.docent
 
+import android.app.AlertDialog
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,9 +32,18 @@ class move_docent : Fragment() {
         mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
 
         rootView.findViewById<Button>(R.id.move_docent_b1).setOnClickListener {
-            fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            var dialog = Dialog(mActivity)
+            dialog.setContentView(R.layout.docent_end_dialog_layout)
+            dialog.show()
+
+            dialog.findViewById<Button>(R.id.yes_btn).setOnClickListener {
+                dialog.hide()
+                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
         }
         return rootView
     }
+
+
 
 }
