@@ -1,5 +1,8 @@
 package com.lge.support.second.application.main.view
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -32,7 +35,19 @@ class docent_end : Fragment() {
         mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.GONE
 
         rootView.findViewById<Button>(R.id.end_b4).setOnClickListener {
-            fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            //fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            var dialog = Dialog(mActivity)
+            dialog.setContentView(R.layout.docent_end_dialog_layout)
+            dialog.show()
+
+            dialog.findViewById<Button>(R.id.yes_btn).setOnClickListener {
+                dialog.hide()
+                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            }
+
+            dialog.findViewById<Button>(R.id.no_btn).setOnClickListener {
+                dialog.hide()
+            }
         }
 
         return rootView

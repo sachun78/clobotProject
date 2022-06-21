@@ -29,7 +29,7 @@
                 android:layout_weight="1" />
 
             <Button
-                android:id="@+id/chat_i1"
+                android:id="@+id/chat_b1"
                 android:background="@drawable/finger"
                 android:layout_width="128px"
                 android:layout_height="128px"
@@ -58,9 +58,18 @@
             android:numColumns="2"
             android:id="@+id/chat_gridView"
             android:layout_width="1000px"
-            android:layout_height="880px"
+            android:layout_height="wrap_content"
             android:layout_gravity="center|bottom"
             android:layout_marginTop="59px" />
+
+        <Button
+            android:background="@drawable/question_list_shape"
+            android:id="@+id/chat_b2"
+            android:layout_marginTop="40px"
+            android:layout_gravity="center"
+            android:layout_width="1000px"
+            android:layout_height="190px"
+            android:text="다른 질문 고르기"/>
     </LinearLayout>
 
 </FrameLayout>

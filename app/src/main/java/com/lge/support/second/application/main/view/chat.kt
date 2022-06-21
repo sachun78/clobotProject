@@ -68,7 +68,7 @@ class chat : Fragment() {
 //            binding.chatT2.setText("듣고 있어요")
 //        }, 3000) ///////////2.9sec
 
-        binding.chatI1.setOnClickListener {
+        binding.chatB1.setOnClickListener {
             MainActivity.viewModel.speechResponse()
         }
 
@@ -76,6 +76,10 @@ class chat : Fragment() {
             //MainActivity.viewModel.speechStop()
             MainActivity.viewModel.getResponse(questions[i])
             //(activity as MainActivity).changeFragment("${MainActivity.page_id}")
+        }
+
+        binding.chatB2.setOnClickListener {
+            (activity as MainActivity).changeFragment("chat-fail")
         }
 
 //        var i = 0

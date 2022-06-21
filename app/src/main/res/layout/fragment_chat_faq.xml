@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".main.view.tabView.chat_faq">
+
+    <GridView
+        android:numColumns="2"
+        android:id="@+id/faq_gridView"
+        android:layout_width="1000px"
+        android:layout_height="840px"
+        android:layout_gravity="center|bottom"
+        android:layout_marginTop="59px" />
+
+</FrameLayout>

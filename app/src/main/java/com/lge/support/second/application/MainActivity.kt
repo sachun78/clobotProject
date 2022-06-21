@@ -42,6 +42,7 @@ import com.lge.support.second.application.main.repository.ChatbotRepository
 import com.lge.support.second.application.main.repository.PageConfigRepo
 import com.lge.support.second.application.main.repository.RobotRepository
 import com.lge.support.second.application.main.view.answer_1
+import com.lge.support.second.application.main.view.docent.move_docent
 import com.lge.support.second.application.main.view.subView.standby
 import com.lge.support.second.application.main.view.template.*
 import kotlinx.coroutines.CoroutineScope
@@ -287,7 +288,7 @@ class MainActivity : AppCompatActivity() {
                 notMachCnt += 1
                 if(notMachCnt == 3) { /////실패 세 번
                     notMachCnt = 0 /////질의 페이지 벗어나니까 질의 가능 횟수 다시 부여.
-                    changeFragment("play") ///실패 페이지로 이동
+                    changeFragment("chat-fail") ///실패 페이지로 이동
                 }
             }
 
@@ -445,6 +446,16 @@ class MainActivity : AppCompatActivity() {
 
             "docent-end" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, docent_end())
+                    .addToBackStack(null).commit()
+            }
+
+            "docent-play" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, move_docent())
+                    .addToBackStack(null).commit()
+            }
+	    
+	    "chat-fail" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat_fail())
                     .addToBackStack(null).commit()
             }
         }
