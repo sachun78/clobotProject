@@ -38,5 +38,8 @@ class docent_end : Fragment() {
         return rootView
     }
 
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MainActivity.viewModel.stop()
+    }
 }

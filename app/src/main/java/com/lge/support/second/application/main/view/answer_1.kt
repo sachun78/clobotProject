@@ -41,4 +41,9 @@ class answer_1 : Fragment() {
     fun changeText2(text: String?) {
         binding.answer1T2.setText(text)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MainActivity.viewModel.stop()
+    }
 }

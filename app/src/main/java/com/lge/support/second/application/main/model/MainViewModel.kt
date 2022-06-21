@@ -32,7 +32,7 @@ class MainViewModel(
     private val pageConfigRepo: PageConfigRepo
 ) : ViewModel() {
 
-    var ischatfirst: Boolean = false    ///////chat페이지 처음 진입하는 것인지 여부//////
+    var ischatfirst: Boolean = true    ///////chat페이지 처음 진입하는 것인지 여부//////
     private val TAG = "MainViewModel"
     private val _queryResult: MutableLiveData<ChatbotData> = MutableLiveData<ChatbotData>()
     val queryResult: LiveData<ChatbotData>
@@ -273,8 +273,8 @@ class MainViewModel(
 
     // TODO(H, change R2 state)
     fun speechResponse() {
-        if (ischatfirst) {
-            googleRepositiory.ischatfirst = true
+        if (!ischatfirst) {
+            googleRepositiory.ischatfirst = false
         }
         googleRepositiory.speachToText().onEach { result ->
             when (result) {

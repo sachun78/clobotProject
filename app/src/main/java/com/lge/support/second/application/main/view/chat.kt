@@ -38,7 +38,7 @@ class chat : Fragment() {
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
 
-        MainActivity.viewModel.stop()
+//        MainActivity.viewModel.stop()
 
         if (click == false) {
             for (i in questions.indices) {
@@ -92,9 +92,15 @@ class chat : Fragment() {
 //        }
 
         MainActivity.viewModel.speechResponse()
-        MainActivity.viewModel.ischatfirst = true
+        MainActivity.viewModel.ischatfirst = false
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("tk_test" , "chat page destroy")
+        MainActivity.viewModel.ischatfirst = true
+        MainActivity.viewModel.stop()
+    }
 }
 
 class CustomAdapter(var itemModel: ArrayList<questionModel>, var context: Context) : BaseAdapter() {

@@ -173,4 +173,9 @@ class theater_map : Fragment() {
         }
 
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MainActivity.viewModel.stop()
+    }
 }

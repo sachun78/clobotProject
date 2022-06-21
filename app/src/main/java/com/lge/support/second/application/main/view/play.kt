@@ -29,4 +29,8 @@ class play : Fragment() {
         return rootView
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MainActivity.viewModel.stop()
+    }
 }

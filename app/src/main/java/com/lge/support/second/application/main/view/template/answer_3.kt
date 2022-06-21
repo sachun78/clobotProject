@@ -108,6 +108,11 @@ class answer_3 : Fragment() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MainActivity.viewModel.stop()
+    }
+
     fun changeText(text: String?) {
         binding.answer3T1.setText(text)
     }

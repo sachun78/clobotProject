@@ -198,11 +198,11 @@ class MainActivity : AppCompatActivity() {
         }
         backBtn.setOnClickListener {
             supportFragmentManager.popBackStack()
-            viewModel.stop()
+//            viewModel.stop()
         }
         homeBtn.setOnClickListener {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            viewModel.stop()
+//            viewModel.stop()
             //chatPage = false
         }
         korBtn.setOnClickListener {

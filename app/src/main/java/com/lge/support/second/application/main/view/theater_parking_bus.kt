@@ -44,6 +44,10 @@ class theater_parking_bus : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MainActivity.viewModel.stop()
+    }
 }
 
 class FragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
