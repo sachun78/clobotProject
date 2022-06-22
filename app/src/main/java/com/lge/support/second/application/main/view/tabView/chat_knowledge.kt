@@ -56,7 +56,7 @@ class chat_knowledge : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        MainActivity.viewModel.stop()
+        MainActivity.viewModel.ttsStop()
         Log.d("tk_test", "knowledge destroy")
     }
 }

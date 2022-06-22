@@ -13,12 +13,12 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
-        android:theme="@style/Theme.QIRobotLauncher" >
+        android:theme="@style/Theme.QIRobotLauncher"
+        android:usesCleartextTraffic="true">
         <activity
-            android:screenOrientation="portrait"
             android:name=".TestActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:screenOrientation="portrait" />
         <!--        홈 런처 만들때 필요한 선언 - singleTask값        -->
         <activity
             android:name=".MainActivity"
@@ -29,12 +29,12 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <!--        홈 런처 만들때 필요한 선언        -->
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.HOME"/>
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.HOME" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <service android:name=".RobotEventService"></service>-->
+        <!--        <service android:name=".RobotEventService"></service>-->
     </application>
 </manifest>

@@ -29,9 +29,10 @@
         android:text="text"
         android:gravity="center"/>
 
-    <VideoView
+    <SurfaceView
+        android:id="@+id/surface_view"
         android:layout_width="match_parent"
         android:layout_height="1500px"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

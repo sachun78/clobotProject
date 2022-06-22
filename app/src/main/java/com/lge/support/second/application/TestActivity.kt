@@ -5,13 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import com.lge.aip.engine.facedetection.LGFaceDetectionJNI
-import com.lge.robot.platform.navigation.navigation.NavigationManager
-import com.lge.robot.platform.power.PowerManager
-import com.lge.robot.platform.util.audio.recorder.RecordingLGSSP
 import com.lge.robot.platform.util.poi.data.POI
-import com.lge.support.second.application.main.managers.robot.NavigationManagerInstance
-import com.lge.support.second.application.main.managers.robot.PowerManagerInstance
-import com.lge.support.second.application.main.model.TkTestViewModel
 import com.lge.support.second.application.main.managers.robot.PoiDbManager
 
 class TestActivity : AppCompatActivity() {
@@ -44,7 +38,7 @@ class TestActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_cruise).setOnClickListener {
-            MainActivity.viewModel.cruise_request()
+            MainActivity.viewModel.cruiseRequest()
         }
 
         listView.setOnItemClickListener { parent, view, pos, id ->
@@ -74,7 +68,7 @@ class TestActivity : AppCompatActivity() {
 
         MainActivity.viewModel.queryResult.observe(this) {
             if (it != null) {
-                MainActivity.viewModel.speak(this, it.data.result.fulfillment.speech[0])
+                MainActivity.viewModel.ttsSpeak(this, it.data.result.fulfillment.speech[0])
             }
         }
 

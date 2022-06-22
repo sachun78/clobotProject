@@ -11,12 +11,12 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.Display
@@ -25,6 +25,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
@@ -32,30 +33,28 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
-import com.lge.robot.platform.navigation.navigation.NavigationManager
-import com.lge.support.second.application.main.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
-import com.lge.support.second.application.main.view.*
-import com.lge.support.second.application.main.view.subView.SubScreen
+import com.lge.support.second.application.main.data.chatbot.ChatbotApi
 import com.lge.support.second.application.main.model.MainViewModel
 import com.lge.support.second.application.main.repository.ChatbotRepository
 import com.lge.support.second.application.main.repository.PageConfigRepo
 import com.lge.support.second.application.main.repository.RobotRepository
+import com.lge.support.second.application.main.view.*
 import com.lge.support.second.application.main.view.answer_1
 import com.lge.support.second.application.main.view.docent.move_docent
+import com.lge.support.second.application.main.view.subView.SubScreen
 import com.lge.support.second.application.main.view.subView.standby
 import com.lge.support.second.application.main.view.template.*
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.channels.consumesAll
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.io.InputStream
 import java.net.URL
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.java.simpleName
+    val result = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        println("onResult!")
+        val imageBitmap = it.data?.extras?.get("data") as Bitmap
+    }
 
     init {
         instance = this
@@ -89,21 +88,23 @@ class MainActivity : AppCompatActivity() {
         lateinit var url: String ///답변으로 온 url
         lateinit var urlDecoder: ByteArray //디코딩이 필요한 경우 사용
         lateinit var urlBitmap: Bitmap
-        lateinit var uri : Uri //uri형식이라 바로 사용 가능한 경우
+        lateinit var uri: Uri //uri형식이라 바로 사용 가능한 경우
 
         /////////
-        lateinit var inStr : String
-        lateinit var speechStr : String
+        lateinit var inStr: String
+        lateinit var speechStr: String
 
         private val PERMISSIONS_STORAGE = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
         private val PERMISSIONS = arrayOf(
-            Manifest.permission.RECORD_AUDIO
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA
         )
         private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
         private const val REQUEST_EXTERNAL_STORAGE = 1
+        const val REQUEST_IMAGE_CAPTURE = 2
 
         lateinit var subTest: SubScreen
 
@@ -119,7 +120,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var displayManager: DisplayManager
     private lateinit var displays: Array<Display>
     lateinit var head: HeadPresentation
-    lateinit var standby : standby
+    lateinit var standby: standby
 
     private val chatbotService = ChatbotApi.getInstance()
     private lateinit var googleService: GoogleCloudApi;
@@ -193,17 +194,20 @@ class MainActivity : AppCompatActivity() {
 //            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
 //                .addToBackStack(null).commit()
 //
-//            viewModel.speechResponse()
-            viewModel.dockingRequest()
-            subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
+//            subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
+            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
+                takePictureIntent.resolveActivity(packageManager)?.also {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+                }
+            }
         }
         backBtn.setOnClickListener {
             supportFragmentManager.popBackStack()
-//            viewModel.stop()
+//            viewModel.ttsStop()
         }
         homeBtn.setOnClickListener {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-//            viewModel.stop()
+//            viewModel.ttsStop()
             //chatPage = false
         }
         korBtn.setOnClickListener {
@@ -258,14 +262,13 @@ class MainActivity : AppCompatActivity() {
             if (it == true) {
                 println("emergency")
                 subTest.findViewById<TextView>(R.id.sub_textView).text = "emergency, enabled"
-            } else {
-                subTest.findViewById<TextView>(R.id.sub_textView).text = "emergency, disabled"
             }
         }
 
-        viewModel.batterySOC.observe(this) {
-            subTest.findViewById<TextView>(R.id.sub_textView).text = "battery, $it% remained"
-        }
+        // battery status observ
+//        viewModel.batterySOC.observe(this) {
+//            subTest.findViewById<TextView>(R.id.sub_textView).text = "battery, $it% remained"
+//        }
 
         // ViewModel Observe TODO(Chatbot Request Base Action)
 
@@ -274,7 +277,7 @@ class MainActivity : AppCompatActivity() {
             if (it == null) {
                 return@observe
             }
-            viewModel.speak(this, it.data.result.fulfillment.speech[0])
+            viewModel.ttsSpeak(this, it.data.result.fulfillment.speech[0])
             head.changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
 //            it.data.result.fulfillment.messages.forEach { message ->
 //                Log.d("ViewModel Observe", message.image.toString())
@@ -284,9 +287,9 @@ class MainActivity : AppCompatActivity() {
             r_status = it.data.result.fulfillment.response_status
 
             /////////////챗봇 질의 실패 횟수/////////
-            if(r_status == "not_match") {
+            if (r_status == "not_match") {
                 notMachCnt += 1
-                if(notMachCnt == 3) { /////실패 세 번
+                if (notMachCnt == 3) { /////실패 세 번
                     notMachCnt = 0 /////질의 페이지 벗어나니까 질의 가능 횟수 다시 부여.
                     changeFragment("chat-fail") ///실패 페이지로 이동
                 }
@@ -303,26 +306,31 @@ class MainActivity : AppCompatActivity() {
                     messageSize = it.data.result.fulfillment.messages.size
                     Log.d("tk_test", "message list size is " + messageSize)
 
-                    if(it.data.result.fulfillment.messages[0].image[0].url.substring(0 until 5) == "https") {
+                    if (it.data.result.fulfillment.messages[0].image[0].url.substring(0 until 5) == "https") {
                         urlArray.clear()
                         BitmapArray.clear()
 
-                        Log.i("tk_test", "img 1 : " + it.data.result.fulfillment.messages[0].image[0].url)
-                        Log.i("tk_test", "img 2 : " + it.data.result.fulfillment.messages[0].image[1].url)
+                        Log.i(
+                            "tk_test",
+                            "img 1 : " + it.data.result.fulfillment.messages[0].image[0].url
+                        )
+                        Log.i(
+                            "tk_test",
+                            "img 2 : " + it.data.result.fulfillment.messages[0].image[1].url
+                        )
 
-                        for(i in 0..messageSize) {
+                        for (i in 0..messageSize) {
                             url = it.data.result.fulfillment.messages[0].image[i].url
 //                            Log.d("tk_test", "img type is uri " + url) //맞는 값 얻어왔는지 확인
 
                             urlArray.add(url) ///////string으로 들어가있음.
                             Log.d("tk_test", "urlArray add done " + urlArray[i])
                         }
-                    }
-                    else { ///////////////http로 시작하지 않으면
+                    } else { ///////////////http로 시작하지 않으면
                         urlArray.clear()
                         BitmapArray.clear()
 
-                        for (i in 0..messageSize-1) {
+                        for (i in 0..messageSize - 1) {
                             url = it.data.result.fulfillment.messages[0].image[i].url.substring(
                                 it.data.result.fulfillment.messages[0].image[0].url.indexOf(",") + 1
                             )
@@ -332,7 +340,8 @@ class MainActivity : AppCompatActivity() {
 
                             Log.d("tk_test", "urlDecode is " + urlDecoder)
 
-                            urlBitmap = BitmapFactory.decodeByteArray(urlDecoder, 0, urlDecoder.size)
+                            urlBitmap =
+                                BitmapFactory.decodeByteArray(urlDecoder, 0, urlDecoder.size)
                             BitmapArray.add(urlBitmap)
                             Log.d("tk_test", "bitmap array is " + BitmapArray.get(i))
                         }
@@ -359,8 +368,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
-
-        viewModel.getResponse("intro", "intro")
+//        viewModel.getResponse("intro", "intro")
     } //onCreate
 
     ///////////////////////////////////////language
@@ -443,9 +451,8 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_4())
                     .addToBackStack(null).commit()
             }
-
-            "docent-end" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, docent_end())
+            "docent" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, move_docent())
                     .addToBackStack(null).commit()
             }
 
@@ -453,8 +460,8 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, move_docent())
                     .addToBackStack(null).commit()
             }
-	    
-	    "chat-fail" -> {
+
+            "chat-fail" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat_fail())
                     .addToBackStack(null).commit()
             }
@@ -528,6 +535,8 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
+
+
 }
 
 fun loadImage(imageUrl: String): Bitmap {

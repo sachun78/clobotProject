@@ -1,6 +1,5 @@
 package com.lge.support.second.application.main.view
 
-import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -114,7 +113,7 @@ class theater_map : Fragment() {
         binding.theaterB5.setOnClickListener {
             selectedBtn.isSelected = false
 
-            MainActivity.viewModel.stop()
+            MainActivity.viewModel.ttsStop()
 
 //            if (ttsE == false) {
 //                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t5))
@@ -128,7 +127,7 @@ class theater_map : Fragment() {
         binding.theaterB6.setOnClickListener {
             selectedBtn.isSelected = false
 
-            MainActivity.viewModel.stop()
+            MainActivity.viewModel.ttsStop()
 
 //            if (ttsF == false) {
 //                MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t6))
@@ -176,6 +175,6 @@ class theater_map : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        MainActivity.viewModel.stop()
+        MainActivity.viewModel.ttsStop()
     }
 }

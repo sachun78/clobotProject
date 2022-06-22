@@ -46,7 +46,7 @@ class theater_parking_bus : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        MainActivity.viewModel.stop()
+        MainActivity.viewModel.ttsStop()
     }
 }
 

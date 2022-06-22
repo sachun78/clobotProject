@@ -55,6 +55,6 @@ class docent_end : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        MainActivity.viewModel.stop()
+        MainActivity.viewModel.ttsStop()
     }
 }

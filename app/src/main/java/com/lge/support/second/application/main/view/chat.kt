@@ -2,7 +2,6 @@ package com.lge.support.second.application.main.view
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -38,7 +37,7 @@ class chat : Fragment() {
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
 
-//        MainActivity.viewModel.stop()
+//        MainActivity.viewModel.ttsStop()
 
         if (click == false) {
             for (i in questions.indices) {
@@ -103,7 +102,7 @@ class chat : Fragment() {
         super.onDestroyView()
         Log.d("tk_test" , "chat page destroy")
         MainActivity.viewModel.ischatfirst = true
-        MainActivity.viewModel.stop()
+        MainActivity.viewModel.ttsStop()
     }
 }
 

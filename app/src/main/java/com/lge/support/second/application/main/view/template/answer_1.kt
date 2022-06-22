@@ -42,7 +42,7 @@ class answer_1 : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        MainActivity.viewModel.stop()
+        MainActivity.viewModel.ttsStop()
     }
 
     fun changeText(text: String?){

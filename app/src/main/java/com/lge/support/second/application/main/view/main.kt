@@ -11,7 +11,6 @@ import android.widget.LinearLayout
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentMainBinding
-import com.lge.support.second.application.main.managers.mqtt.MessageConnecter
 
 class main : Fragment() {
 
@@ -46,9 +45,10 @@ class main : Fragment() {
             mActivity.changeFragment("enjoy")
         }
 
-        binding.mainI4.setOnClickListener{
+        binding.mainI4.setOnClickListener {
 //            val mqttInstance: MessageConnecter = MessageConnecter()
-			mActivity.changeFragment("docent-end")
+            MainActivity.viewModel.docent1Request(mActivity)
+//            mActivity.changeFragment("docent-end")
         }
 
         MainActivity.chatPage = false
@@ -57,12 +57,11 @@ class main : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        MainActivity.viewModel.stop()
+        MainActivity.viewModel.ttsStop()
         Log.d("tk_test", "main fragment view destoy")
     }
 }

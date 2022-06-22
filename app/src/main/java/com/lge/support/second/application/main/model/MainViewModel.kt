@@ -2,15 +2,20 @@ package com.lge.support.second.application.main.model
 
 import android.content.Context
 import android.util.Log
+import android.widget.TextView
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.*
 import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
+import com.example.googlecloudmanager.common.Resource as R2
 import com.lge.robot.platform.EventIndex
 import com.lge.robot.platform.data.*
 import com.lge.robot.platform.navigation.NavigationMessageType
 import com.lge.robot.platform.util.poi.data.POI
+import com.lge.support.second.application.MainActivity
+import com.lge.support.second.application.R
 import com.lge.support.second.application.main.data.robot.NaviError
-import com.example.googlecloudmanager.common.Resource as R2
+
 
 import com.lge.support.second.application.main.data.chatbot.ChatRequest
 import com.lge.support.second.application.main.data.chatbot.ChatbotData
@@ -19,6 +24,7 @@ import com.lge.support.second.application.main.repository.ChatbotRepository
 import com.lge.support.second.application.main.repository.PageConfigRepo
 import com.lge.support.second.application.main.repository.RobotRepository
 import com.lge.support.second.application.main.util.Resource
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
@@ -31,7 +37,6 @@ class MainViewModel(
     private val robotRepository: RobotRepository,
     private val pageConfigRepo: PageConfigRepo
 ) : ViewModel() {
-
     var ischatfirst: Boolean = true    ///////chat페이지 처음 진입하는 것인지 여부//////
     private val TAG = "MainViewModel"
     private val _queryResult: MutableLiveData<ChatbotData> = MutableLiveData<ChatbotData>()
@@ -43,9 +48,10 @@ class MainViewModel(
         get() = _speechText
 
     private var mTimerTask: Timer
+    var currentJob: Job? = null
 
     // ROBOT DATA
-    val mNavigationMessageType = MutableLiveData<Int>()
+//    private val _state = mutableStateOf(State())
     val mActionStatus = MutableLiveData<ActionStatus>()
     val mNaviStatus2 = MutableLiveData<NaviStatus2>()
     val mSLAM3DPos = MutableLiveData<SLAM3DPos>()
@@ -73,6 +79,9 @@ class MainViewModel(
     private val _isDocking = MutableLiveData(false)
     val isDocking: LiveData<Boolean> = _isDocking
 
+    private val _isDocent1 = MutableLiveData(false)
+    val isDocent1: LiveData<Boolean> = _isDocent1
+
     private val _robotError = MutableLiveData<RobotError>()
     val robotError: LiveData<RobotError> = _robotError
 
@@ -82,21 +91,22 @@ class MainViewModel(
     private var cruiseCount = 0
 
     override fun onCleared() {
-
         super.onCleared()
         mTimerTask.cancel()
     }
 
     // robot data callback
     init {
-
         robotRepository.powerMangerCallback.onEach { powerMode ->
             mPowerMode.value = powerMode as Int
         }.launchIn(viewModelScope)
 
         robotRepository.navigationManagerCallback.onEach { naviData ->
             when (naviData) {
-                is ActionStatus -> mActionStatus.value = naviData
+                is ActionStatus -> {
+                    mActionStatus.value = naviData
+                    checkNaviActionStatus(naviData)
+                }
                 is NaviStatus2 -> mNaviStatus2.value = naviData
                 is SLAM3DPos -> {
                     mSLAM3DPos.value = naviData
@@ -105,7 +115,9 @@ class MainViewModel(
                         robotRepository.findPosition()
                     }
                 }
-                is NaviActionInfo -> mNaviActionInfo.value = naviData
+                is NaviActionInfo -> {
+                    mNaviActionInfo.value = naviData
+                }
                 is NavigationMessage -> {
                     checkNaviMessage(naviData)
                 }
@@ -140,18 +152,19 @@ class MainViewModel(
                     if (data.soc != batterySOC.value) {
                         batterySOC.value = data.soc
                     }
-                    Log.d(TAG, "$data")
+                    if (data.soc < 50) {
+                        Log.i(TAG, "battery is lower than 50% detected.")
+                    }
                 }
                 is RobotError -> {
                     _robotError.value = data
                 }
-                else -> println("monitoring else!")
+                else -> println("monitoring else, $data")
             }
         }.launchIn(viewModelScope)
 
         mTimerTask = kotlin.concurrent.timer(period = 1000) {
             RobotRepository.mSensorManager.requestEmergencyStatus()
-            RobotRepository.mMonitoringManager.batteryStatus
         }
     }
 
@@ -188,6 +201,40 @@ class MainViewModel(
         }.launchIn(viewModelScope)
     }
 
+    fun docent1Request(page: MainActivity) {
+        currentJob = docent1().onEach {
+            when (it) {
+                "moving" -> {
+                    googleRepositiory.speak(
+                        MainActivity.mainContext(),
+                        "문화 해설 위치로 이동합니다. 저를 따라오세요."
+                    )
+                    MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).text =
+                        "저를 따라오세요. \n 목적지로 안내하겠습니다."
+                }
+                "move_done" -> {
+                    page.changeFragment("docent")
+                }
+            }
+
+        }.launchIn(viewModelScope)
+    }
+
+    private fun docent1(): Flow<String> = flow {
+        // docking 상태가 아닌 home 위치 혹은 다른 위치에 있다고 가정.
+        _isDocent1.value = true
+        emit("moving")
+        // 지점 이동
+        pois?.get(3)?.let { it1 -> robotRepository.moveWithPoi(it1) }
+
+        while (_isDocent1.value == true) {
+            delay(100)
+        }
+
+        // page 전환
+        emit("move_done")
+    }
+
     private fun unDocking(): Flow<Boolean> = flow {
         Log.d(TAG, "unDocking - start");
         if (mNaviStatus2.value?.bootSeq != NaviStatus2._e_boot_seq.eBOOT_ON_DOCK) {
@@ -196,7 +243,7 @@ class MainViewModel(
         }
 
         RobotRepository.mNavigationManager.doUndockingEx()
-        RobotRepository.mNavigationManager.doRelativeRotationEx(180.0)
+        RobotRepository.mNavigationManager.doRotationEx(180.0)
         Log.d(TAG, "unDocking - end");
     }
 
@@ -221,7 +268,7 @@ class MainViewModel(
         emit(true)
     }
 
-    fun cruise_request() {
+    fun cruiseRequest() {
         cruise.launchIn(viewModelScope)
     }
 
@@ -254,14 +301,16 @@ class MainViewModel(
         _isSchedule.value = true
     }
 
+
     // Use GoogleCloud API
-    fun speak(_context: Context, text: String) {
+    fun ttsSpeak(_context: Context, text: String) {
         googleRepositiory.speak(_context, text)
     }
 
-    fun stop() {
+    fun ttsStop() {
         googleRepositiory.stop()
     }
+
 
     fun speechStop() {
         googleRepositiory.speechStop()
@@ -316,8 +365,20 @@ class MainViewModel(
         }.launchIn(viewModelScope)
     }
 
+    private fun checkNaviActionStatus(status: ActionStatus) {
+        when (status.motionStatus.geteStatus()) {
+            NaviActionInfo.MOTION_STATUS_AVODING_OBS,
+            NaviActionInfo.MOTION_STATUS_STOP_BY_OBS,
+            NaviActionInfo.MOTION_STATUS_PATH_FAIL_GOAL_OCCUPIED -> {
+                googleRepositiory.speak(
+                    MainActivity.mainContext(),
+                    "조심하세요. 제가 지나갈 수 있도록 옆으로 비켜주세요"
+                )
+            }
+        }
+    }
+
     private fun checkNaviError(data: NaviError) {
-        println("chackNaviError: $data")
         when (data.errorId) {
             ErrorReport._e_error_event.eERR_SLAM.ordinal -> {
                 println("slam Error 1")
@@ -355,6 +416,10 @@ class MainViewModel(
                 }
                 if (isSchedule.value == true) {
                     _isScheduleWait.value = true
+                }
+
+                if (isDocent1.value == true) {
+                    _isDocent1.value = false
                 }
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_MOVE_TO_GOAL_ACCEPTED -> {

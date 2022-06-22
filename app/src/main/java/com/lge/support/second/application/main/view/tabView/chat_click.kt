@@ -54,7 +54,7 @@ class chat_click : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        MainActivity.viewModel.stop()
+        MainActivity.viewModel.ttsStop()
         Log.d("tk_test", "click destroy")
     }
 }
