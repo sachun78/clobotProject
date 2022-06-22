@@ -5,6 +5,7 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -34,6 +35,8 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
         val mActivity = activity as MainActivity
         mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.GONE
         mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
+
+        MainActivity.subVideo.show()
 
         rootView.findViewById<Button>(R.id.move_docent_b1).setOnClickListener {
             var dialog = Dialog(mActivity)
@@ -67,11 +70,12 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
         }
 
         try {
-            val path =
-                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-            mediaPlayer!!.setDataSource(path)
+//            val path =
+//                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                var uri = Uri.parse("android.resource://" + "com.lge.support.second.application" + "/raw/docent_10_")
+            context?.let { mediaPlayer!!.setDataSource(it, uri) }
 
-            //mediaPlayer!!.setVolume(0F, 0F) //볼륨 제거
+                //mediaPlayer!!.setVolume(0F, 0F) //볼륨 제거
 
             mediaPlayer!!.setDisplay(surfaceHolder) // 화면 호출
             mediaPlayer!!.prepare() // 비디오 load 준비

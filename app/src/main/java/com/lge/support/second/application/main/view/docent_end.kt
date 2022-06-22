@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentManager
 import com.google.api.Distribution
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
+import org.apache.log4j.chainsaw.Main
 
 class docent_end : Fragment() {
 
@@ -30,9 +31,15 @@ class docent_end : Fragment() {
         // Inflate the layout for this fragment
         val rootView =  inflater.inflate(R.layout.fragment_docent_end, container, false)
 
+
         val mActivity = activity as MainActivity
 
         mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.GONE
+        MainActivity.subVideo.hide()
+
+        rootView.findViewById<Button>(R.id.end_b1).setOnClickListener {
+            fragmentManager?.popBackStack()
+        }
 
         rootView.findViewById<Button>(R.id.end_b4).setOnClickListener {
             //fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);

@@ -43,6 +43,7 @@ import com.lge.support.second.application.main.view.*
 import com.lge.support.second.application.main.view.answer_1
 import com.lge.support.second.application.main.view.docent.move_docent
 import com.lge.support.second.application.main.view.subView.SubScreen
+import com.lge.support.second.application.main.view.subView.back_video
 import com.lge.support.second.application.main.view.subView.standby
 import com.lge.support.second.application.main.view.template.*
 import java.io.InputStream
@@ -107,6 +108,7 @@ class MainActivity : AppCompatActivity() {
         const val REQUEST_IMAGE_CAPTURE = 2
 
         lateinit var subTest: SubScreen
+        lateinit var subVideo : back_video
 
         fun mainContext(): Context {
             return instance
@@ -170,6 +172,8 @@ class MainActivity : AppCompatActivity() {
 
             standby = standby(this, displays[0])
             standby.show()
+
+            subVideo = back_video(this, displays[1])
 
             head = HeadPresentation(this, displays[2])
             head.show()
