@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="1920px"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".main.view.docent.move_docent"
+    tools:context=".view.docent.move_docent"
     android:background="@color/black">
 
     <androidx.appcompat.widget.AppCompatButton

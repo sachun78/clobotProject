@@ -4,7 +4,7 @@
     android:layout_height="1710px"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/black"
-    tools:context="com.lge.support.second.application.main.view.theater_parking_bus">
+    tools:context="com.lge.support.second.application.view.theater_parking_bus">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/theater_tab"

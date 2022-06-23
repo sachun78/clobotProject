@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.lge.support.second.application.main.view.tabView.theater_bus">
+    tools:context="com.lge.support.second.application.view.tabView.theater_bus">
 
     <ImageView
         android:layout_gravity="top"

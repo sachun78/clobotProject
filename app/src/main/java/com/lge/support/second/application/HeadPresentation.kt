@@ -7,6 +7,7 @@ import android.view.Display
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.TextView
+import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.PresentationHeadBinding
 
 /**

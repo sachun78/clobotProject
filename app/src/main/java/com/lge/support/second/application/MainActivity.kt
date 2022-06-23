@@ -34,18 +34,18 @@ import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.databinding.ActivityMainBinding
-import com.lge.support.second.application.main.data.chatbot.ChatbotApi
-import com.lge.support.second.application.main.model.MainViewModel
-import com.lge.support.second.application.main.repository.ChatbotRepository
-import com.lge.support.second.application.main.repository.PageConfigRepo
-import com.lge.support.second.application.main.repository.RobotRepository
-import com.lge.support.second.application.main.view.*
-import com.lge.support.second.application.main.view.answer_1
-import com.lge.support.second.application.main.view.docent.move_docent
-import com.lge.support.second.application.main.view.subView.SubScreen
-import com.lge.support.second.application.main.view.subView.back_video
-import com.lge.support.second.application.main.view.subView.standby
-import com.lge.support.second.application.main.view.template.*
+import com.lge.support.second.application.data.chatbot.ChatbotApi
+import com.lge.support.second.application.model.MainViewModel
+import com.lge.support.second.application.repository.ChatbotRepository
+import com.lge.support.second.application.repository.PageConfigRepo
+import com.lge.support.second.application.repository.RobotRepository
+import com.lge.support.second.application.view.answer_1
+import com.lge.support.second.application.view.docent.move_docent
+import com.lge.support.second.application.view.subView.SubScreen
+import com.lge.support.second.application.view.subView.back_video
+import com.lge.support.second.application.view.subView.standby
+import com.lge.support.second.application.view.*
+import com.lge.support.second.application.view.template.*
 import java.io.InputStream
 import java.net.URL
 import java.util.*
@@ -498,7 +498,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        RobotPlatform.instacne.connect(this)
+        RobotPlatform.connect(this)
     }
 
     override fun onDestroy() {

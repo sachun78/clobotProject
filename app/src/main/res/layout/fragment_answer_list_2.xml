@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".main.view.template.answer_list_2">
+    tools:context=".view.template.answer_list_2">
 
 
 </FrameLayout>

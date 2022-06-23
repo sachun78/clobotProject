@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.lge.support.second.application.main.view.template.answer_1">
+    tools:context="com.lge.support.second.application.view.template.answer_1">
 
     <TextView
         android:id="@+id/answer1_t1"

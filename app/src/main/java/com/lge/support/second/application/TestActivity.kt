@@ -6,7 +6,7 @@ import android.util.Log
 import android.widget.*
 import com.lge.aip.engine.facedetection.LGFaceDetectionJNI
 import com.lge.robot.platform.util.poi.data.POI
-import com.lge.support.second.application.main.managers.robot.PoiDbManager
+import com.lge.support.second.application.managers.robot.PoiDbManager
 
 class TestActivity : AppCompatActivity() {
     private var mPOIs: ArrayList<POI>? = null

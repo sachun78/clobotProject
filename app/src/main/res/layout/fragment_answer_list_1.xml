@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".main.view.template.answer_list_1">
+    tools:context=".view.template.answer_list_1">
 
     <TextView
         android:id="@+id/answer_list1_t1"
