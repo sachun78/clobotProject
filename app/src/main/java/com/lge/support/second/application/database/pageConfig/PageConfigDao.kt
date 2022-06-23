@@ -4,21 +4,22 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PageConfigDao {
     @Query("SELECT * FROM page_config")
-    fun getAllPageConfig(): List<PageConfig>
+    fun getAllPageConfig(): Flow<List<PageConfig>>
 
     @Query("SELECT * FROM page_config WHERE id = :page_id")
-    fun getPageConfigById(page_id: Int): PageConfig
+    fun getPageConfigById(page_id: Int): Flow<PageConfig>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPageConfig(pageConf: PageConfig)
+    suspend fun insertPageConfig(pageConf: PageConfig)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllPageConfig(pageConfs: List<PageConfig>)
+    suspend fun insertAllPageConfig(pageConfs: List<PageConfig>)
 
     @Query("DELETE from page_config")
-    fun deleteAll()
+    suspend fun deleteAll()
 }

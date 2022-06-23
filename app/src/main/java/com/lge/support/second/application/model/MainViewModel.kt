@@ -17,6 +17,7 @@ import com.lge.support.second.application.data.chatbot.ChatRequest
 import com.lge.support.second.application.data.chatbot.ChatbotData
 import com.lge.support.second.application.data.robot.NaviError
 import com.lge.support.second.application.data.robot.NavigationMessage
+import com.lge.support.second.application.database.pageConfig.PageConfig
 import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.PageConfigRepo
 import com.lge.support.second.application.repository.RobotRepository
@@ -169,10 +170,18 @@ class MainViewModel(
         }
     }
 
-    // PageConfig
-    fun pageConfigUpdate() {
+    // page config
+    val pageConfgs = pageConfigRepo.getAllPageConfig().asLiveData()
+    fun currPageConfig(id: Int) = pageConfigRepo.getPageConfigById(id).asLiveData()
+    fun insertAllConfig(data: List<PageConfig>) {
+        Log.i("hjbae", "viewModel:  insertAllConfig ")
         viewModelScope.launch {
-            pageConfigRepo.doUpdata()
+            pageConfigRepo.insertAllPageConfig(data)
+        }
+    }
+    fun deleteAll() {
+        viewModelScope.launch {
+            pageConfigRepo.deleteAll()
         }
     }
 
