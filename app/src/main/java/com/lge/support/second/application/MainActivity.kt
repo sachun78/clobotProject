@@ -34,7 +34,7 @@ import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
-import com.lge.support.second.application.main.view.docent.test_docent
+import com.lge.support.second.application.view.docent.test_docent
 import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.PageConfigRepo

@@ -1,4 +1,4 @@
-package com.lge.support.second.application.main.view.docent
+package com.lge.support.second.application.view.docent
 
 import android.app.Dialog
 import android.content.Context
