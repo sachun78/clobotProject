@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "page_config")
-data class PageConfigEntity(
+data class PageConfig(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "page_id") val type: String,
     @ColumnInfo(name = "language") val soc: Int,

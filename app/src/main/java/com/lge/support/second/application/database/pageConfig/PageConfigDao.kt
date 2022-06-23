@@ -8,16 +8,16 @@ import androidx.room.Query
 @Dao
 interface PageConfigDao {
     @Query("SELECT * FROM page_config")
-    fun getAllPageConfig(): List<PageConfigEntity>
+    fun getAllPageConfig(): List<PageConfig>
 
     @Query("SELECT * FROM page_config WHERE id = :page_id")
-    fun getPageConfigById(page_id: Int): PageConfigEntity
+    fun getPageConfigById(page_id: Int): PageConfig
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertPageConfig(pageConf: PageConfigEntity)
+    fun insertPageConfig(pageConf: PageConfig)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAllPageConfig(pageConfs: List<PageConfigEntity>)
+    fun insertAllPageConfig(pageConfs: List<PageConfig>)
 
     @Query("DELETE from page_config")
     fun deleteAll()

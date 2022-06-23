@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
                 ChatbotRepository(chatbotService),
                 GoogleCloudRepository(googleService),
                 RobotRepository(),
-                PageConfigRepo()
+                (application as MainApplication).mPageConfigRepo
             )
         ).get(MainViewModel::class.java)
 

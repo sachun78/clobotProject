@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "tts_config")
-data class TTSConfigEntity(
+data class TTSConfig(
     @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "tts_id") val tts_id: String,
     @ColumnInfo(name = "page_conf_id") val page_conf_id: Int,

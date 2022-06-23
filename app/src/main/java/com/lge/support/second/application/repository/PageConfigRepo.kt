@@ -3,8 +3,10 @@ package com.lge.support.second.application.repository
 import android.util.Log
 import com.lge.support.second.application.MainActivity.Companion.mainContext
 import com.lge.support.second.application.database.CommonDatabase
-import com.lge.support.second.application.database.pageConfig.PageConfigEntity
-import com.lge.support.second.application.database.pageConfig.TTSConfigEntity
+import com.lge.support.second.application.database.pageConfig.PageConfig
+import com.lge.support.second.application.database.pageConfig.PageConfigDao
+import com.lge.support.second.application.database.pageConfig.TTSConfig
+import com.lge.support.second.application.database.pageConfig.TTSConfigDao
 import jxl.Sheet
 import jxl.Workbook
 import kotlinx.coroutines.Dispatchers
@@ -12,13 +14,14 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 import java.io.InputStream
 
-class PageConfigRepo() {
-    private var mCommonDatabase: CommonDatabase? = null
+class PageConfigRepo(
+    private val pageConfigDao: PageConfigDao,
+    private val ttsConfigDao: TTSConfigDao
+) {
     private var mPageConfStream: InputStream? = null
     private var mWorkBook: Workbook? = null
 
     init {
-        mCommonDatabase = CommonDatabase.getInstance(mainContext())
         mPageConfStream = mainContext().resources.assets.open("page_config_info.xls")
         mWorkBook = Workbook.getWorkbook(mPageConfStream)
     }
@@ -42,8 +45,8 @@ class PageConfigRepo() {
             return if (version > 0) {
                 withContext(Dispatchers.IO) {
                     Log.i(TAG, "deleteAll !!!!");
-                    mCommonDatabase?.pageConfigDao()?.deleteAll()
-                    mCommonDatabase?.ttsConfigDao()?.deleteAll()
+                    pageConfigDao.deleteAll()
+                    ttsConfigDao.deleteAll()
                 }
                 true
             } else {
@@ -61,14 +64,14 @@ class PageConfigRepo() {
             var colTotal = sheet?.columns ?: 0
             var rowTotal = sheet?.rows ?: 0
             val rowStartIdx = 1
-            var pageConfs: MutableList<PageConfigEntity> = mutableListOf<PageConfigEntity>()
+            var pageConfs: MutableList<PageConfig> = mutableListOf<PageConfig>()
 
             Log.d(TAG,"coltotal: $colTotal, rowTotal: $rowTotal")
 
             for (idx in rowStartIdx until rowTotal) {
                 var rowContents = sheet?.getRow(idx) ?: arrayOf()
                 if (rowContents.size > 0) {
-                    var pageConf: PageConfigEntity = PageConfigEntity(
+                    var pageConf: PageConfig = PageConfig(
                         rowContents[0].contents.toInt(),
                         rowContents[1].contents.toString(),
                         rowContents[2].contents.toInt(),
@@ -85,7 +88,7 @@ class PageConfigRepo() {
             }
             Log.d(TAG, "data size: ${pageConfs.size}")
             withContext(Dispatchers.IO) {
-                mCommonDatabase?.pageConfigDao()?.insertAllPageConfig(pageConfs)
+                pageConfigDao.insertAllPageConfig(pageConfs)
             }
         } catch (e: IOException) {
             e.printStackTrace()
@@ -101,12 +104,12 @@ class PageConfigRepo() {
             var colTotal = sheet?.columns ?: 0
             var rowTotal = sheet?.rows ?: 0
             val rowStartIdx = 1
-            var ttsConfs: MutableList<TTSConfigEntity> = mutableListOf<TTSConfigEntity>()
+            var ttsConfs: MutableList<TTSConfig> = mutableListOf<TTSConfig>()
 
             for (idx in rowStartIdx until rowTotal) {
                 var rowContents = sheet?.getRow(idx) ?: arrayOf()
                 if (rowContents.size > 0) {
-                    var ttsConf: TTSConfigEntity = TTSConfigEntity(
+                    var ttsConf: TTSConfig = TTSConfig(
                         rowContents[0].contents.toInt(),
                         rowContents[1].contents.toString(),
                         rowContents[2].contents.toInt(),
@@ -119,7 +122,7 @@ class PageConfigRepo() {
                 }
             }
             withContext(Dispatchers.IO) {
-                mCommonDatabase?.ttsConfigDao()?.insertAllTTSConfig(ttsConfs)
+                ttsConfigDao.insertAllTTSConfig(ttsConfs)
             }
         } catch (e: IOException) {
             e.printStackTrace()
