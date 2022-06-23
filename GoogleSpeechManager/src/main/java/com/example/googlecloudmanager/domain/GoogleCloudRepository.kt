@@ -6,8 +6,8 @@ import android.media.MediaPlayer
 import android.media.ToneGenerator
 import android.util.Log
 import com.example.googlecloudmanager.common.Language
-import com.example.googlecloudmanager.common.util.AudioEmitter
 import com.example.googlecloudmanager.common.Resource
+import com.example.googlecloudmanager.common.util.AudioEmitter
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.data.GoogleCloudApi.Companion.translateClient
 import com.google.api.gax.rpc.ClientStream
@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.callbackFlow
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
-import java.lang.Exception
 import java.util.concurrent.atomic.AtomicBoolean
 
 class GoogleCloudRepository constructor(
@@ -123,7 +122,7 @@ class GoogleCloudRepository constructor(
 
             requestStream = api.getSpeechClient().streamingRecognizeCallable().splitCall(callback)
 
-            if (ischatfirst == false) {
+            if (!ischatfirst) {
                 sendBlocking(Resource.Loading("1"))
                 delay(1000)
                 sendBlocking(Resource.Loading("2"))
@@ -152,10 +151,14 @@ class GoogleCloudRepository constructor(
                 }
                 requestStream.send(builder.build())
             }
+            
             // 8초 뒤 입력 종료 (3초 뒤 시작 , 5초 동안 음성 인식)
             delay(5000)
+            if (isRecoding) {
+                // recoding 중인 경우에만 speech_text Complete 요청
+                sendBlocking(Resource.Complete(speech_text))
+            }
             speechStop()
-            sendBlocking(Resource.Complete(speech_text))
             close()
         } catch (e: IOException) {
             sendBlocking(Resource.Error("Couldn't reach server. Check your internet connection."))

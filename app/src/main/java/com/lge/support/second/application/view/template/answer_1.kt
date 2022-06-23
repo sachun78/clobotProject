@@ -1,10 +1,10 @@
 package com.lge.support.second.application.view.template
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.databinding.FragmentAnswer1Binding
 
@@ -32,6 +32,9 @@ class answer_1 : Fragment() {
         MainActivity.viewModel.queryResult.observe(viewLifecycleOwner) {
             /////////fragment??? this => getActivity().getApplicationContext()
             //GoogleTTS.speak(getActivity()?.getApplicationContext(), it.data.result.fulfillment.speech[0])
+            if (it == null) {
+                return@observe
+            }
             changeText(it.data.in_str)
             changeText2(it.data.result.fulfillment.speech[0])
             //Toast.makeText(activity as MainActivity, page_id, Toast.LENGTH_SHORT).show()
@@ -43,9 +46,10 @@ class answer_1 : Fragment() {
         MainActivity.viewModel.ttsStop()
     }
 
-    fun changeText(text: String?){
+    fun changeText(text: String?) {
         binding.answer1T1.setText(text)
     }
+
     fun changeText2(text: String?) {
         binding.answer1T2.setText(text)
     }

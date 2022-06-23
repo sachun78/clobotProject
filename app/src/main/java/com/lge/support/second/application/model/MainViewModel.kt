@@ -1,23 +1,21 @@
 package com.lge.support.second.application.model
 
+
 import android.content.Context
 import android.util.Log
 import android.widget.TextView
 import androidx.lifecycle.*
 import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
-import com.example.googlecloudmanager.common.Resource as R2
 import com.lge.robot.platform.EventIndex
 import com.lge.robot.platform.data.*
 import com.lge.robot.platform.navigation.NavigationMessageType
 import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
-import com.lge.support.second.application.data.robot.NaviError
-
-
 import com.lge.support.second.application.data.chatbot.ChatRequest
 import com.lge.support.second.application.data.chatbot.ChatbotData
+import com.lge.support.second.application.data.robot.NaviError
 import com.lge.support.second.application.data.robot.NavigationMessage
 import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.PageConfigRepo
@@ -25,10 +23,14 @@ import com.lge.support.second.application.repository.RobotRepository
 import com.lge.support.second.application.util.Resource
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.random.Random
+import com.example.googlecloudmanager.common.Resource as R2
 
 class MainViewModel(
     private val repository: ChatbotRepository,
@@ -191,10 +193,10 @@ class MainViewModel(
                     _queryResult.value = result.data
                 }
                 is Resource.Error -> {
-                    _queryResult.value = null
+//                    _queryResult.value = null
                 }
                 is Resource.Loading -> {
-                    _queryResult.value = null
+//                    _queryResult.value = null
                 }
             }
         }.launchIn(viewModelScope)
@@ -330,22 +332,16 @@ class MainViewModel(
                     Log.i(TAG, "onSuccess")
                     _speechText.value = result.data
                     var translated: String
-//                    GoogleTranslateV3.translate("Docent")
 
                     // TODO(translate result data when language is not KOREAN)
                     speechText.value?.let {
-//                        if (it == "") {
-//                            // retry 3회까지
-//                            return@onEach speechResponse()
-//                        }
+
                         getResponse(it)
                     }
 
                     if (googleRepositiory.language != Language.Korean) {
                         translated = googleRepositiory.translate(speechText.value!!)
                         getResponse(translated)
-                    } else {
-
                     }
                 }
                 is R2.Loading -> {

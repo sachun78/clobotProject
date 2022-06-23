@@ -16,7 +16,6 @@ import android.hardware.display.DisplayManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
 import android.view.Display
@@ -33,18 +32,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
-import com.lge.support.second.application.databinding.ActivityMainBinding
 import com.lge.support.second.application.data.chatbot.ChatbotApi
+import com.lge.support.second.application.databinding.ActivityMainBinding
+import com.lge.support.second.application.main.view.docent.test_docent
 import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.PageConfigRepo
 import com.lge.support.second.application.repository.RobotRepository
+import com.lge.support.second.application.view.*
 import com.lge.support.second.application.view.answer_1
 import com.lge.support.second.application.view.docent.move_docent
 import com.lge.support.second.application.view.subView.SubScreen
 import com.lge.support.second.application.view.subView.back_video
 import com.lge.support.second.application.view.subView.standby
-import com.lge.support.second.application.view.*
 import com.lge.support.second.application.view.template.*
 import java.io.InputStream
 import java.net.URL
@@ -108,7 +108,7 @@ class MainActivity : AppCompatActivity() {
         const val REQUEST_IMAGE_CAPTURE = 2
 
         lateinit var subTest: SubScreen
-        lateinit var subVideo : back_video
+        lateinit var subVideo: back_video
 
         fun mainContext(): Context {
             return instance
@@ -199,11 +199,7 @@ class MainActivity : AppCompatActivity() {
 //                .addToBackStack(null).commit()
 //
 //            subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
-            Intent(MediaStore.ACTION_IMAGE_CAPTURE).also { takePictureIntent ->
-                takePictureIntent.resolveActivity(packageManager)?.also {
-                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
-                }
-            }
+            changeFragment("test-docent")
         }
         backBtn.setOnClickListener {
             supportFragmentManager.popBackStack()
@@ -467,6 +463,10 @@ class MainActivity : AppCompatActivity() {
 
             "chat-fail" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat_fail())
+                    .addToBackStack(null).commit()
+            }
+            "test-docent" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, test_docent())
                     .addToBackStack(null).commit()
             }
         }
