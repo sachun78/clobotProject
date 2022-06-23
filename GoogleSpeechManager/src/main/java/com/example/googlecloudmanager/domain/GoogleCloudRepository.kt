@@ -89,6 +89,7 @@ class GoogleCloudRepository constructor(
         if (isRecoding) {
             //TODO(return after send)
             sendBlocking(Resource.Error("Already Using Recoding Resource. please try later!"))
+            return@callbackFlow
         }
         try {
             val isFirstRequest = AtomicBoolean(true)
@@ -123,12 +124,13 @@ class GoogleCloudRepository constructor(
             requestStream = api.getSpeechClient().streamingRecognizeCallable().splitCall(callback)
 
             if (!ischatfirst) {
-                sendBlocking(Resource.Loading("1"))
+                sendBlocking(Resource.Loading("3"))
                 delay(1000)
                 sendBlocking(Resource.Loading("2"))
                 delay(1000)
-                sendBlocking(Resource.Loading("3"))
+                sendBlocking(Resource.Loading("1"))
                 delay(1000)
+                sendBlocking(Resource.Loading("END"))
             }
 
             val tone = ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
@@ -151,7 +153,7 @@ class GoogleCloudRepository constructor(
                 }
                 requestStream.send(builder.build())
             }
-            
+
             // 8초 뒤 입력 종료 (3초 뒤 시작 , 5초 동안 음성 인식)
             delay(5000)
             if (isRecoding) {

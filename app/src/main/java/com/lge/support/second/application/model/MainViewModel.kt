@@ -346,10 +346,10 @@ class MainViewModel(
                 }
                 is R2.Loading -> {
                     Log.i(TAG, "onLoading : ${result.data}")
-                    // _speechText.value = result.data
+                    _speechText.value = result.data
                 }
                 is R2.Listen -> {
-                    Log.i(TAG, "onListen")
+                    Log.i(TAG, "onListen $result.data")
                     _speechText.value = result.data
                 }
                 is R2.Error -> {
