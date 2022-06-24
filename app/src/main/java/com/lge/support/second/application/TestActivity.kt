@@ -1,9 +1,9 @@
 package com.lge.support.second.application
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.lge.aip.engine.facedetection.LGFaceDetectionJNI
 import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.managers.robot.PoiDbManager
@@ -14,7 +14,6 @@ class TestActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
-//        mInitPos = PoiDbManager(this).getInitPosition()
         mPOIs = PoiDbManager(this).getAllPoi()
 
         var listView = findViewById<ListView>(R.id.listview)
@@ -24,11 +23,11 @@ class TestActivity : AppCompatActivity() {
 
         fd.create()
         findViewById<Button>(R.id.btn_undocking).setOnClickListener {
-            MainActivity.viewModel.undockingRequest()
+            MainActivity.robotViewModel.undockingRequest()
         }
 
         findViewById<Button>(R.id.btn_docking).setOnClickListener {
-            MainActivity.viewModel.dockingRequest()
+            MainActivity.robotViewModel.dockingRequest()
         }
 
         findViewById<Button>(R.id.btn_pois).setOnClickListener {
@@ -38,15 +37,15 @@ class TestActivity : AppCompatActivity() {
         }
 
         findViewById<Button>(R.id.btn_cruise).setOnClickListener {
-            MainActivity.viewModel.cruiseRequest()
+            MainActivity.robotViewModel.cruiseRequest()
         }
 
         listView.setOnItemClickListener { parent, view, pos, id ->
-            mPOIs?.let { MainActivity.viewModel.move(it.get(id.toInt())) }
+            mPOIs?.let { MainActivity.robotViewModel.move(it.get(id.toInt())) }
             Toast.makeText(this, "pos:${pos}, id:${id}", Toast.LENGTH_SHORT).show()
         }
 
-        MainActivity.viewModel.isMoving.observe(this) {
+        MainActivity.robotViewModel.isMoving.observe(this) {
             if (it == true) {
                 MainActivity.subTest.findViewById<TextView>(R.id.sub_textView)
                     .setText("MOVING PAGE")
@@ -56,7 +55,7 @@ class TestActivity : AppCompatActivity() {
             }
         }
 
-        MainActivity.viewModel.isDocking.observe(this) {
+        MainActivity.robotViewModel.isDocking.observe(this) {
             if (it == true) {
                 MainActivity.subTest.findViewById<TextView>(R.id.sub_textView)
                     .setText("Docking...")
@@ -68,7 +67,7 @@ class TestActivity : AppCompatActivity() {
 
         MainActivity.viewModel.queryResult.observe(this) {
             if (it != null) {
-                MainActivity.viewModel.ttsSpeak(this, it.data.result.fulfillment.speech[0])
+                MainActivity.viewModel.ttsSpeak(this, it.speech[0])
             }
         }
 

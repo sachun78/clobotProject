@@ -2,12 +2,12 @@ package com.lge.support.second.application.view
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import androidx.fragment.app.Fragment
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentMainBinding
@@ -20,7 +20,7 @@ class main : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View ? {
+    ): View? {
         _binding = FragmentMainBinding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
@@ -47,7 +47,7 @@ class main : Fragment() {
 
         binding.mainI4.setOnClickListener {
 //            val mqttInstance: MessageConnecter = MessageConnecter()
-            MainActivity.viewModel.docent1Request(mActivity)
+            MainActivity.robotViewModel.docent1Request(mActivity)
 //            mActivity.changeFragment("docent-end")
         }
 

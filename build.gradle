@@ -26,6 +26,7 @@ buildscript {
         rxkotlinVersion = '2.4.0'
         rxandroidVersion = '2.0.2'
         filamentVersion = '1.9.9'
+        workmanager_version = '2.7.0'
     }
 
     repositories {

@@ -1,10 +1,10 @@
 package com.lge.support.second.application.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.databinding.FragmentAnswer1Binding
 
@@ -25,8 +25,8 @@ class answer_1 : Fragment() {
                 return@observe
             }
             /////////fragment??? this => getActivity().getApplicationContext()
-            changeText(it.data.in_str)
-            changeText2(it.data.result.fulfillment.speech[0])
+            changeText(it.in_str)
+            changeText2(it.speech[0])
             //Toast.makeText(activity as MainActivity, page_id, Toast.LENGTH_SHORT).show()
         }
 

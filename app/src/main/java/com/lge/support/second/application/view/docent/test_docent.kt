@@ -18,12 +18,13 @@ import com.lge.support.second.application.R
 import java.nio.ByteBuffer
 
 class test_docent : Fragment(), SurfaceHolder.Callback {
-    var TAG = "MOVE_DOCENT"
     private lateinit var surfaceView: SurfaceView
     private lateinit var modelViewer: ModelViewer
     private lateinit var choreographer: Choreographer
 
     companion object {
+        private const val TAG = "MOVE_DOCENT"
+
         init {
             Utils.init()
         }
@@ -47,7 +48,7 @@ class test_docent : Fragment(), SurfaceHolder.Callback {
 
             dialog.findViewById<Button>(R.id.yes_btn).setOnClickListener {
                 dialog.hide()
-                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                parentFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             }
             dialog.findViewById<Button>(R.id.no_btn).setOnClickListener {
                 dialog.hide()

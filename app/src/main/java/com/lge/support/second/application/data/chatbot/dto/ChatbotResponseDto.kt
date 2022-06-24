@@ -8,11 +8,15 @@ data class ChatbotResponseDto(
     val resCode: Int,
 ) {
     fun serialize(): ChatbotData {
-        println(this)
-
         return ChatbotData(
-            data = data,
-            resCode = resCode
+            template_id = data.result.fulfillment.template_id,
+            response_status = data.result.fulfillment.response_status,
+            response_type = data.result.fulfillment.response_type,
+            emotion = data.result.fulfillment.emotion,
+            messages = data.result.fulfillment.messages,
+            speech = data.result.fulfillment.speech,
+            customCode = data.result.fulfillment.custom_code,
+            in_str = data.in_str
         )
     }
 }

@@ -13,14 +13,15 @@ import com.lge.robot.platform.power.IPowerModeListener
 import com.lge.robot.platform.power.IPowerStateListener
 import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.MainActivity.Companion.mainContext
+import com.lge.support.second.application.data.robot.NaviError
 import com.lge.support.second.application.data.robot.NavigationMessage
-
 import com.lge.support.second.application.managers.robot.NavigationManagerInstance
-import com.lge.support.second.application.managers.robot.PowerManagerInstance
 import com.lge.support.second.application.managers.robot.PoiDbManager
+import com.lge.support.second.application.managers.robot.PowerManagerInstance
+import com.lge.support.second.application.util.LEDState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
-import kotlinx.coroutines.channels.sendBlocking
+import kotlinx.coroutines.channels.trySendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
@@ -40,8 +41,8 @@ class RobotRepository {
     @OptIn(ExperimentalCoroutinesApi::class)
     val sensorManagerCallback: Flow<Any?> = callbackFlow {
         val sensorListener = object : SensorResultListener {
-            override fun onError(p0: Int, p1: String?) {
-                Log.e(TAG, "RobotError: $p0, $p1");
+            override fun onError(errorCode: Int, errorMsg: String?) {
+                Log.e(TAG, "sensorManagerCallback: RobotError: $errorCode, $errorMsg");
             }
 
             override fun onStatus(
@@ -65,15 +66,14 @@ class RobotRepository {
                             val eCode =
                                 SensorStatus.EmergencyStatusCode.getStatus(sensorStatus.statusCode)
                             when (eCode) {
-                                SensorStatus.EmergencyStatusCode.NOT_DEFINED -> {}
                                 SensorStatus.EmergencyStatusCode.EMERGENCY_PRESS -> {
-                                    sendBlocking(SensorStatus.EmergencyStatusCode.EMERGENCY_PRESS)
+                                    trySendBlocking(SensorStatus.EmergencyStatusCode.EMERGENCY_PRESS)
                                 }
                                 SensorStatus.EmergencyStatusCode.EMERGENCY_RELEASE -> {
-                                    sendBlocking(SensorStatus.EmergencyStatusCode.EMERGENCY_RELEASE)
+                                    trySendBlocking(SensorStatus.EmergencyStatusCode.EMERGENCY_RELEASE)
                                 }
                                 SensorStatus.EmergencyStatusCode.NORMAL -> {
-                                    sendBlocking(SensorStatus.EmergencyStatusCode.NORMAL)
+                                    trySendBlocking(SensorStatus.EmergencyStatusCode.NORMAL)
                                 }
                             }
                         }
@@ -135,13 +135,13 @@ class RobotRepository {
             override fun onPowerModeChanged(mode: Int) {
                 Log.d(TAG, "power mode chang done $mode");
                 if (mode != -1 || mode != -2) {
-                    sendBlocking(mode)
+                    trySendBlocking(mode)
                 }
             }
 
             override fun onReturnPowerMode(currentMode: Int) {
                 Log.d(TAG, "current power mode, $currentMode");
-                sendBlocking(currentMode)
+                trySendBlocking(currentMode)
             }
         }
         var stateListener = IPowerStateListener { TODO("Not yet implemented") }
@@ -160,12 +160,14 @@ class RobotRepository {
                 val batteryData = battery as Battery
 
                 Log.i(TAG, "onBatteryEvent: $batteryData");
-                sendBlocking(batteryData)
+                trySendBlocking(batteryData)
             }
 
-            override fun onError(error: RobotError?) {
-                Log.e(TAG, "RobotError: ${error.toString()}");
-                sendBlocking(error)
+            override fun onError(error: RobotError) {
+                Log.e(TAG, "RobotError: $error");
+
+                error.description
+                trySendBlocking(error)
             }
 
             override fun onComponentEvent(p0: MonitoringEventListener.ComponentType?, p1: String?) {
@@ -191,7 +193,7 @@ class RobotRepository {
                         MonitoringResultListener.MonitoringType.BATTERY_STATUS -> {
                             //when you call getBatteryStatus API
                             val batteryData = data as Battery
-                            sendBlocking(batteryData)
+                            trySendBlocking(batteryData)
                         }
                         else -> {
                             println("else monitoring result!")
@@ -212,25 +214,25 @@ class RobotRepository {
             override fun onActionStatusResult(actionStatus: ActionStatus?) {
                 super.onActionStatusResult(actionStatus)
                 Log.d(TAG, "$actionStatus")
-                sendBlocking(actionStatus)
+                trySendBlocking(actionStatus)
             }
 
             override fun onNaviActionInfo(naviActionInfo: NaviActionInfo?) {
                 super.onNaviActionInfo(naviActionInfo)
                 Log.d(TAG, "onNaviActionInfo $naviActionInfo")
-                sendBlocking(naviActionInfo)
+                trySendBlocking(naviActionInfo)
             }
 
             override fun onSLAM3DResult(slamPos: SLAM3DPos?) {
                 super.onSLAM3DResult(slamPos)
 //                Log.d(TAG, "onSLAM3DResult $slamPos")
-                sendBlocking(slamPos)
+                trySendBlocking(slamPos)
             }
 
             override fun onNaviStatus2Result(naviStatus: NaviStatus2?) {
                 super.onNaviStatus2Result(naviStatus)
                 Log.d(TAG, "onStatus2Result $naviStatus")
-                sendBlocking(naviStatus)
+                trySendBlocking(naviStatus)
             }
 
             override fun onNavigationEvent(
@@ -239,20 +241,20 @@ class RobotRepository {
             ) {
                 super.onNavigationEvent(navigationMessageType, actionStatus)
                 Log.d(TAG, "onNavigationEvent $navigationMessageType status: $actionStatus")
-                sendBlocking(NavigationMessage(navigationMessageType))
+                trySendBlocking(NavigationMessage(navigationMessageType))
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {
                 super.onError(errorCode, errorMsg)
                 Log.e(TAG, "NaviError $errorMsg")
-                sendBlocking(errorMsg)
+                trySendBlocking(NaviError(errorCode, errorMsg ?: ""))
             }
 
             override fun onAccept(navigationMessageType: Int, naviAcceptInfo: NaviAcceptInfo?) {
                 super.onAccept(navigationMessageType, naviAcceptInfo)
                 val msg = NavigationMessage(navigationMessageType)
                 Log.d(TAG, "onAccept $msg")
-                sendBlocking(msg)
+                trySendBlocking(msg)
             }
         }
 
@@ -277,13 +279,31 @@ class RobotRepository {
         )
     }
 
-    private fun setLed() {
-        mLedManager.selectColorWithMode(255, 1, 10, 5, 180)
+    private fun setLed(state: LEDState = LEDState.NORMAL) {
+        // location: FRONT : 0, REAR : 1, LEFT : 2, RIGHT :  3 ,  ALL :255
+        // mode : ALWAYS_ON : 0, BLINK : 1, GRADATION : 2
+
+        /* color
+         RED : 1, GREEN : 2, BLUE : 3 , YELLOW : 4
+         CYAN : 5 , MAGENTA : 6, GRAY : 7, WHITE : 8
+         */
+
+        when (state) {
+            LEDState.NORMAL -> {
+                mLedManager.selectColorWithMode(255, 0, 0, 2, 180)
+            }
+            LEDState.EMERGENCY -> {
+                mLedManager.selectColorWithMode(255, 1, 3, 1, 180)
+            }
+            LEDState.MOVING -> {
+                mLedManager.selectColorWithMode(255, 2, 10, 4, 180)
+            }
+        }
     }
 
     init {
         mMonitoringManager.batteryStatus
         mPowerManager.robotActivation()
-        setLed()
+        setLed(LEDState.NORMAL)
     }
 }

@@ -35,8 +35,8 @@ class answer_1 : Fragment() {
             if (it == null) {
                 return@observe
             }
-            changeText(it.data.in_str)
-            changeText2(it.data.result.fulfillment.speech[0])
+            changeText(it.in_str)
+            changeText2(it.speech[0])
             //Toast.makeText(activity as MainActivity, page_id, Toast.LENGTH_SHORT).show()
         }
     }

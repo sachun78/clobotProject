@@ -6,7 +6,6 @@ import com.lge.robot.platform.LGRobotConnListener
 import com.lge.robot.platform.LGRobotManager
 
 object RobotPlatform {
-    val instacne = RobotPlatform
     private var mLgRobotPlatform: LGRobotManager = LGRobotManager.getInstance()
     private var mIsConnected: Boolean = false
 
