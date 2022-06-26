@@ -10,7 +10,7 @@ import com.lge.support.second.application.managers.robot.PoiDbManager
 
 class TestActivity : AppCompatActivity() {
     private var mPOIs: ArrayList<POI>? = null
-    private var fd: LGFaceDetectionJNI = LGFaceDetectionJNI()
+    //private var fd: LGFaceDetectionJNI = LGFaceDetectionJNI()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_test)
@@ -21,7 +21,7 @@ class TestActivity : AppCompatActivity() {
         var adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
         listView.adapter = adapter
 
-        fd.create()
+        //fd.create()
         findViewById<Button>(R.id.btn_undocking).setOnClickListener {
             MainActivity.robotViewModel.undockingRequest()
         }

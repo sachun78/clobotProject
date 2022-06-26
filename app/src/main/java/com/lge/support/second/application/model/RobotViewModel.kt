@@ -211,8 +211,12 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
         _isDocking.value = true
 
         // 1. Move to Goal POI Goal
-        pois?.get(3)?.let { it1 -> robotRepository.moveWithPoi(it1) }
-        emit(true)
+        if (pois != null && pois.size > 0) {
+            pois[3].let { it1 -> robotRepository.moveWithPoi(it1) }
+            emit(true)
+        } else {
+            emit(false)
+        }
     }
 
     private val cruise: Flow<Boolean> = flow {
@@ -229,9 +233,11 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
                 }
 
                 // movo to random poi
-                pois?.get(Random.nextInt(7))?.let { it1 ->
-                    robotRepository.moveWithPoi(it1)
-                    cruiseCount++
+                if (pois != null && pois.size > 0) {
+                    pois[Random.nextInt(7)].let { it1 ->
+                        robotRepository.moveWithPoi(it1)
+                        cruiseCount++
+                    }
                 }
 
                 if (cruiseCount == 5) {

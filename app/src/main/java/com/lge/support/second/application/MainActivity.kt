@@ -36,6 +36,7 @@ import com.lge.support.second.application.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
 import com.lge.support.second.application.view.docent.test_docent
 import com.lge.support.second.application.model.MainViewModel
+import com.lge.support.second.application.model.RobotViewModel
 import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.PageConfigRepo
 import com.lge.support.second.application.repository.RobotRepository
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         //lateinit var tkTestViewModel: TkTestViewModel
 
         lateinit var viewModel: MainViewModel
+        lateinit var robotViewModel: RobotViewModel
 
         //////////////////chatbot 질의->화면 바꿔주기 위한 용도/////
         lateinit var page_id: String
@@ -159,10 +161,16 @@ class MainActivity : AppCompatActivity() {
             MainViewModel.Factory(
                 ChatbotRepository(chatbotService),
                 GoogleCloudRepository(googleService),
-                RobotRepository(),
                 (application as MainApplication).mPageConfigRepo
             )
         ).get(MainViewModel::class.java)
+
+        robotViewModel = ViewModelProvider(
+            this@MainActivity,
+            RobotViewModel.Factory(
+                (application as MainApplication).mRobotRepo
+            )
+        ).get(RobotViewModel::class.java)
 
         displays = displayManager.displays
 
@@ -258,7 +266,7 @@ class MainActivity : AppCompatActivity() {
         ////////////main-Button Listener end////////////
 
         // Robot Service Observer
-        viewModel.emergency.observe(this) {
+        robotViewModel.emergency.observe(this) {
             if (it == true) {
                 println("emergency")
                 subTest.findViewById<TextView>(R.id.sub_textView).text = "emergency, enabled"
@@ -277,14 +285,14 @@ class MainActivity : AppCompatActivity() {
             if (it == null) {
                 return@observe
             }
-            viewModel.ttsSpeak(this, it.data.result.fulfillment.speech[0])
-            head.changeText(it.data.result.fulfillment.speech[0] + " (" + it.data.result.fulfillment.custom_code.head + ")")
+            viewModel.ttsSpeak(this, it.speech[0])
+            head.changeText(it.speech[0] + " (" + it.customCode.head + ")")
 //            it.data.result.fulfillment.messages.forEach { message ->
 //                Log.d("ViewModel Observe", message.image.toString())
 //            }
-            page_id = it.data.result.fulfillment.custom_code.page_id
-            tpl_id = it.data.result.fulfillment.template_id
-            r_status = it.data.result.fulfillment.response_status
+            page_id = it.customCode.page_id
+            tpl_id = it.template_id
+            r_status = it.response_status
 
             /////////////챗봇 질의 실패 횟수/////////
             if (r_status == "not_match") {
@@ -301,26 +309,26 @@ class MainActivity : AppCompatActivity() {
             Log.d("tk_test", "response_status is : " + r_status)
 
             ////////////////url 없는 경우 error => 있을 때만 받아옴/////////
-            if (!it.data.result.fulfillment.messages.isNullOrEmpty()) {
-                if (!it.data.result.fulfillment.messages[0].image.isNullOrEmpty()) {
-                    messageSize = it.data.result.fulfillment.messages.size
+            if (!it.messages.isNullOrEmpty()) {
+                if (!it.messages[0].image.isNullOrEmpty()) {
+                    messageSize = it.messages.size
                     Log.d("tk_test", "message list size is " + messageSize)
 
-                    if (it.data.result.fulfillment.messages[0].image[0].url.substring(0 until 5) == "https") {
+                    if (it.messages[0].image[0].url.substring(0 until 5) == "https") {
                         urlArray.clear()
                         BitmapArray.clear()
 
                         Log.i(
                             "tk_test",
-                            "img 1 : " + it.data.result.fulfillment.messages[0].image[0].url
+                            "img 1 : " + it.messages[0].image[0].url
                         )
                         Log.i(
                             "tk_test",
-                            "img 2 : " + it.data.result.fulfillment.messages[0].image[1].url
+                            "img 2 : " + it.messages[0].image[1].url
                         )
 
                         for (i in 0..messageSize) {
-                            url = it.data.result.fulfillment.messages[0].image[i].url
+                            url = it.messages[0].image[i].url
 //                            Log.d("tk_test", "img type is uri " + url) //맞는 값 얻어왔는지 확인
 
                             urlArray.add(url) ///////string으로 들어가있음.
@@ -331,8 +339,8 @@ class MainActivity : AppCompatActivity() {
                         BitmapArray.clear()
 
                         for (i in 0..messageSize - 1) {
-                            url = it.data.result.fulfillment.messages[0].image[i].url.substring(
-                                it.data.result.fulfillment.messages[0].image[0].url.indexOf(",") + 1
+                            url = it.messages[0].image[i].url.substring(
+                                it.messages[0].image[0].url.indexOf(",") + 1
                             )
 
                             Log.d("tk_test", "url is " + url)
@@ -350,8 +358,8 @@ class MainActivity : AppCompatActivity() {
             }
             ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
 
-            inStr = it.data.in_str
-            speechStr = it.data.result.fulfillment.speech[0]
+            inStr = it.in_str
+            speechStr = it.speech[0]
 
             ///////////////////chatbot질의 페이지에서만 page바꿔줌. 나머지는 발화만
             if (chatPage == true) {
