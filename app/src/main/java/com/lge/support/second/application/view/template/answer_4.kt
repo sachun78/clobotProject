@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,6 +37,9 @@ class answer_4 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        val mActivity = activity as MainActivity
+        mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
+
         return inflater.inflate(R.layout.fragment_answer_4, container, false)
     }
 

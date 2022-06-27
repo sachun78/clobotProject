@@ -1,9 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.template.answer_list_2">
+    android:orientation="vertical"
+    tools:context=".view.template.answer_list_2"
+    android:background="@color/black">
 
+    <TextView
+        android:id="@+id/answer_list1_t1"
+        android:layout_width="980px"
+        android:layout_height="96px"
+        android:layout_gravity="center_horizontal"
+        android:text="STT" />
 
-</FrameLayout>
+    <TextView
+        android:id="@+id/answer_list1_t2"
+        android:layout_width="match_parent"
+        android:layout_height="230px"
+        android:layout_marginTop="26px"
+        android:lineSpacingMultiplier="1.2"
+        android:maxLength="100"
+        android:text="로봇 speech(100자 제한)"
+        android:textColor="@color/white" />
+
+    <GridView
+        android:layout_gravity="center"
+        android:id="@+id/list2_gridview"
+        android:layout_width="1000px"
+        android:layout_height="978px"
+        android:numColumns="3" />
+</LinearLayout>

@@ -1,10 +1,10 @@
 package com.lge.support.second.application.view.template
 
 import android.os.Bundle
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.databinding.FragmentAnswer2Binding
 
@@ -12,6 +12,10 @@ class answer_2 : Fragment() {
 
     private var _binding: FragmentAnswer2Binding? = null
     private val binding get() = _binding!!
+
+    val questionStr = MainActivity.inStr
+    val answerStr = MainActivity.speechStr
+    val descriptStr = MainActivity.descriptStr
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -25,14 +29,10 @@ class answer_2 : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        MainActivity.viewModel.queryResult.observe(viewLifecycleOwner) {
-            if (it == null) {
-                return@observe
-            }
-            changeText(it.in_str)
-            changeText2(it.speech[0])
-            changeText3(it.messages[0].description[0].text)
-        }
+
+        binding.answer2T1.setText(questionStr)
+        binding.answer2T2.setText(answerStr)
+        binding.answer2T3.setText(descriptStr)
     }
 
     override fun onDestroyView() {
@@ -40,15 +40,4 @@ class answer_2 : Fragment() {
         MainActivity.viewModel.ttsStop()
     }
 
-    fun changeText(text: String?) {
-        binding.answer2T1.setText(text)
-    }
-
-    fun changeText2(text: String?) {
-        binding.answer2T2.setText(text)
-    }
-
-    fun changeText3(text: String?) {
-        binding.answer2T3.setText(text)
-    }
 }

@@ -1,6 +1,9 @@
 package com.lge.support.second.application.view
 
+import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -22,11 +25,13 @@ class chat : Fragment() {
 
     var modalList = ArrayList<questionModel>()
     var questions = arrayOf(
-        "국립극장은 무엇을 하는 곳인가요?", "공연예매는 어떻게 해요?", "공연예술박물관",
-        "해오름극장", "무대감독, 음향감독, 조명감독", "백스테이지 출입은 어떻게 하나요?"
+        "시각장애인", "공연예매는 어떻게 해요?", "공연예술박물관",
+        "국립극장은 무엇을 하는 곳인가요?", "무대감독, 음향감독, 조명감독", "백스테이지 출입은 어떻게 하나요?"
     )
-    ////////////"뜰아래극장이 어디에요?" "해오름극장이 어디에요?"고객지원센터는 어디에요?
+
+    ////////////"뜰아래극장이 어디에요?" "해오름극장이 어디에요?"고객지원센터는 어디에요? 시각장애인 국립극장은 무엇을 하는 곳인가요?
     var click: Boolean = false
+    var Arrtype = ArrayList<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +42,36 @@ class chat : Fragment() {
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
 
-//        MainActivity.viewModel.ttsStop()
+        var dialog = Dialog(mActivity)
+        dialog.setContentView(R.layout.count_dialog)
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        var dialogText: TextView = dialog.findViewById(R.id.dialog_testText)
+        dialog.setCanceledOnTouchOutside(false)
+
+        MainActivity.viewModel.speechStatus.observe(viewLifecycleOwner) {
+            when (it) {
+                "3" -> {
+                    dialogText.setText("3")
+                    dialog.show()
+                }
+                "2" -> {
+                    dialogText.setText("2")
+                    dialog.show()
+                }
+                "1" -> {
+                    dialogText.setText("1")
+                    dialog.show()
+                }
+                "END" -> {
+                    dialog.hide()
+
+                }
+            }
+        }
+
+        MainActivity.viewModel.speechText.observe(viewLifecycleOwner){
+            binding.chatT2.text = it
+        }
 
         if (click == false) {
             for (i in questions.indices) {
@@ -61,11 +95,6 @@ class chat : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val gridView = binding.chatGridView
-
-//        Handler().postDelayed({
-//            binding.chatT2.setText("듣고 있어요")
-//        }, 3000) ///////////2.9sec
 
         binding.chatB1.setOnClickListener {
             MainActivity.viewModel.speechResponse()
@@ -81,19 +110,6 @@ class chat : Fragment() {
             (activity as MainActivity).changeFragment("chat-fail")
         }
 
-//        var i = 0
-//        do {
-//            MainActivity.viewModel.speechResponse()
-//            i += 1
-//            Log.d("tk_test", "speak time " + i.toString())
-//        }
-//        while (i<3)
-
-//        for(i in 1..3) {
-//            if(MainActivity.r_status == "not_match")
-//                MainActivity.viewModel.speechResponse()
-//        }
-
         MainActivity.viewModel.speechResponse()
         MainActivity.viewModel.ischatfirst = false
     }
@@ -103,6 +119,7 @@ class chat : Fragment() {
         Log.d("tk_test" , "chat page destroy")
         MainActivity.viewModel.ischatfirst = true
         MainActivity.viewModel.ttsStop()
+        MainActivity.viewModel.speechStop()
     }
 }
 

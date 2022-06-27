@@ -14,6 +14,9 @@ class answer_1 : Fragment() {
     private var _binding: FragmentAnswer1Binding? = null
     private val binding get() = _binding!!
 
+    val questionStr = MainActivity.inStr
+    val answerStr = MainActivity.speechStr
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -21,37 +24,18 @@ class answer_1 : Fragment() {
         // Inflate the layout for this fragment
         _binding = FragmentAnswer1Binding.inflate(inflater, container, false)
 
-        //MainActivity.viewModel.getResponse("하이 큐아이")
+        binding.answer1T1.setText(questionStr)
+        binding.answer1T2.setText(answerStr)
 
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        MainActivity.viewModel.queryResult.observe(viewLifecycleOwner) {
-            /////////fragment??? this => getActivity().getApplicationContext()
-            //GoogleTTS.speak(getActivity()?.getApplicationContext(), it.data.result.fulfillment.speech[0])
-            if (it == null) {
-                return@observe
-            }
-            changeText(it.in_str)
-            changeText2(it.speech[0])
-            //Toast.makeText(activity as MainActivity, page_id, Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         MainActivity.viewModel.ttsStop()
     }
-
-    fun changeText(text: String?) {
-        binding.answer1T1.setText(text)
-    }
-
-    fun changeText2(text: String?) {
-        binding.answer1T2.setText(text)
-    }
-
 }

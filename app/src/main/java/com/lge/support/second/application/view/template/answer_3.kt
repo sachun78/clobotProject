@@ -12,6 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.lge.support.second.application.MainActivity
+import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentAnswer3Binding
 import java.net.URL
 import java.util.ArrayList
@@ -31,6 +32,9 @@ class answer_3 : Fragment() {
 
     val imgArray = ArrayList<Bitmap>()
 
+    val questionStr = MainActivity.inStr
+    val answerStr = MainActivity.speechStr
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +46,8 @@ class answer_3 : Fragment() {
         btnNext = binding.answer3B2
         btnBack = binding.answer3B1
 
+        val mActivity = activity as MainActivity
+        mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
 
         //////////bitmap 이미지들을 모아둔 배열이 비어있다면
         if (MainActivity.BitmapArray.isNullOrEmpty()) {
@@ -52,8 +58,8 @@ class answer_3 : Fragment() {
             imageSwitcher.setImageDrawable(BitmapDrawable(MainActivity.BitmapArray[position]))
         }
 
-        changeText(MainActivity.inStr)
-        changeText2(MainActivity.speechStr)
+        binding.answer3T1.setText(questionStr)
+        binding.answer3T2.setText(answerStr)
 
         return binding.root
     }
@@ -99,14 +105,6 @@ class answer_3 : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         MainActivity.viewModel.ttsStop()
-    }
-
-    fun changeText(text: String?) {
-        binding.answer3T1.setText(text)
-    }
-
-    fun changeText2(text: String?) {
-        binding.answer3T2.setText(text)
     }
 }
 

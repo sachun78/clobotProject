@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:backgroundTint="@color/black">
+    <TextView
+        android:textColor="@color/white"
+        android:background="@drawable/question_list_shape"
+        android:id="@+id/question"
+        android:layout_width="1000px"
+        android:layout_height="230px"
+        android:text="question"
+        android:gravity="center"
+        android:layout_margin="10px"
+        android:textSize="36px"
+        android:layout_gravity="center"/>
+</androidx.cardview.widget.CardView>

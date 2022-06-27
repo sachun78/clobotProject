@@ -41,7 +41,6 @@ import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.PageConfigRepo
 import com.lge.support.second.application.repository.RobotRepository
 import com.lge.support.second.application.view.*
-import com.lge.support.second.application.view.answer_1
 import com.lge.support.second.application.view.docent.move_docent
 import com.lge.support.second.application.view.subView.SubScreen
 import com.lge.support.second.application.view.subView.back_video
@@ -93,9 +92,9 @@ class MainActivity : AppCompatActivity() {
         lateinit var urlBitmap: Bitmap
         lateinit var uri: Uri //uri형식이라 바로 사용 가능한 경우
 
-        /////////
         lateinit var inStr: String
         lateinit var speechStr: String
+        lateinit var descriptStr: String
 
         private val PERMISSIONS_STORAGE = arrayOf(
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -233,35 +232,6 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
             supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
                 .addToBackStack(null).commit()
-
-//            var testintent : Intent = Intent(this, popupActivity::class.java)
-//            startActivity(testintent)
-            var dialog = Dialog(this)
-            dialog.setContentView(R.layout.count_dialog)
-            dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT));
-
-            var text: TextView = dialog.findViewById(R.id.dialog_testText)
-            text.setText("3")
-
-            /////////0.01초 뒤 부터 카운트 (3)
-            Handler().postDelayed({
-                dialog.show()
-            }, 1000 / 100)
-            ////////1초 보여주고 2
-            Handler().postDelayed({
-                dialog.hide()
-                text.setText("2")
-                dialog.show()
-            }, 1000)
-            //////1초 보여주고 1
-            Handler().postDelayed({
-                dialog.hide()
-                text.setText("1")
-                dialog.show()
-            }, 2000)
-            Handler().postDelayed({
-                dialog.hide()
-            }, 2900) ///////////2.9sec
         }
         ////////////main-Button Listener end////////////
 
@@ -285,14 +255,36 @@ class MainActivity : AppCompatActivity() {
             if (it == null) {
                 return@observe
             }
-            viewModel.ttsSpeak(this, it.speech[0])
-            head.changeText(it.speech[0] + " (" + it.customCode.head + ")")
-//            it.data.result.fulfillment.messages.forEach { message ->
-//                Log.d("ViewModel Observe", message.image.toString())
-//            }
-            page_id = it.customCode.page_id
-            tpl_id = it.template_id
+
+            //speechStr = ""
+            //if (it.speech.isNotEmpty()) { //it.data.result.fulfillment.speech.isNotEmpty()
+            var speechSize = it.speech.size
+            Log.d("tk_test", "speechSize is " + speechSize)
+
+            speechStr = ""
+            for (i in 0 until (speechSize)) {
+                //viewModel.ttsSpeak(this, it.speech[i])
+                speechStr += it.speech[i]
+                Log.d("tk_test", "speech string is " + speechStr)
+            }
+            //viewModel.ttsSpeak(this, it.speech[0])
+            //speechStr = it.speech[0]
+            if(speechStr == null) {
+                Log.d("tk_test", "speech string null find")
+            }
+
+            if (speechStr != "")
+                viewModel.ttsSpeak(this, speechStr)
+            //}
+
+            if (it.customCode.page_id != null) {
+                page_id = it.customCode.page_id
+            } else page_id = ""
+            if (it.template_id != null) {
+                tpl_id = it.template_id
+            } else tpl_id = ""
             r_status = it.response_status
+            inStr = it.in_str
 
             /////////////챗봇 질의 실패 횟수/////////
             if (r_status == "not_match") {
@@ -307,6 +299,7 @@ class MainActivity : AppCompatActivity() {
             Log.d("tk_test", "page_id is : " + page_id)
             Log.d("tk_test", "template_id is : " + tpl_id)
             Log.d("tk_test", "response_status is : " + r_status)
+            Log.d("tk_test", "in string is " + inStr)
 
             ////////////////url 없는 경우 error => 있을 때만 받아옴/////////
             if (!it.messages.isNullOrEmpty()) {
@@ -358,9 +351,6 @@ class MainActivity : AppCompatActivity() {
             }
             ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
 
-            inStr = it.in_str
-            speechStr = it.speech[0]
-
             ///////////////////chatbot질의 페이지에서만 page바꿔줌. 나머지는 발화만
             if (chatPage == true) {
                 if (page_id != "") { //////////////page id가 존재
@@ -368,7 +358,7 @@ class MainActivity : AppCompatActivity() {
                         if (r_status == "match") ///tpl_id가 공백일 경우에는 response_status값이 match -> page_id
                             changeFragment(page_id)
                     } else //////tpl_id가 있음
-                        changeFragment(page_id)
+                        changeFragment(tpl_id)
                 } else { /////////page id가 없음
                     if (tpl_id != "") { /////////template id는 있음
                         changeFragment(tpl_id)
