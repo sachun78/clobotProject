@@ -3,19 +3,15 @@ package com.lge.support.second.application
 import android.Manifest
 import android.app.Activity
 import android.app.ActivityOptions
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
 import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
 import android.util.Base64
 import android.util.Log
 import android.view.Display
@@ -24,7 +20,6 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
@@ -34,14 +29,12 @@ import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
-import com.lge.support.second.application.view.docent.test_docent
 import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.model.RobotViewModel
 import com.lge.support.second.application.repository.ChatbotRepository
-import com.lge.support.second.application.repository.PageConfigRepo
-import com.lge.support.second.application.repository.RobotRepository
 import com.lge.support.second.application.view.*
 import com.lge.support.second.application.view.docent.move_docent
+import com.lge.support.second.application.view.docent.test_docent
 import com.lge.support.second.application.view.subView.SubScreen
 import com.lge.support.second.application.view.subView.back_video
 import com.lge.support.second.application.view.subView.standby
@@ -52,10 +45,6 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
     private val TAG = MainActivity::class.java.simpleName
-    val result = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-        println("onResult!")
-        val imageBitmap = it.data?.extras?.get("data") as Bitmap
-    }
 
     init {
         instance = this
@@ -92,6 +81,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var urlBitmap: Bitmap
         lateinit var uri: Uri //uri형식이라 바로 사용 가능한 경우
 
+        /////////
         lateinit var inStr: String
         lateinit var speechStr: String
         lateinit var descriptStr: String
@@ -243,18 +233,18 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // battery status observ
-//        viewModel.batterySOC.observe(this) {
-//            subTest.findViewById<TextView>(R.id.sub_textView).text = "battery, $it% remained"
-//        }
-
-        // ViewModel Observe TODO(Chatbot Request Base Action)
-
         viewModel.queryResult.observe(this) {
-            Log.d("ViewModel", "chatbot data change, $it")
+            Log.d(TAG, "chatbot data changed, $it")
             if (it == null) {
                 return@observe
             }
+            viewModel.ttsSpeak(this, it.speech[0])
+            head.changeText(it.speech[0] + " (" + it.customCode.head + ")")
+//            it.messages.forEach { message ->
+//                Log.d("ViewModel Observe", message.image.toString())
+//            }
+            page_id = it.customCode.page_id
+            tpl_id = it.template_id
 
             //speechStr = ""
             //if (it.speech.isNotEmpty()) { //it.data.result.fulfillment.speech.isNotEmpty()
@@ -269,7 +259,7 @@ class MainActivity : AppCompatActivity() {
             }
             //viewModel.ttsSpeak(this, it.speech[0])
             //speechStr = it.speech[0]
-            if(speechStr == null) {
+            if (speechStr == null) {
                 Log.d("tk_test", "speech string null find")
             }
 
@@ -352,7 +342,7 @@ class MainActivity : AppCompatActivity() {
             ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
 
             ///////////////////chatbot질의 페이지에서만 page바꿔줌. 나머지는 발화만
-            if (chatPage == true) {
+            if (chatPage) {
                 if (page_id != "") { //////////////page id가 존재
                     if (tpl_id == "") {///////////tpl_id는 없음
                         if (r_status == "match") ///tpl_id가 공백일 경우에는 response_status값이 match -> page_id
@@ -537,8 +527,6 @@ class MainActivity : AppCompatActivity() {
 
         return super.onOptionsItemSelected(item)
     }
-
-
 }
 
 fun loadImage(imageUrl: String): Bitmap {
