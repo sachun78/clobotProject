@@ -1,7 +1,12 @@
 package com.lge.support.second.application.managers.mqtt
 
 import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.lge.support.second.application.data.mqtt.*
 import java.lang.RuntimeException
+import java.lang.reflect.Type
+import kotlin.reflect.typeOf
 
 class MessageConnecter: Mqttv5Client() {
 
@@ -37,11 +42,17 @@ class MessageConnecter: Mqttv5Client() {
     }
 
     override fun onReceive(cmd: String?, message: MqttMessage?) {
-        TODO("Not yet implemented")
+        Log.d("hjbae", "onReceive: ${message?.getPayload()}")
     }
 
     override fun onResponse(cmd: String?, message: MqttMessage?) {
-        TODO("Not yet implemented")
+        val type = object : TypeToken<Request<StartCtrl>>() {}.type
+        var tmpResult: Request<StartCtrl> = Gson().fromJson(message?.getPayload(), type)
+
+        Log.d("hjbae", "getPayload: ${message?.getPayload()}")
+        Log.d("hjbae", "$tmpResult")
+
+        publish(tmpResult.replyTo, tmpResult.request)
     }
 
     companion object {
