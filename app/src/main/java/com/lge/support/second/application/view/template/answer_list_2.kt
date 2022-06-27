@@ -1,6 +1,5 @@
 package com.lge.support.second.application.view.template
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
 import android.media.Image
 import android.os.Bundle
@@ -17,6 +16,7 @@ import com.bumptech.glide.Glide
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentAnswerList2Binding
+import com.lge.support.second.application.view.adapter.answerList2Adapter
 import com.lge.support.second.application.view.adapter.answerlist2Model
 import io.grpc.InternalChannelz.id
 
@@ -74,7 +74,6 @@ class answer_list_2 : Fragment() {
 //            nameList[position].text?.let { MainActivity.viewModel.getResponse(it, Arrtype[position]) }
             MainActivity.viewModel.getResponse(nameList[position].text.toString(), Arrtype[position])
 
-            //MainActivity.viewModel.getResponse("����", "param")
         }
 
         return binding.root
@@ -84,52 +83,4 @@ class answer_list_2 : Fragment() {
         super.onDestroyView()
         MainActivity.viewModel.ttsStop()
     }
-}
-
-class answerList2Adapter : BaseAdapter {
-
-    var nameList = ArrayList<answerlist2Model>()
-//    var context: Context? = null
-    lateinit var context:Context
-
-    constructor(nameList: ArrayList<answerlist2Model>, context: Context?) : super() {
-        this.nameList = nameList
-        if (context != null) {
-            this.context = context
-        }
-    }
-
-    override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
-        val nameGridList = this.nameList[position]
-        var inflator = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-        var nameView = inflator.inflate(R.layout.answer_list2_row_item, null)
-
-        var text = nameView.findViewById<TextView>(R.id.answer_list2_t1)
-        var img = nameView.findViewById<ImageView>(R.id.answer_list2_i1)
-
-        if (text != null) {
-            text.text = nameGridList.text
-        }
-        //nameView.findViewById<ImageView>(R.id.questionImg).setImageResource()
-        if(img != null) {
-            Glide.with(this.context).load(nameGridList.url).into(img)
-        }
-        //nameView.findViewById<TextView>(R.id.question).text = nameGridList.name
-
-        return nameView
-    }
-
-    override fun getCount(): Int {
-        return nameList.size
-    }
-
-    override fun getItem(position: Int): Any {
-        return nameList[position]
-    }
-
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-
 }

@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatFailBinding
+import com.lge.support.second.application.view.adapter.FragmentAdapter
 import com.lge.support.second.application.view.tabView.chat_click
 import com.lge.support.second.application.view.tabView.chat_faq
 import com.lge.support.second.application.view.tabView.chat_knowledge
@@ -31,7 +32,7 @@ class chat_fail : Fragment() {
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
 
-        val adapter = chat_fragmentAdapter(this)
+        val adapter = FragmentAdapter(this)
         val fragments = listOf<Fragment>(chat_faq(), chat_click(), chat_knowledge())
         val tabTitles = listOf<String>("FAQ", "용어사전", "극장상식")
         adapter.fragments = fragments

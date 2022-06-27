@@ -11,6 +11,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentTheaterParkingBusBinding
+import com.lge.support.second.application.view.adapter.FragmentAdapter
 import com.lge.support.second.application.view.tabView.theater_bus
 import com.lge.support.second.application.view.tabView.theater_parking
 
@@ -47,17 +48,5 @@ class theater_parking_bus : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         MainActivity.viewModel.ttsStop()
-    }
-}
-
-class FragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    var fragments = listOf<Fragment>()
-
-    override fun getItemCount(): Int {
-        return fragments.size
-    }
-
-    override fun createFragment(position: Int): Fragment {
-        return fragments[position]
     }
 }
