@@ -13,6 +13,14 @@
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
         app:menu="@menu/main">
+        <Button
+
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/EnterAdminBtn"
+            android:layout_width="150px"
+            android:layout_height="150px"
+            android:background="@color/transparency"/>
+<!--        android:background="@color/transparency"-->
         <!--뒤로가기 버튼-->
         <Button
             android:id="@+id/backBtn"

@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory
 import android.hardware.display.DisplayManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Base64
 import android.util.Log
 import android.view.Display
@@ -119,6 +120,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var googleService: GoogleCloudApi;
     //var qiBtn : ImageView = findViewById(R.id.qiMessage)
 
+    ////////////////////관리자 페이지 진입을 위해 필요한 변수/////////////
+    var lastClickTime: Long = 0 // 마지막 클릭 시간
+    var clickTime = 0 // 클릭 된 횟수
+    val TIMES_REQUIRED = 2 // 총 필요한 클릭 횟수 val TIMES_REQUIRED = 6
+    val TIME_TIMEOUT = 2000 //연속 클릭 시간 제한 지금은 2초..
+    /////////////////여기까지/////////////
+
+    ///////////////////////////////////////////////////////on Create ////////////////////////////////
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mActivityMainBinding = ActivityMainBinding.inflate(layoutInflater)
@@ -142,6 +151,7 @@ class MainActivity : AppCompatActivity() {
         var backBtn: Button = findViewById(R.id.backBtn)
         var korBtn: Button = findViewById(R.id.korBtn)
         var enBtn: Button = findViewById(R.id.enBtn)
+        var adminBtn : Button = findViewById(R.id.EnterAdminBtn)
 
         displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
@@ -217,6 +227,9 @@ class MainActivity : AppCompatActivity() {
             viewModel.setLanguage(Language.English)
             recreate()
         }
+        adminBtn.setOnClickListener {
+            v -> TouchContinously()
+        }
 
         findViewById<ImageView>(R.id.qiMessage).setOnClickListener {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
@@ -238,8 +251,8 @@ class MainActivity : AppCompatActivity() {
             if (it == null) {
                 return@observe
             }
-            viewModel.ttsSpeak(this, it.speech[0])
-            head.changeText(it.speech[0] + " (" + it.customCode.head + ")")
+            //viewModel.ttsSpeak(this, it.speech[0])
+//            head.changeText(it.speech[0] + " (" + it.customCode.head + ")")
 //            it.messages.forEach { message ->
 //                Log.d("ViewModel Observe", message.image.toString())
 //            }
@@ -358,6 +371,20 @@ class MainActivity : AppCompatActivity() {
         }
 //        viewModel.getResponse("intro", "intro")
     } //onCreate
+
+    private fun TouchContinously() { //////////좌측 상단 연속 클릭 시 호출되는 함수
+        if (SystemClock.elapsedRealtime() - lastClickTime < TIME_TIMEOUT) { //제한시간 초과 x
+            clickTime++ //클릭 횟수 증가
+        } else {
+            clickTime = 1; //제한시간 초과? -> 클릭된 횟수 초기화
+        }
+        lastClickTime = SystemClock.elapsedRealtime();
+
+        if (clickTime == TIMES_REQUIRED) {
+            // TODO 연속 클릭 완료 후
+            startActivity(Intent(this, AdminPage::class.java)) //관리자 페이지 진입
+        }
+    }
 
     ///////////////////////////////////////language
     private fun setLocate(Lang: String) {

@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.google.android.material.tabs.TabLayoutMediator
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
@@ -43,20 +42,7 @@ class chat_fail : Fragment() {
                 tab, position -> tab.text = tabTitles[position]
         }.attach()
 
-
         return binding.root
     }
 
-}
-
-class chat_fragmentAdapter(fragment: Fragment) : FragmentStateAdapter(fragment) {
-    var fragments = listOf<Fragment>()
-
-    override fun getItemCount(): Int {
-        return fragments.size
-    }
-
-    override fun createFragment(position: Int): Fragment {
-        return fragments[position]
-    }
 }
