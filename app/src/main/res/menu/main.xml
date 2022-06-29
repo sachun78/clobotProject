@@ -21,4 +21,10 @@
         android:title="Engineering Mode"
         android:enabled="true"
         app:showAsAction="never"/>
+    <item
+        android:id="@+id/webBtn"
+        android:orderInCategory="3"
+        android:title="webViewTest"
+        android:enabled="true"
+        app:showAsAction="never"/>
 </menu>

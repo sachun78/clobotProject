@@ -17,8 +17,7 @@ import com.lge.support.second.application.view.adapter.questionModel
 
 class answer_list_1 : Fragment() {
 
-    private var _binding: FragmentAnswerList1Binding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentAnswerList1Binding
 
     var answerList = ArrayList<questionModel>()
     var questions = ArrayList<String>()
@@ -34,7 +33,7 @@ class answer_list_1 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentAnswerList1Binding.inflate(inflater, container, false)
+        binding = FragmentAnswerList1Binding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE

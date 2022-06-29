@@ -46,15 +46,15 @@ class HeadPresentation(outerContext: Context?, display: Display?) :
         mediaPlayer.reset()
         when (exp) {
             Expression.CURIOUS -> {
-                val afd: AssetFileDescriptor = context.assets.openFd("face_type_curious.mp4")
+                val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_curious.mp4")
                 mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             }
             Expression.HAPPY -> {
-                val afd: AssetFileDescriptor = context.assets.openFd("face_type_happy.mp4")
+                val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_happy.mp4")
                 mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             }
             else -> {
-                val afd: AssetFileDescriptor = context.assets.openFd("face_type_wink.mp4")
+                val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_wink.mp4")
                 mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             }
         }
@@ -65,7 +65,7 @@ class HeadPresentation(outerContext: Context?, display: Display?) :
 
     override fun surfaceCreated(p0: SurfaceHolder) {
         try {
-            val afd: AssetFileDescriptor = context.assets.openFd("face_type_wink.mp4")
+            val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_wink.mp4")
             mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             mediaPlayer.setOnPreparedListener { mp ->
                 mp.isLooping = true

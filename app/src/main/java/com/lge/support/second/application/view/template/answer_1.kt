@@ -11,8 +11,7 @@ import com.lge.support.second.application.databinding.FragmentAnswer1Binding
 
 class answer_1 : Fragment() {
 
-    private var _binding: FragmentAnswer1Binding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentAnswer1Binding
 
     val questionStr = MainActivity.inStr
     val answerStr = MainActivity.speechStr
@@ -22,7 +21,7 @@ class answer_1 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentAnswer1Binding.inflate(inflater, container, false)
+        binding = FragmentAnswer1Binding.inflate(inflater, container, false)
 
         binding.answer1T1.setText(questionStr)
         binding.answer1T2.setText(answerStr)

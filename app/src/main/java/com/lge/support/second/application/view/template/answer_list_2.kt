@@ -23,8 +23,8 @@ import io.grpc.InternalChannelz.id
 
 class answer_list_2 : Fragment() {
 
-    private var _binding: FragmentAnswerList2Binding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentAnswerList2Binding
+
     var Arrtype = ArrayList<String>()
     var isCreatedThisPage = false
     val questionStr = MainActivity.inStr
@@ -37,7 +37,7 @@ class answer_list_2 : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentAnswerList2Binding.inflate(inflater, container, false)
+        binding = FragmentAnswerList2Binding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE

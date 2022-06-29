@@ -18,15 +18,14 @@ import com.lge.support.second.application.view.tabView.chat_knowledge
 
 class chat_fail : Fragment() {
 
-    private var _binding: FragmentChatFailBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentChatFailBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentChatFailBinding.inflate(inflater, container, false)
+        binding = FragmentChatFailBinding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE

@@ -14,14 +14,13 @@ import com.lge.support.second.application.databinding.FragmentMainBinding
 
 class main : Fragment() {
 
-    private var _binding: FragmentMainBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentMainBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        binding = FragmentMainBinding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
         val menu1 = binding.mainI1

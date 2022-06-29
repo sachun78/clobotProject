@@ -20,8 +20,7 @@ import java.util.ArrayList
 
 class answer_3 : Fragment() {
 
-    private var _binding: FragmentAnswer3Binding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentAnswer3Binding
 
     lateinit var imageSwitcher: ImageView
 
@@ -40,7 +39,7 @@ class answer_3 : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentAnswer3Binding.inflate(inflater, container, false)
+        binding = FragmentAnswer3Binding.inflate(inflater, container, false)
 
         imageSwitcher = binding.answer3Is1
         btnNext = binding.answer3B2

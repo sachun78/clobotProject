@@ -20,8 +20,7 @@ import kotlin.collections.ArrayList
 
 class chat : Fragment() {
 
-    private var _binding: FragmentChatBinding? = null
-    private val binding get() = _binding!!
+    private lateinit var binding: FragmentChatBinding
 
     var modalList = ArrayList<questionModel>()
     var questions = arrayOf(
@@ -37,7 +36,7 @@ class chat : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentChatBinding.inflate(inflater, container, false)
+        binding = FragmentChatBinding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
         mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE

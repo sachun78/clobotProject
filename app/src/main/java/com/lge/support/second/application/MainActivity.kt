@@ -552,9 +552,14 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent, options.toBundle())
             //startActivity(intent)
         }
+        else if(id == R.id.webBtn) {
+            startActivity(Intent(this, webViewTestActivity::class.java))
+        }
 
         return super.onOptionsItemSelected(item)
     }
+
+
 }
 
 fun loadImage(imageUrl: String): Bitmap {
