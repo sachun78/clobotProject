@@ -19,7 +19,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
     var TAG = "MOVE_DOCENT"
     var surfaceView: SurfaceView? = null
     var surfaceHolder: SurfaceHolder? = null
-    var mediaPlayer: MediaPlayer? = null
+    lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,7 +36,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
 
         rootView.findViewById<Button>(R.id.move_docent_b1).setOnClickListener {
             var dialog = Dialog(mActivity)
-            mediaPlayer?.pause()
+            mediaPlayer.pause()
             dialog.setContentView(R.layout.docent_end_dialog_layout)
             dialog.show()
 
@@ -46,7 +46,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
             }
             dialog.findViewById<Button>(R.id.no_btn).setOnClickListener {
                 dialog.hide()
-                mediaPlayer?.start()
+                mediaPlayer.start()
             }
         }
 
@@ -59,23 +59,23 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
 
     override fun surfaceCreated(p0: SurfaceHolder) {
         Log.d(TAG, "surfaceCreated");
-        if (mediaPlayer == null) {
+        //if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer()
-        } else {
-            mediaPlayer!!.reset()
-        }
+//        } else {
+//            mediaPlayer!!.reset()
+//        }
 
         try {
 //            val path =
 //                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
                 var uri = Uri.parse("android.resource://" + "com.lge.support.second.application" + "/raw/docent_10_")
-            context?.let { mediaPlayer!!.setDataSource(it, uri) }
+            context?.let { mediaPlayer.setDataSource(it, uri) }
 
                 //mediaPlayer!!.setVolume(0F, 0F) //볼륨 제거
 
-            mediaPlayer!!.setDisplay(surfaceHolder) // 화면 호출
-            mediaPlayer!!.prepare() // 비디오 load 준비
-            mediaPlayer!!.setOnCompletionListener { p0 ->
+            mediaPlayer.setDisplay(surfaceHolder) // 화면 호출
+            mediaPlayer.prepare() // 비디오 load 준비
+            mediaPlayer.setOnCompletionListener { p0 ->
                 println("onCompletion!")
                 p0?.release()
                 parentFragmentManager.beginTransaction()
@@ -83,7 +83,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
                     .addToBackStack(null).commit()
             }; // 비디오 재생 완료 리스너
 
-            mediaPlayer!!.start()
+            mediaPlayer.start()
         } catch (e: Exception) {
             Log.e(TAG, "surface view error : " + e.message)
         }

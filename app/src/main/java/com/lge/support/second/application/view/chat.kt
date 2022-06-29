@@ -89,6 +89,9 @@ class chat : Fragment() {
         /////chat page에서 음성 입력 3회만 가능////
         MainActivity.notMachCnt = 0
 
+        MainActivity.viewModel.speechResponse()
+        MainActivity.viewModel.ischatfirst = false
+
         return binding.root
     }
 
@@ -96,6 +99,9 @@ class chat : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.chatB1.setOnClickListener {
+            //MainActivity.viewModel.ttsStop()
+            MainActivity.viewModel.speechStop()
+//            MainActivity.viewModel.ischatfirst = false
             MainActivity.viewModel.speechResponse()
         }
 
@@ -108,9 +114,6 @@ class chat : Fragment() {
         binding.chatB2.setOnClickListener {
             (activity as MainActivity).changeFragment("chat-fail")
         }
-
-        MainActivity.viewModel.speechResponse()
-        MainActivity.viewModel.ischatfirst = false
     }
 
     override fun onDestroyView() {

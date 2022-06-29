@@ -35,7 +35,7 @@ class GoogleCloudRepository constructor(
     private val api: GoogleCloudApi
 ) {
 
-    var ischatfirst = false
+    var ischatfirst = true
     var language: Language
         get() = api.getLanguage()
         set(value) = api.setLanguage(value)
@@ -123,7 +123,7 @@ class GoogleCloudRepository constructor(
 
             requestStream = api.getSpeechClient().streamingRecognizeCallable().splitCall(callback)
 
-            if (!ischatfirst) {
+            if (ischatfirst) {
                 sendBlocking(Resource.Loading("3"))
                 delay(1000)
                 sendBlocking(Resource.Loading("2"))
@@ -131,6 +131,7 @@ class GoogleCloudRepository constructor(
                 sendBlocking(Resource.Loading("1"))
                 delay(1000)
                 sendBlocking(Resource.Loading("END"))
+                ischatfirst = false
             }
 
             val tone = ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);

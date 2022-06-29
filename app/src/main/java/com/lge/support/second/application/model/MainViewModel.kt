@@ -101,9 +101,9 @@ class MainViewModel(
 
     // TODO(H, change R2 state)
     fun speechResponse() {
-        if (!ischatfirst) {
-            googleRepositiory.ischatfirst = false
-        }
+//        if (ischatfirst) {
+//            googleRepositiory.ischatfirst = false
+//        }
         googleRepositiory.speachToText().onEach { result ->
             when (result) {
                 is R2.Complete -> {
