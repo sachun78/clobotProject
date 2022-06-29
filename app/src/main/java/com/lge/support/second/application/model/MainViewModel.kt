@@ -55,13 +55,16 @@ class MainViewModel(
     }
 
     // Use Chatbot
-    fun getResponse(in_str: String, in_type: String? = null) {
+    fun getResponse(in_str: String, in_type: String? = null, raw_str: String = "") {
         val domain_id = "seoul_mmca"
         val request = ChatRequest(
             domain_id,
             in_str,
             in_type = in_type ?: "query",
-            parameters = ChatRequest.ChatRequestParameter(lang = googleRepositiory.language.toLocalString())
+            parameters = ChatRequest.ChatRequestParameter(
+                lang = googleRepositiory.language.toLocalString(),
+                raw_str = raw_str
+            )
         )
 
         repository(request).onEach { result ->

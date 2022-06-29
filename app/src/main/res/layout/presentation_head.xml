@@ -5,13 +5,8 @@
     android:layout_height="match_parent"
     tools:context=".HeadPresentation">
 
-    <TextView
-        android:id="@+id/textView2"
+    <SurfaceView
+        android:id="@+id/head_surfaceView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="아아아"
-        android:textAlignment="center"
-        android:textSize="48sp"
-        android:visibility="visible"
-        tools:text="아아아" />
+        android:layout_height="match_parent" />
 </FrameLayout>

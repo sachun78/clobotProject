@@ -206,7 +206,8 @@ class MainActivity : AppCompatActivity() {
 //                .addToBackStack(null).commit()
 //
 //            subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
-            changeFragment("test-docent")
+//            changeFragment("test-docent")
+            head.changeExpression(Expression.CURIOUS);
         }
         backBtn.setOnClickListener {
             supportFragmentManager.popBackStack()
