@@ -31,12 +31,11 @@ class SubScreen(outerContext: Context?, display: Display?) : Presentation(outerC
 }
 
 
-
 class back_video(outerContext: Context?, display: Display?) : Presentation(outerContext, display),
     SurfaceHolder.Callback {
     var surfaceView: SurfaceView? = null
     var surfaceHolder: SurfaceHolder? = null
-    var mediaPlayer: MediaPlayer? = null
+    lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,11 +48,11 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
 
     @SuppressLint("RestrictedApi")
     override fun surfaceCreated(p0: SurfaceHolder) {
-        if (mediaPlayer == null) {
+        //if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer()
-        } else {
-            mediaPlayer!!.reset()
-        }
+//        } else {
+//            mediaPlayer!!.reset()
+//        }
 
         try {
 //            val path =
@@ -65,10 +64,10 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
             Log.d("uri check", uri.toString())
 
 //            mediaPlayer!!.setVolume(0F, 0F) //볼륨 제거
-            mediaPlayer!!.setDataSource(context, uri)
-            mediaPlayer!!.setDisplay(surfaceHolder) // 화면 호출
-            mediaPlayer!!.prepare() // 비디오 load 준비
-            mediaPlayer!!.setOnCompletionListener { p0 ->
+            mediaPlayer.setDataSource(context, uri)
+            mediaPlayer.setDisplay(surfaceHolder) // 화면 호출
+            mediaPlayer.prepare() // 비디오 load 준비
+            mediaPlayer.setOnCompletionListener { p0 ->
                 println("onCompletion!")
                 p0?.release()
 //                parentFragmentManager.beginTransaction()
@@ -76,8 +75,8 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
 //                    .addToBackStack(null).commit()
             }; // 비디오 재생 완료 리스너
 
-            mediaPlayer!!.setVolume(0F, 0F) //볼륨 제거
-            mediaPlayer!!.start()
+            mediaPlayer.setVolume(0F, 0F) //볼륨 제거
+            mediaPlayer.start()
         } catch (e: Exception) {
 
         }
@@ -88,7 +87,7 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
     }
 
     override fun surfaceDestroyed(p0: SurfaceHolder) {
-        mediaPlayer?.release()
+        mediaPlayer.release()
     }
 
 

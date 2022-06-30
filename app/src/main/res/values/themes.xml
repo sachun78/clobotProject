@@ -3,7 +3,7 @@
     <style name="Theme.QIRobotLauncher" parent="Theme.AppCompat.NoActionBar">
         <!-- Primary brand color. -->
 
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">@color/text_darkwhite</item>
         <!-- Secondary brand color. -->
 
         <item name="colorOnSecondary">@color/black</item>

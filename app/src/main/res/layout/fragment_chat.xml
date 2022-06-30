@@ -1,75 +1,171 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="1710px"
-    android:background="@color/black"
+    android:layout_height="1760px"
     tools:context="com.lge.support.second.application.view.chat">
 
-    <LinearLayout
+
+    <TextView
+        android:id="@+id/chat_x1"
+        android:layout_width="842px"
+        android:layout_height="80px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="60px"
+        android:text="chat_x1"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="64px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/line1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="4px"
+        android:layout_marginTop="108px"
+        android:background="@color/mid_grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chat_x1" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="128px"
-                android:layout_marginLeft="40px"
-                android:layout_marginTop="60px"
-                android:text="@string/chat_t1"
-                android:textSize="30dp" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/chat_b1"
-                android:background="@drawable/finger"
-                android:layout_width="128px"
-                android:layout_height="128px"
-                android:layout_marginTop="50px"
-                android:layout_marginRight="20px"/>
-
-        </LinearLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/chat_constraint"
+        android:layout_width="match_parent"
+        android:layout_height="228px"
+        android:background="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/line1">
 
         <TextView
-            android:id="@+id/chat_t2"
-            android:layout_width="wrap_content"
-            android:layout_height="128px"
-            android:layout_gravity="center"
-            android:layout_marginTop="60px"
-            android:gravity="center"
-            android:text="@string/chat_t2" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="48px"
-            android:layout_gravity="center"
-            android:layout_marginTop="56px"
-            android:text="@string/chat_t3" />
-
-        <GridView
-            android:numColumns="2"
-            android:id="@+id/chat_gridView"
+            android:id="@+id/chat_x2"
             android:layout_width="1000px"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|bottom"
-            android:layout_marginTop="59px" />
+            android:layout_height="120px"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="chat_x2"
+            android:textColor="@color/text_darkwhite"
+            android:textSize="48px"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/chat_x3"
+            android:layout_width="1000px"
+            android:layout_height="120px"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="chat_x3"
+            android:textColor="@color/text_darkwhite"
+            android:textSize="48px"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="4px"
+        android:background="@color/mid_grey"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chat_constraint" />
+
+    <!--    <Button-->
+    <!--        android:id="@+id/chat_b1"-->
+    <!--        android:layout_width="128px"-->
+    <!--        android:layout_height="128px"-->
+    <!--        android:layout_marginTop="50px"-->
+    <!--        android:layout_marginRight="20px"-->
+    <!--        android:background="@drawable/finger" />-->
+
+    <TextView
+        android:id="@+id/chat_x4"
+        android:layout_width="1000px"
+        android:layout_height="50px"
+        android:layout_marginTop="60px"
+        android:text="chat_x4"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/line2" />
+
+    <GridLayout
+        android:id="@+id/chat_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:padding="40px"
+        android:rowCount="3"
+        app:layout_constraintTop_toBottomOf="@id/chat_x4">
 
         <Button
-            android:background="@drawable/question_list_shape"
-            android:id="@+id/chat_b2"
-            android:layout_marginTop="40px"
-            android:layout_gravity="center"
-            android:layout_width="1000px"
-            android:layout_height="190px"
-            android:text="다른 질문 고르기"/>
-    </LinearLayout>
+            android:id="@+id/chat_b1"
+            android:layout_width="480px"
+            android:layout_height="188px"
+            android:layout_marginRight="40px"
+            android:layout_marginBottom="40px"
+            android:background="@color/chat_btn"
+            android:text="chat_b1" />
 
-</FrameLayout>
+        <Button
+            android:id="@+id/chat_b2"
+            android:layout_width="480px"
+            android:layout_height="188px"
+            android:background="@color/chat_btn"
+            android:text="chat_b2" />
+
+        <Button
+            android:id="@+id/chat_b3"
+            android:layout_width="480px"
+            android:layout_height="188px"
+            android:layout_marginRight="40px"
+            android:layout_marginBottom="40px"
+            android:background="@color/chat_btn"
+            android:text="chat_b3" />
+
+        <Button
+            android:id="@+id/chat_b4"
+            android:layout_width="480px"
+            android:layout_height="188px"
+            android:background="@color/chat_btn"
+            android:text="chat_b4" />
+
+        <Button
+            android:id="@+id/chat_b5"
+            android:layout_width="480px"
+            android:layout_height="188px"
+            android:layout_marginRight="40px"
+            android:layout_marginBottom="40px"
+            android:background="@color/chat_btn"
+            android:text="chat_b5" />
+
+        <Button
+            android:id="@+id/chat_b6"
+            android:layout_width="480px"
+            android:layout_height="188px"
+            android:background="@color/chat_btn"
+            android:text="chat_b6" />
+    </GridLayout>
+
+    <Button
+        android:id="@+id/chat_b11"
+        android:layout_width="1001px"
+        android:layout_height="188px"
+        android:layout_marginBottom="262px"
+        android:background="@color/chat_btn"
+        android:text="chat_b11"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!--    <Button-->
+    <!--        android:id="@+id/chat_b2"-->
+    <!--        android:layout_width="1000px"-->
+    <!--        android:layout_height="190px"-->
+    <!--        android:layout_gravity="center"-->
+    <!--        android:layout_marginTop="40px"-->
+    <!--       ndroid:background="@drawable/question_list_shape"-->
+    <!--        android:text="다른 질문 고르기" />-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

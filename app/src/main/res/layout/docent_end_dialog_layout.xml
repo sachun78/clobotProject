@@ -33,7 +33,7 @@
             android:id="@+id/no_btn"
             android:layout_width="440px"
             android:layout_height="160px"
-            android:backgroundTint="@color/dark_gray"
+            android:backgroundTint="@color/dark_grey"
             android:text="아니요" />
 
         <androidx.appcompat.widget.AppCompatButton

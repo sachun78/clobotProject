@@ -58,7 +58,7 @@
             android:layout_width="490px"
             android:layout_height="160px"
             android:background="@drawable/border"
-            android:backgroundTint="@color/dark_gray"
+            android:backgroundTint="@color/dark_grey"
             android:text="대화하기" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -66,7 +66,7 @@
             android:layout_width="490px"
             android:layout_height="160px"
             android:background="@drawable/border"
-            android:backgroundTint="@color/dark_gray"
+            android:backgroundTint="@color/dark_grey"
             android:text="종료 하기" />
 
     </GridLayout>

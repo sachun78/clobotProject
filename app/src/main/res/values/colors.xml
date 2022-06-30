@@ -20,6 +20,12 @@
 <!--    TK-->
     <color name="transparency">#00FFD9EC</color>
     <color name="select">#84754E</color>
-    <color name="gray">#BDBDBD</color>
-    <color name="dark_gray">#3F3A3A</color>
+    <color name="grey">#BDBDBD</color>
+    <color name="dark_grey">#3F3A3A</color>
+
+<!--    Gonju National Museum-->
+    <color name="text_emphasis">#33333340</color>
+    <color name="mid_grey">#6E737E</color>
+    <color name="text_darkwhite">#E3E5E9</color>
+    <color name="chat_btn">#5C5C5C</color>
 </resources>

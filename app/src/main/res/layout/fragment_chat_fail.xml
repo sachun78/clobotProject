@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,27 +8,50 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_width="523px"
-        android:layout_height="226px"
-        android:layout_marginLeft="40px"
-        android:layout_marginTop="61px"
-        android:text="궁금하신 게 있나요?" />
+        android:textSize="64px"
+        android:id="@+id/chat_fail_x1"
+        android:text="chat-faq_x1 / guid_x1 / exhibitx_x1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="80px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="60px"/>
 
     <ImageView
-        android:layout_width="506px"
-        android:layout_height="315px"
-        android:layout_gravity="right"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60px"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="450px"
+        android:layout_height="450px"
         android:layout_marginRight="60px"
-        android:src="@drawable/robotthinking" />
+        android:src="@drawable/quai_idea_2" />
+
+    <TextView
+        android:textSize="40px"
+        android:text="chat-faq_x2 / guid_x2 / exhibitx_x2"
+        android:layout_width="400px"
+        android:layout_height="100px"
+        app:layout_constraintTop_toBottomOf="@id/chat_fail_x1"
+        android:layout_marginTop="36px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="60px"
+        android:id="@+id/chat_fail_x2"/>
+
 
     <com.google.android.material.tabs.TabLayout
+        android:background="@drawable/tab_img"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="528px"
         android:id="@+id/chat_tab"
-        android:layout_width="match_parent"
+        android:layout_width="904px"
         android:layout_height="104px"
-        android:layout_marginLeft="40px"
-        android:layout_marginRight="40px"
-        app:tabIndicatorColor="@color/select"
-        app:tabTextColor="@color/white">
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:tabIndicator="@drawable/tab_indicator"
+        app:tabIndicatorHeight="96px"
+        app:tabIndicatorColor="@color/mid_grey"
+        app:tabTextColor="@color/text_darkwhite">
 
         <com.google.android.material.tabs.TabItem
             android:layout_width="330px"
@@ -44,8 +67,10 @@
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2
+        app:layout_constraintTop_toBottomOf="@id/chat_tab"
+        android:layout_marginTop="48px"
         android:id="@+id/chat_viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,13 +30,13 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
 
         val mActivity = activity as MainActivity
         mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.GONE
-        mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
 
         MainActivity.subVideo.show()
 
         rootView.findViewById<Button>(R.id.move_docent_b1).setOnClickListener {
             var dialog = Dialog(mActivity)
             mediaPlayer.pause()
+            MainActivity.subVideo.mediaPlayer.pause()
             dialog.setContentView(R.layout.docent_end_dialog_layout)
             dialog.show()
 
@@ -47,6 +47,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
             dialog.findViewById<Button>(R.id.no_btn).setOnClickListener {
                 dialog.hide()
                 mediaPlayer.start()
+                MainActivity.subVideo.mediaPlayer.start()
             }
         }
 
@@ -54,6 +55,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
         surfaceHolder = surfaceView?.holder
         surfaceHolder?.addCallback(this);
 
+        Log.d("move_docent", "onCreateView")
         return rootView
     }
 
@@ -95,7 +97,8 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
 
     override fun surfaceDestroyed(p0: SurfaceHolder) {
         Log.e(TAG, "surfaceDestroyed");
-        mediaPlayer?.release()
+        MainActivity.subVideo.hide()
+        mediaPlayer.release() //자원해제
     }
 
 

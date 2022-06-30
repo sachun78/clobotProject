@@ -39,7 +39,6 @@ class test_docent : Fragment(), SurfaceHolder.Callback {
 
         val mActivity = activity as MainActivity
         mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.GONE
-        mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
 
         rootView.findViewById<Button>(R.id.test_docent_b1).setOnClickListener {
             var dialog = Dialog(mActivity)

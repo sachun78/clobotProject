@@ -12,7 +12,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:background="@drawable/border"
         android:text="끝내기"
-        android:backgroundTint="@color/dark_gray"
+        android:backgroundTint="@color/dark_grey"
         android:id="@+id/test_docent_b1"
         android:layout_marginTop="60px"
         android:layout_width="259px"

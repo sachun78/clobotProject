@@ -29,7 +29,6 @@ class theater_parking_bus : Fragment() {
         _binding = FragmentTheaterParkingBusBinding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
-        mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
 
         val adapter = FragmentAdapter(this)
         val fragments = listOf<Fragment>(theater_parking(), theater_bus())
@@ -37,6 +36,7 @@ class theater_parking_bus : Fragment() {
         adapter.fragments = fragments
 
         binding.theaterViewPager.adapter = adapter
+        binding.theaterViewPager.setUserInputEnabled(false);
 
         TabLayoutMediator(binding.theaterTab, binding.theaterViewPager) {
                 tab, position -> tab.text = tabTitles[position]

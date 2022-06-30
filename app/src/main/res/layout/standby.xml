@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/background_image05">
+    android:background="@drawable/gongju_background_1">
 
     <ImageView
-        android:layout_width="179px"
-        android:layout_height="179px"
+        android:layout_width="440px"
+        android:layout_height="108.46px"
+        android:src="@drawable/gonju_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="160px"
-        android:src="@drawable/icon"/>
+        android:layout_marginTop="282px"/>
 
     <TextView
         android:id="@+id/standby_t1"

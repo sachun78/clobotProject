@@ -1,90 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:showIn="@layout/activity_main">
+
+    <Button
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:id="@+id/EnterAdminBtn"
+        android:layout_width="72px"
+        android:layout_height="100px"
+        android:background="@color/transparency"/>
+
     <androidx.appcompat.widget.Toolbar
+        android:paddingTop="50px"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="210px"
+        android:layout_height="160px"
         app:layout_constraintTop_toTopOf="parent"
-        android:gravity="center"
         app:menu="@menu/main">
-        <Button
-
-            app:layout_constraintStart_toStartOf="parent"
-            android:id="@+id/EnterAdminBtn"
-            android:layout_width="150px"
-            android:layout_height="150px"
-            android:background="@color/transparency"/>
-<!--        android:background="@color/transparency"-->
         <!--뒤로가기 버튼-->
         <Button
+            android:layout_marginRight="20px"
+            android:layout_gravity="center"
             android:id="@+id/backBtn"
             android:layout_width="72px"
             android:layout_height="72px"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10px"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:background="@color/gray"
-            android:text="back" />
+            android:background="@drawable/back" />
         <!--홈 버튼 -->
         <Button
+            android:layout_marginRight="20px"
+            android:layout_gravity="center"
             android:id="@+id/homeBtn"
             android:layout_width="72px"
             android:layout_height="72px"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10px"
-            android:layout_weight="1"
-            android:background="@color/gray"
-            android:enabled="true"
+            android:background="@drawable/home"
+            android:enabled="true" />
+
+        <Button
             android:layout_gravity="center"
-            android:text="home" />
-
-        <Button
             android:id="@+id/micBtn"
-            android:layout_width="160px"
-            android:layout_height="160px"
-            android:layout_weight="1"
-            android:background="@color/gray"
-            android:text="test"
-            android:layout_gravity="center"/>
-
-        <Button
-            android:id="@+id/korBtn"
             android:layout_width="72px"
             android:layout_height="72px"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10px"
-            android:layout_weight="1"
-            android:background="@color/gray"
-            android:enabled="true"
-            android:text="kor"
-            android:layout_gravity="center"/>
+            android:background="@drawable/mic" />
 
+        <ImageView
+            android:id="@+id/gnbIcon"
+            android:layout_marginLeft="100px"
+            android:layout_marginRight="85px"
+            android:layout_gravity="center"
+            android:layout_width="220px"
+            android:layout_height="54px"
+            android:src="@drawable/gonju_icon" />
+
+        <Button
+            android:id="@+id/jpnBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_gravity="right"
+            android:background="@drawable/language_jpn"/>
+
+        <Button
+            android:id="@+id/chiBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:layout_gravity="right"
+            android:background="@drawable/language_chi"/>
         <Button
             android:id="@+id/enBtn"
             android:layout_width="72px"
             android:layout_height="72px"
-            android:layout_marginLeft="10dp"
-            android:layout_marginBottom="10px"
-            android:layout_weight="1"
-            android:background="@color/gray"
-            android:layout_gravity="center"
-            android:text="en" />
+            android:layout_gravity="right"
+            android:background="@drawable/language_en"/>
+        <Button
+            android:layout_gravity="right"
+            android:id="@+id/korBtn"
+            android:layout_width="72px"
+            android:layout_height="72px"
+            android:background="@drawable/language_ko"
+            android:enabled="true" />
     </androidx.appcompat.widget.Toolbar>
-
-    <ImageView
-        android:id="@+id/qiMessage"
-        android:layout_width="match_parent"
-        android:layout_height="160px"
-        android:layout_weight="5"
-        android:src="@drawable/hi_qi"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.docent_select">
+
+    <TextView
+        android:id="@+id/docent_select_x1"
+        android:layout_width="wrap_content"
+        android:layout_height="80px"
+        android:layout_marginTop="22px"
+        android:text="docent-select-x1"
+        android:textSize="64px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/docent_select_x2"
+        android:layout_width="wrap_content"
+        android:layout_height="50px"
+        android:layout_marginTop="24px"
+        android:text="docent_select_x2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/docent_select_x1" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/listenAllBtn"
+        android:layout_width="888px"
+        android:layout_height="256px"
+        android:layout_marginTop="106px"
+        android:background="@drawable/docent_select_button"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/docent_select_x2">
+
+        <ImageView
+            android:layout_width="120px"
+            android:layout_height="114px"
+            android:layout_marginLeft="88px"
+            android:src="@drawable/gonju_explain_picto"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/docent_select_b1"
+            android:layout_width="wrap_content"
+            android:layout_height="60px"
+            android:layout_marginLeft="271px"
+            android:layout_marginTop="69px"
+            android:background="@color/transparency"
+            android:text="docent_select_b1"
+            android:textSize="48px"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/docent_select_b2"
+            android:layout_width="wrap_content"
+            android:layout_height="60px"
+            android:layout_marginLeft="271px"
+            android:layout_marginTop="17px"
+            android:background="@color/transparency"
+            android:text="docent_select_b2"
+            android:textSize="32px"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/docent_select_b1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/docent_select_b3"
+        android:layout_width="506px"
+        android:layout_height="196px"
+        android:layout_marginLeft="27px"
+        android:layout_marginTop="467px"
+        android:background="@drawable/docent_select_button"
+        android:text="docent_select_b3"
+        android:textSize="32px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/docent_select_x2" />
+
+    <Button
+        android:id="@+id/docent_select_b4"
+        android:layout_width="506px"
+        android:layout_height="196px"
+        android:layout_marginLeft="15px"
+        android:layout_marginTop="467px"
+        android:background="@drawable/docent_select_button"
+        android:text="docent_select_b4"
+        android:textSize="32px"
+        app:layout_constraintLeft_toRightOf="@id/docent_select_b3"
+        app:layout_constraintTop_toBottomOf="@id/docent_select_x2" />
+
+    <Button
+        android:id="@+id/docent_select_b5"
+        android:layout_width="506px"
+        android:layout_height="196px"
+        android:layout_marginLeft="27px"
+        android:background="@drawable/docent_select_button"
+        android:text="docent_select_b5"
+        android:textSize="32px"
+        android:layout_marginTop="46px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/docent_select_b3" />
+
+    <Button
+        android:id="@+id/docent_select_b6"
+        android:layout_width="506px"
+        android:layout_height="196px"
+        android:layout_marginLeft="15px"
+        android:background="@drawable/docent_select_button"
+        android:text="docent_select_b6"
+        android:textSize="32px"
+        android:layout_marginTop="46px"
+        app:layout_constraintLeft_toRightOf="@id/docent_select_b5"
+        app:layout_constraintTop_toBottomOf="@id/docent_select_b4" />
+    
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="690px"
+        android:layout_height="460px"
+        android:background="@drawable/map_ungjin"
+        app:layout_constraintTop_toBottomOf="@id/docent_select_b5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="94px"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

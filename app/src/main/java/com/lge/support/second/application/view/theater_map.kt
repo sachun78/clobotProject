@@ -48,7 +48,6 @@ class theater_map : Fragment() {
 //
         val mActivity = activity as MainActivity
 //        mActivity.changeVisibility(0)
-        mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
 
         return binding.root
     }
@@ -104,7 +103,7 @@ class theater_map : Fragment() {
             }
 
             binding.theaterMapI2.setImageResource(R.color.white)
-            binding.theaterMapI1.setImageResource(R.color.gray)
+            binding.theaterMapI1.setImageResource(R.color.grey)
 
             selectedBtn = binding.theaterB4
             selectedBtn.isSelected = true
@@ -150,7 +149,7 @@ class theater_map : Fragment() {
                 ttsG = true
             }
 
-            binding.theaterMapI2.setImageResource(R.color.gray)
+            binding.theaterMapI2.setImageResource(R.color.grey)
             binding.theaterMapI1.setImageResource(R.color.white)
 
             selectedBtn = binding.theaterB7

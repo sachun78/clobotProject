@@ -36,7 +36,6 @@ class answer_list_1 : Fragment() {
         binding = FragmentAnswerList1Binding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
-        mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
 
         Log.i("answer_list check ", "is chatPage? " + MainActivity.chatPage)
 

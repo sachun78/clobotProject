@@ -46,7 +46,6 @@ class answer_3 : Fragment() {
         btnBack = binding.answer3B1
 
         val mActivity = activity as MainActivity
-        mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
 
         //////////bitmap 이미지들을 모아둔 배열이 비어있다면
         if (MainActivity.BitmapArray.isNullOrEmpty()) {

@@ -28,7 +28,6 @@ class chat_fail : Fragment() {
         binding = FragmentChatFailBinding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
-        mActivity.findViewById<ImageView>(R.id.qiMessage).visibility = View.GONE
 
         val adapter = FragmentAdapter(this)
         val fragments = listOf<Fragment>(chat_faq(), chat_click(), chat_knowledge())
@@ -36,6 +35,7 @@ class chat_fail : Fragment() {
         adapter.fragments = fragments
 
         binding.chatViewPager.adapter = adapter
+        binding.chatViewPager.setUserInputEnabled(false);
 
         TabLayoutMediator(binding.chatTab, binding.chatViewPager) {
                 tab, position -> tab.text = tabTitles[position]

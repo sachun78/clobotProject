@@ -38,7 +38,6 @@ class answer_4 : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val mActivity = activity as MainActivity
-        mActivity.findViewById<ImageView>(R.id.qrImg).visibility = View.GONE
 
         return inflater.inflate(R.layout.fragment_answer_4, container, false)
     }

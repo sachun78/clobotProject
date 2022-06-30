@@ -118,7 +118,6 @@ class MainActivity : AppCompatActivity() {
 
     private val chatbotService = ChatbotApi.getInstance()
     private lateinit var googleService: GoogleCloudApi;
-    //var qiBtn : ImageView = findViewById(R.id.qiMessage)
 
     ////////////////////관리자 페이지 진입을 위해 필요한 변수/////////////
     var lastClickTime: Long = 0 // 마지막 클릭 시간
@@ -206,8 +205,9 @@ class MainActivity : AppCompatActivity() {
 //                .addToBackStack(null).commit()
 //
 //            subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
-//            changeFragment("test-docent")
-            head.changeExpression(Expression.CURIOUS);
+            changeFragment("test-docent")
+            //head.changeExpression(Expression.CURIOUS);
+//        head.changeExpression_random(Random().nextInt(3))
         }
         backBtn.setOnClickListener {
             supportFragmentManager.popBackStack()
@@ -232,11 +232,6 @@ class MainActivity : AppCompatActivity() {
             v -> TouchContinously()
         }
 
-        findViewById<ImageView>(R.id.qiMessage).setOnClickListener {
-            supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
-                .addToBackStack(null).commit()
-        }
         ////////////main-Button Listener end////////////
 
         // Robot Service Observer
@@ -404,18 +399,13 @@ class MainActivity : AppCompatActivity() {
     //fragment change
     fun changeFragment(page_id: String) {
         when (page_id) {
-            "play" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, play())
+            "information" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, information())
                     .addToBackStack(null).commit()
             }
 
-            "theater" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, theater())
-                    .addToBackStack(null).commit()
-            }
-
-            "enjoy" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy())
+            "docent-select" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, docent_select())
                     .addToBackStack(null).commit()
             }
 
@@ -483,6 +473,11 @@ class MainActivity : AppCompatActivity() {
             }
             "test-docent" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, test_docent())
+                    .addToBackStack(null).commit()
+            }
+            "chat" -> {
+                supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
                     .addToBackStack(null).commit()
             }
         }
