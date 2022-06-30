@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Display
+import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.widget.TextView
@@ -29,7 +30,42 @@ class SubScreen(outerContext: Context?, display: Display?) : Presentation(outerC
         super.onStop()
     }
 }
+class standby(outerContext: Context?, display: Display?) : Presentation(outerContext, display){
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.standby)
 
+        var textView1 = findViewById<TextView>(R.id.standby_t1)
+        var textView2 = findViewById<TextView>(R.id.standby_t1)
+//
+//        //일반 standby 상황 text
+//        textView1.setText("도움이 필요하신가요?")
+
+        //textView2.setText("제가 도와드리겠습니다.")
+
+        //docent - standby 상황 text 다르게 setting
+
+    }
+
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+
+        var action = event.getAction()
+
+        if(action == MotionEvent.ACTION_DOWN) {
+            hide()
+        }
+        return super.onTouchEvent(event)
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+    }
+}
 
 class back_video(outerContext: Context?, display: Display?) : Presentation(outerContext, display),
     SurfaceHolder.Callback {
@@ -102,5 +138,54 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
     override fun hide() {
         super.hide()
         MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("문화해설 서비스를 이용중..")
+    }
+}
+
+//////////////////////////////////////////////////docent//////////////////////////////////////////////////
+class moveNormal(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
+    /////////////////promote-normal, movement-normal
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.normal)
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+}
+
+class moveDocent(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
+    /////////////////move-docent
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.move_docent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+}
+
+class docent_back(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
+    /////////////////docent_back
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.move_docent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
     }
 }

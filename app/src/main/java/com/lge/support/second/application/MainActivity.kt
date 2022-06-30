@@ -36,9 +36,7 @@ import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.view.*
 import com.lge.support.second.application.view.docent.move_docent
 import com.lge.support.second.application.view.docent.test_docent
-import com.lge.support.second.application.view.subView.SubScreen
-import com.lge.support.second.application.view.subView.back_video
-import com.lge.support.second.application.view.subView.standby
+import com.lge.support.second.application.view.subView.*
 import com.lge.support.second.application.view.template.*
 import java.io.InputStream
 import java.net.URL
@@ -115,6 +113,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var displays: Array<Display>
     lateinit var head: HeadPresentation
     lateinit var standby: standby
+    lateinit var move_docent: moveDocent
+    lateinit var movement_normal : moveNormal
+    lateinit var promote_normal : moveNormal
+    lateinit var docent_back : docent_back
 
     private val chatbotService = ChatbotApi.getInstance()
     private lateinit var googleService: GoogleCloudApi;
@@ -183,6 +185,12 @@ class MainActivity : AppCompatActivity() {
 
             head = HeadPresentation(this, displays[2])
             head.show()
+
+            ////////////////////추가
+            move_docent = moveDocent(this, displays[1])
+            movement_normal = moveNormal(this, displays[0])
+            promote_normal = moveNormal(this, displays[1])
+            docent_back = docent_back(this, displays[1])
         }
 
         verifyStoragePermissions(this)

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/docent_background">
+
+    <ImageView
+        android:layout_width="240px"
+        android:layout_height="240px"
+        android:layout_marginTop="180px"
+        android:src="@drawable/danger"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/move_docent_x1"
+        android:layout_width="414px"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="480px"
+        android:text="_x1"
+        android:textSize="72px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/move_docent_x2"
+        android:layout_width="414px"
+        android:layout_height="170px"
+        android:text="_x1"
+        android:textSize="72px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/move_docent_x1" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
