@@ -12,6 +12,7 @@ import com.hivemq.client.mqtt.mqtt5.lifecycle.Mqtt5ClientDisconnectedContext
 import com.hivemq.client.mqtt.mqtt5.message.publish.Mqtt5Publish
 import com.hivemq.client.mqtt.mqtt5.message.subscribe.suback.Mqtt5SubAck
 import com.hivemq.client.mqtt.mqtt5.message.unsubscribe.unsuback.Mqtt5UnsubAck
+import com.lge.support.second.application.data.mqtt.MqttCmdEnum
 import java.nio.charset.Charset
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -121,7 +122,7 @@ abstract class Mqttv5Client : Consumer<Mqtt5Publish> {
         }
     }
 
-    fun <T> publish(topic: String, payload: T) {
+    fun publish(topic: String, payload: Any) {
         val data: String = Gson().toJson(payload)
         Log.d("hjbae", "publish: ${data}")
 

@@ -4,9 +4,9 @@ import android.util.Log
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lge.support.second.application.data.mqtt.*
+import com.lge.support.second.application.data.mqtt.cmd.IReceiveCmd
+import com.lge.support.second.application.data.mqtt.cmd.StopCtrlCmd
 import java.lang.RuntimeException
-import java.lang.reflect.Type
-import kotlin.reflect.typeOf
 
 class MessageConnecter: Mqttv5Client() {
 
@@ -18,6 +18,7 @@ class MessageConnecter: Mqttv5Client() {
     private val mServerTimeToLeaveCount = 0
 
     private val properties: MqttProperties = MqttProperties()
+    private lateinit var mReceiveCmdMap: HashMap<String, IReceiveCmd>
 
     init {
         setId("88")
@@ -29,9 +30,13 @@ class MessageConnecter: Mqttv5Client() {
             Log.e(TAG, "Connection fail")
             return
         }
+        if (!registerCmd()) {
+            Log.e(TAG, "registerCmd fail")
+            return
+        }
     }
 
-    fun connectServer(): Boolean {
+    private fun connectServer(): Boolean {
         try {
             open( getTopicId(), properties.ip, properties.port, properties.id, properties.passwd)
         } catch (e: RuntimeException) {
@@ -41,18 +46,23 @@ class MessageConnecter: Mqttv5Client() {
         return true
     }
 
+    private fun registerCmd(): Boolean {
+        mReceiveCmdMap = HashMap()
+        mReceiveCmdMap[MqttCmdEnum.STOP_CMD.code] = StopCtrlCmd()
+
+        return true
+    }
+
     override fun onReceive(cmd: String?, message: MqttMessage?) {
         Log.d("hjbae", "onReceive: ${message?.getPayload()}")
     }
 
     override fun onResponse(cmd: String?, message: MqttMessage?) {
-        val type = object : TypeToken<Request<StartCtrl>>() {}.type
-        var tmpResult: Request<StartCtrl> = Gson().fromJson(message?.getPayload(), type)
 
-        Log.d("hjbae", "getPayload: ${message?.getPayload()}")
-        Log.d("hjbae", "$tmpResult")
-
-        publish(tmpResult.replyTo, tmpResult.request)
+        val curCmd: IReceiveCmd? = mReceiveCmdMap[cmd]
+        if (curCmd?.process(message) == true) {
+            publish(curCmd.getTopic(), curCmd.getPayLoad())
+        }
     }
 
     companion object {
