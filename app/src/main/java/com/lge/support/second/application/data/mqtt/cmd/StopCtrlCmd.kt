@@ -26,6 +26,8 @@ class StopCtrlCmd: IReceiveCmd {
         Log.d("hjbae", "getPayload: ${msg?.getPayload()}")
         Log.d("hjbae", "$mRequest")
 
+        TODO("Robot Sop 기능 적용 필요")
+
         mTopic =  mRequest.replyTo
         mResponse = ResponseData<StopRequest>("", 0, "", StopRequest())
 

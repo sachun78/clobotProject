@@ -204,8 +204,7 @@ abstract class Mqttv5Client : Consumer<Mqtt5Publish> {
             Log.d(TAG,">> [" + mClientId + "] RECV: payload[" + String(payload.payloadAsBytes) + "]")
             //var isResponse = String(payload.payloadAsBytes).indexOf(""""replyTo":"/$mTopicId/response"""")
             var isResponse = String(payload.payloadAsBytes).indexOf(""""replyTo"""")
-            Log.d("hjbae", """"replyTo":"/$mTopicId/response"""")
-            Log.d("hjbae", "$isResponse")
+
             if (isResponse != -1) {
                 onResponse(cmd, MqttMessage.of(payload))
             } else {

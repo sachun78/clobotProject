@@ -5,6 +5,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.lge.support.second.application.data.mqtt.*
 import com.lge.support.second.application.data.mqtt.cmd.IReceiveCmd
+import com.lge.support.second.application.data.mqtt.cmd.MoveToCtrlCmd
 import com.lge.support.second.application.data.mqtt.cmd.StopCtrlCmd
 import java.lang.RuntimeException
 
@@ -49,6 +50,7 @@ class MessageConnecter: Mqttv5Client() {
     private fun registerCmd(): Boolean {
         mReceiveCmdMap = HashMap()
         mReceiveCmdMap[MqttCmdEnum.STOP_CMD.code] = StopCtrlCmd()
+        mReceiveCmdMap[MqttCmdEnum.MOVETO_CMD.code] = MoveToCtrlCmd()
 
         return true
     }

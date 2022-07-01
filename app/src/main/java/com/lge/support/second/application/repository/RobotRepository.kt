@@ -279,6 +279,16 @@ class RobotRepository {
         )
     }
 
+    fun moveToPos(x: Double, y: Double, z: Double, deg: Double) {
+        val mInitPos = mPoiManager.getInitPosition()
+
+        val pos = PosXYZDeg(x, y, z, deg)
+        mNavigationManager.doMoveToGoalEx(
+            mInitPos?.buildingIndex, mInitPos?.floorIndex,
+            pos, 1.0, 3.0
+        )
+    }
+
     private fun setLed(state: LEDState = LEDState.NORMAL) {
         // location: FRONT : 0, REAR : 1, LEFT : 2, RIGHT :  3 ,  ALL :255
         // mode : ALWAYS_ON : 0, BLINK : 1, GRADATION : 2
