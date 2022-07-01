@@ -1,19 +1,16 @@
 package com.lge.support.second.application.model
 
-
+import android.app.Application
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
+import androidx.work.*
 import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
-import com.lge.robot.platform.data.ActionStatus
-import com.lge.robot.platform.data.ErrorReport
-import com.lge.robot.platform.data.NaviActionInfo
-import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.data.chatbot.ChatRequest
 import com.lge.support.second.application.data.chatbot.ChatbotData
-import com.lge.support.second.application.data.robot.NaviError
 import com.lge.support.second.application.database.pageConfig.PageConfig
+import com.lge.support.second.application.managers.robot.worker.ScheduleWorker
 import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.PageConfigRepo
 import com.lge.support.second.application.util.Resource
@@ -25,8 +22,9 @@ import com.example.googlecloudmanager.common.Resource as R2
 class MainViewModel(
     private val repository: ChatbotRepository,
     private val googleRepositiory: GoogleCloudRepository,
-    private val pageConfigRepo: PageConfigRepo
-) : ViewModel() {
+    private val pageConfigRepo: PageConfigRepo,
+    application: Application
+) : AndroidViewModel(application) {
     var ischatfirst: Boolean = true    ///////chat페이지 처음 진입하는 것인지 여부//////
     private val TAG = "MainViewModel"
     private val _queryResult: MutableLiveData<ChatbotData?> = MutableLiveData<ChatbotData?>()
@@ -37,6 +35,12 @@ class MainViewModel(
 
     private val _speechStatus: MutableLiveData<String> = MutableLiveData()
     val speechStatus: LiveData<String> get() = _speechStatus
+
+    private val workManager = WorkManager.getInstance(application)
+
+    init {
+        cancelSchedule()
+    }
 
     // page config
     val pageConfgs = pageConfigRepo.getAllPageConfig().asLiveData()
@@ -55,7 +59,7 @@ class MainViewModel(
     }
 
     // Use Chatbot
-    fun getResponse(in_str: String, in_type: String? = null, raw_str: String = "") {
+    suspend fun getResponse(in_str: String, in_type: String? = null, raw_str: String = "") {
         val domain_id = "seoul_mmca"
         val request = ChatRequest(
             domain_id,
@@ -67,7 +71,7 @@ class MainViewModel(
             )
         )
 
-        repository(request).onEach { result ->
+        val job = repository(request).onEach { result ->
             when (result) {
                 is Resource.Success -> {
                     _queryResult.value = result.data!!
@@ -80,6 +84,12 @@ class MainViewModel(
                 }
             }
         }.launchIn(viewModelScope)
+
+        //chatbot request.. async
+        job.join()
+//        while (!job.isCompleted) {
+//            Thread.sleep(100)
+//        }
     }
 
     // Use GoogleCloud API
@@ -138,41 +148,24 @@ class MainViewModel(
         }.launchIn(viewModelScope)
     }
 
-    private fun checkNaviActionStatus(status: ActionStatus) {
-        when (status.motionStatus.geteStatus()) {
-            NaviActionInfo.MOTION_STATUS_AVODING_OBS,
-            NaviActionInfo.MOTION_STATUS_STOP_BY_OBS,
-            NaviActionInfo.MOTION_STATUS_PATH_FAIL_GOAL_OCCUPIED -> {
-                googleRepositiory.speak(
-                    MainActivity.mainContext(),
-                    "조심하세요. 제가 지나갈 수 있도록 옆으로 비켜주세요"
-                )
-            }
-        }
+    internal fun enrollSchedule() {
+        val workRequest = OneTimeWorkRequestBuilder<ScheduleWorker>().build()
+        workManager.enqueueUniqueWork(
+            "schedule",
+            ExistingWorkPolicy.KEEP, workRequest
+        )
     }
 
-    private fun checkNaviError(data: NaviError) {
-        when (data.errorId) {
-            ErrorReport._e_error_event.eERR_SLAM.ordinal -> {
-                println("slam Error 1")
-            }
-            ErrorReport._e_error_event.eERR_SLAM_NON_OPERATION_AREA.ordinal -> {
-                //로봇을 맵 밖으로 강제 이동시
-                println("slam Error 2")
-                //or you can re start gkr
-            }
-            ErrorReport._e_error_event.eERR_MAP_LOADING_FAIL.ordinal -> {
-                // 네비 엔진에서 맵을 못찾을 경우
-                println("slam Error 3")
-            }
-        }
+    internal fun cancelSchedule() {
+        workManager.cancelUniqueWork("schedule")
     }
 
 
     class Factory(
         private val repository: ChatbotRepository,
         private val googleRepository: GoogleCloudRepository,
-        private val pageConfigRepo: PageConfigRepo
+        private val pageConfigRepo: PageConfigRepo,
+        private val application: Application
     ) :
         ViewModelProvider.Factory { // factory pattern
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -180,7 +173,8 @@ class MainViewModel(
                 return MainViewModel(
                     this.repository,
                     this.googleRepository,
-                    this.pageConfigRepo
+                    this.pageConfigRepo,
+                    this.application
                 ) as T
             }
             throw IllegalArgumentException("ViewModel Not Found")

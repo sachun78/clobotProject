@@ -8,75 +8,78 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.graphics.drawable.toBitmap
 import com.lge.robot.platform.data.SLAM3DPos
 import com.lge.robot.platform.util.poi.data.POI
+import com.lge.support.second.application.data.robot.MoveState
 import com.lge.support.second.application.managers.robot.PoiDbManager
+import com.lge.support.second.application.databinding.ActivityTestBinding
 
 class TestActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityTestBinding
     private var mPOIs: ArrayList<POI>? = null
     lateinit var image1: Bitmap
     lateinit var canvas: Canvas
+    private var selectedPOI: POI? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_test)
+
+        binding = ActivityTestBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         mPOIs = PoiDbManager(this).getAllPoi()
 
-        var listView = findViewById<ListView>(R.id.listview)
+        var listView = binding.listview
         var listItems = arrayListOf<POI>()
         var adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, listItems)
         listView.adapter = adapter
 
         //fd.create()
-        findViewById<Button>(R.id.btn_undocking).setOnClickListener {
+        binding.btnUndocking.setOnClickListener {
             MainActivity.robotViewModel.undockingRequest()
         }
 
-        findViewById<Button>(R.id.btn_docking).setOnClickListener {
+        binding.btnDocking.setOnClickListener {
             MainActivity.robotViewModel.dockingRequest()
         }
 
-        findViewById<Button>(R.id.btn_pois).setOnClickListener {
-            listItems.addAll(mPOIs ?: arrayListOf<POI>())
+        binding.btnPois.setOnClickListener {
+            listItems.addAll(mPOIs ?: arrayListOf())
             Log.i("HJBAE", "data: $listItems")
             adapter.notifyDataSetChanged()
         }
 
-        findViewById<Button>(R.id.btn_cruise).setOnClickListener {
-            MainActivity.robotViewModel.cruiseRequest()
+        binding.btnCruise.setOnClickListener {
+//            robotViewModel.cruiseRequest()
+            MainActivity.robotViewModel.onGkr()
         }
 
         listView.setOnItemClickListener { parent, view, pos, id ->
-            mPOIs?.let { MainActivity.robotViewModel.move(it.get(id.toInt())) }
+            mPOIs?.let {
+                selectedPOI = it.get(id.toInt())
+                MainActivity.robotViewModel.move(selectedPOI!!)
+            }
             Toast.makeText(this, "pos:${pos}, id:${id}", Toast.LENGTH_SHORT).show()
         }
 
-        MainActivity.robotViewModel.isMoving.observe(this) {
-            if (it == true) {
-                MainActivity.subTest.findViewById<TextView>(R.id.sub_textView)
-                    .setText("MOVING PAGE")
-            } else {
-                MainActivity.subTest.findViewById<TextView>(R.id.sub_textView)
-                    .setText("WAITING PAGE")
+        MainActivity.robotViewModel.moveState.observe(this) {
+            when (it) {
+                MoveState.MOVE_DONE -> MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).text =
+                    "WAITING"
+                MoveState.MOVING -> TODO()
+                MoveState.MOVE_START -> MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).text =
+                    "MOVING"
+                MoveState.MOVE_FAIL -> MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).text =
+                    "MOVE ERROR"
+                MoveState.SCHEDULE_MOVE -> TODO()
+                MoveState.SCHEDULE_WAIT -> TODO()
             }
         }
 
-        MainActivity.robotViewModel.isDocking.observe(this) {
-            if (it == true) {
-                MainActivity.subTest.findViewById<TextView>(R.id.sub_textView)
-                    .setText("Docking...")
-            } else {
-                MainActivity.subTest.findViewById<TextView>(R.id.sub_textView)
-                    .setText("WAITING PAGE")
-            }
-        }
-
-        MainActivity.viewModel.queryResult.observe(this) {
-            if (it != null) {
-                MainActivity.viewModel.ttsSpeak(this, it.speech[0])
-            }
-        }
+//        viewModel.queryResult.observe(this) {
+//            if (it != null) {
+//                MainActivity.viewModel.ttsSpeak(this, it.speech[0])
+//            }
+//        }
 
         var finishButton: Button = findViewById<Button>(R.id.testActivityBtn)
 
@@ -89,10 +92,10 @@ class TestActivity : AppCompatActivity() {
         canvas = Canvas(temp)
         canvas.drawBitmap(temp, 0f, 0f, null)
 
-        findViewById<ImageView>(R.id.imageView123).setImageBitmap(temp)
+        binding.imageView123.setImageBitmap(temp)
 
-        MainActivity.robotViewModel.mSLAM3DPos.observe(this) {
-            draw(it, 450, 480, 140, 40)
+        MainActivity.robotViewModel.mSLAM3DPos.observe(this) { pos ->
+            draw(pos, 450, 480, 140, 40)
         }
     }
 
@@ -101,14 +104,27 @@ class TestActivity : AppCompatActivity() {
         val temp = Bitmap.createBitmap(image1, x, y, width, height)
         canvas.drawBitmap(temp, 0f, 0f, null)
 
-        val drawable = getDrawable(R.drawable.ic_robot_body1) as VectorDrawable
-
-        drawable.setBounds(
+        val robot_drawable = getDrawable(R.drawable.ic_robot_body1) as VectorDrawable
+        robot_drawable.setBounds(
             0, 0, 12, 12,
         )
 
+        if (selectedPOI != null) {
+            val pinDrawable = getDrawable(R.drawable.ic_map_pin) as VectorDrawable
+            pinDrawable.setBounds(
+                0, 0, 16, 16,
+            )
 
-        canvas.save();
+            canvas.save();
+            canvas.translate(
+                selectedPOI!!.positionX * 10 - x,
+                (y + height - selectedPOI!!.positionY * 10)
+            )
+            pinDrawable.draw(canvas)
+        }
+
+
+        canvas.restore()
         // 510 -> y좌표 시작점 480 + height 40
         canvas.translate(
             (pos.robotPos.x * 10 - x).toFloat(),
@@ -120,15 +136,8 @@ class TestActivity : AppCompatActivity() {
             6f,
             6f
         )
-//        drawable.draw(canvas)
-
+        robot_drawable.draw(canvas)
         canvas.restore()
-
-        canvas.drawBitmap(
-            drawable.toBitmap(12, 12), (pos.robotPos.x * 10 - x).toFloat(),
-            ((y + height) - pos.robotPos.y * 10).toFloat(), null
-        )
-
-        findViewById<ImageView>(R.id.imageView123).invalidate()
+        binding.imageView123.invalidate()
     }
 }

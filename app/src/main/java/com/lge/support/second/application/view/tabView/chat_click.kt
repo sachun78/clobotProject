@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.databinding.FragmentChatClickBinding
 import com.lge.support.second.application.view.adapter.questionModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class chat_click : Fragment() {
 
@@ -47,7 +49,10 @@ class chat_click : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.clickGridView.setOnItemClickListener { adapterView, view, i, l ->
-            MainActivity.viewModel.getResponse(questions[i])
+
+            GlobalScope.launch {
+                MainActivity.viewModel.getResponse(questions[i])
+            }
         }
     }
 

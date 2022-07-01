@@ -1,7 +1,7 @@
 package com.lge.support.second.application.model
 
+import android.app.Application
 import android.util.Log
-import android.widget.TextView
 import androidx.lifecycle.*
 import com.lge.robot.platform.EventIndex
 import com.lge.robot.platform.data.*
@@ -9,7 +9,7 @@ import com.lge.robot.platform.error.ErrorStatusBean
 import com.lge.robot.platform.navigation.NavigationMessageType
 import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.MainActivity
-import com.lge.support.second.application.R
+import com.lge.support.second.application.data.robot.MoveState
 import com.lge.support.second.application.data.robot.NaviError
 import com.lge.support.second.application.data.robot.NaviErrorStatus
 import com.lge.support.second.application.data.robot.NavigationMessage
@@ -24,12 +24,14 @@ import java.util.*
 import kotlin.random.Random
 
 
-class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel() {
+class RobotViewModel(
+    private val robotRepository: RobotRepository, application: Application
+) : AndroidViewModel(application) {
     companion object {
         private const val TAG = "RobotViewModel"
     }
 
-    //    private val workManager = WorkManager.getInstance(application)
+    // private val workManager = WorkManager.getInstance(application)
     private var mTimerTask: Timer
     var currentJob: Job? = null
 
@@ -45,17 +47,17 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
     private val _isMoving = MutableLiveData(false)
     val isMoving: LiveData<Boolean> = _isMoving
 
+    private val _moveState = MutableLiveData<MoveState>()
+    val moveState: LiveData<MoveState> get() = _moveState
+
     private val _emergency = MutableLiveData(false)
-    val emergency: LiveData<Boolean> = _emergency
+    val emergency: LiveData<Boolean> get() = _emergency
 
     private val _isSchedule = MutableLiveData(false)
     val isSchedule: LiveData<Boolean> = _isSchedule
 
     private val _isScheduleWait = MutableLiveData(false)
     val isScheduleWait: LiveData<Boolean> = _isScheduleWait
-
-    private val _isUnDocking = MutableLiveData(false)
-    val isUnDocking: LiveData<Boolean> = _isUnDocking
 
     private val _isDocking = MutableLiveData(false)
     val isDocking: LiveData<Boolean> = _isDocking
@@ -71,11 +73,17 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
     val pois = RobotRepository.mPoiManager.getAllPoi()
     private var cruiseCount = 0
 
+    private var gkr_try_count = 0
+
     override fun onCleared() {
         super.onCleared()
         mTimerTask.cancel()
     }
 
+    /**
+     * register a robot data callbacks
+     *
+     */
     init {
         robotRepository.powerMangerCallback.onEach { powerMode ->
             mPowerMode.value = powerMode as Int
@@ -90,10 +98,6 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
                 is NaviStatus2 -> mNaviStatus2.value = naviData
                 is SLAM3DPos -> {
                     mSLAM3DPos.value = naviData
-//                    if (naviData.slamStatus == SLAM3DPos.SLAMStatus.SLAM_STATUS_GKR_FAILED && !isGkrProcessing.value!!) {
-//                        isGkrProcessing.value = true
-//                        robotRepository.findPosition()
-//                    }
                 }
                 is NaviActionInfo -> {
                     mNaviActionInfo.value = naviData
@@ -111,9 +115,11 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
         robotRepository.sensorManagerCallback.onEach { sensorState ->
             when (sensorState) {
                 SensorStatus.EmergencyStatusCode.EMERGENCY_PRESS -> {
+                    _emergency.value = true
                 }
                 SensorStatus.EmergencyStatusCode.EMERGENCY_RELEASE -> {
-//                    RobotRepository.mPowerManager.robotActivation()
+                    println("1, EMERGENCY RELEASED")
+                    _emergency.value = false
                 }
             }
         }.launchIn(viewModelScope)
@@ -151,8 +157,6 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
 //                        MainActivity.mainContext(),
 //                        "문화 해설 위치로 이동합니다. 저를 따라오세요."
 //                    )
-                    MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).text =
-                        "저를 따라오세요. \n 목적지로 안내하겠습니다."
                 }
                 "move_done" -> {
                     page.changeFragment("docent")
@@ -185,12 +189,16 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
         }
 
         RobotRepository.mNavigationManager.doUndockingEx()
-        RobotRepository.mNavigationManager.doRotationEx(180.0)
+        RobotRepository.mNavigationManager.doRelativeRotationEx(180.0, 40.0)
         Log.d(TAG, "unDocking - end");
     }
 
     fun move(poi: POI) {
         robotRepository.moveWithPoi(poi)
+    }
+
+    fun onGkr() {
+        robotRepository.findPosition()
     }
 
     fun dockingRequest() {
@@ -199,11 +207,6 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
 
     fun undockingRequest() {
         unDocking().launchIn(viewModelScope)
-    }
-
-
-    fun cruiseRequest() {
-        cruise.launchIn(viewModelScope)
     }
 
     private fun docking(): Flow<Boolean> = flow {
@@ -218,6 +221,11 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
             emit(false)
         }
     }
+
+    /**
+     *  Test cruise Flow. for schedule and Entire docent
+     *
+     */
 
     private val cruise: Flow<Boolean> = flow {
         _isSchedule.value = true
@@ -250,6 +258,11 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
         _isSchedule.value = true
     }
 
+    /**
+     * Robot Message Handlers.
+     * @author heechan
+     */
+
     private fun checkNaviActionStatus(status: ActionStatus) {
         when (status.motionStatus.geteStatus()) {
             NaviActionInfo.MOTION_STATUS_STOP_BY_PEOPLE,
@@ -267,9 +280,10 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
             }
             ErrorReport._e_error_event.eERR_SLAM_NON_OPERATION_AREA.ordinal -> {
                 //로봇을 맵 밖으로 강제 이동시
-                println("slam Error 2")
-                // retry gkr
-                robotRepository.findPosition()
+                if (gkr_try_count < 3) {
+                    robotRepository.findPosition()
+                    gkr_try_count++
+                }
             }
             ErrorReport._e_error_event.eERR_MAP_LOADING_FAIL.ordinal -> {
                 // 네비 엔진에서 맵을 못찾을 경우
@@ -304,11 +318,15 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
                     when (statusCode) {
                         SensorStatus.EmergencyStatusCode.EMERGENCY_PRESS -> {
                             Log.d(TAG, "emergency pressed")
-                            _emergency.value = true
+                            if (emergency.value == false) {
+                                _emergency.value = true
+                            }
                         }
                         SensorStatus.EmergencyStatusCode.EMERGENCY_RELEASE -> {
                             Log.d(TAG, "emergency released")
-                            _emergency.value = false
+                            if (emergency.value == true) {
+                                _emergency.value = false
+                            }
                         }
                     }
                 }
@@ -337,7 +355,7 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_MOVE_TO_GOAL_DONE -> {
                 println("MOVE GOAL DONE")
-                _isMoving.value = false
+                _moveState.value = MoveState.MOVE_DONE
                 if (isDocking.value == true) {
                     _isDocking.postValue(true)
                     RobotRepository.mNavigationManager.doDockingEx()
@@ -353,13 +371,12 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_MOVE_TO_GOAL_ACCEPTED -> {
                 println("MOVE GOAL ACCEPTED")
                 if (isDocking.value != true) {
-                    _isMoving.value = true
+                    _moveState.value = MoveState.MOVE_START
                 }
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_DOCKING_ACCEPTED -> {
                 println("DOCKING ACCEPTED")
                 _isDocking.value = true
-                _isUnDocking.value = false
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_DOCKING_DONE -> {
                 println("DOCKING SUCCESS")
@@ -369,25 +386,24 @@ class RobotViewModel(private val robotRepository: RobotRepository) : ViewModel()
 
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_UNDOCKING_ACCEPTED -> {
                 println("UNDOCKING Accepted")
-                _isUnDocking.value = true
                 _isDocking.value = false
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_UNDOCKING_DONE -> {
                 println("UNDOCKING SUCCESS")
-                _isUnDocking.value = false
             }
         }
     }
 
-
     class Factory(
         private val robotRepository: RobotRepository,
+        private val application: Application
     ) :
         ViewModelProvider.Factory { // factory pattern
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(RobotViewModel::class.java)) {
                 return RobotViewModel(
                     this.robotRepository,
+                    this.application
                 ) as T
             }
             throw IllegalArgumentException("ViewModel Not Found")

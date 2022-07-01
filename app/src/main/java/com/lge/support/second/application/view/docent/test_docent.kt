@@ -10,12 +10,16 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.google.android.filament.EntityManager
+import com.google.android.filament.LightManager
 import com.google.android.filament.Skybox
+import com.google.android.filament.utils.KtxLoader
 import com.google.android.filament.utils.ModelViewer
 import com.google.android.filament.utils.Utils
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import java.nio.ByteBuffer
+
 
 class test_docent : Fragment(), SurfaceHolder.Callback {
     private lateinit var surfaceView: SurfaceView
@@ -60,11 +64,31 @@ class test_docent : Fragment(), SurfaceHolder.Callback {
         modelViewer = ModelViewer(surfaceView)
         surfaceView.setOnTouchListener(modelViewer)
 
-        modelViewer.scene.skybox = Skybox.Builder().build(modelViewer.engine)
+        modelViewer.scene.removeEntity(modelViewer.light)
 
-        val buffer = readAsset(context, "k002.glb")
+        val mLight = EntityManager.get().create()
+
+        val options = LightManager.ShadowOptions()
+        options.shadowCascades
+
+        LightManager.Builder(LightManager.Type.DIRECTIONAL)
+            .color(1f, 1f, 1f)
+            .direction(0.5f, -0.5f, 1f)
+            .shadowOptions(options)
+            .intensityCandela(100_000.0f)
+            .build(modelViewer.engine, mLight)
+
+        modelViewer.scene.addEntity(mLight);
+
+        modelViewer.scene.skybox = Skybox.Builder()
+            .build(modelViewer.engine)
+
+
+        val buffer = readAsset(context, "k009.glb")
         modelViewer.loadModelGlb(buffer)
         modelViewer.transformToUnitCube()
+
+        loadEnvironment()
 
         return rootView
     }
@@ -103,6 +127,15 @@ class test_docent : Fragment(), SurfaceHolder.Callback {
         super.onDestroy()
         choreographer.removeFrameCallback(frameCallback)
     }
+
+    fun loadEnvironment() {
+        var buffer = readAsset(context, "environment/venetian_crossroads_2k_ibl.ktx")
+        KtxLoader.createIndirectLight(modelViewer.engine, buffer).apply {
+            intensity = 13_000f
+            modelViewer.scene.indirectLight = this
+        }
+    }
+
 
     private val frameCallback = object : Choreographer.FrameCallback {
         private val startTime = System.nanoTime()

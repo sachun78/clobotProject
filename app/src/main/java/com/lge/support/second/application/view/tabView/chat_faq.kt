@@ -13,6 +13,8 @@ import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatFaqBinding
 import com.lge.support.second.application.view.adapter.questionModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class chat_faq : Fragment() {
@@ -51,7 +53,9 @@ class chat_faq : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.faqGridView.setOnItemClickListener { adapterView, view, i, l ->
-            MainActivity.viewModel.getResponse(questions[i])
+            GlobalScope.launch {
+                MainActivity.viewModel.getResponse(questions[i])
+            }
         }
     }
 

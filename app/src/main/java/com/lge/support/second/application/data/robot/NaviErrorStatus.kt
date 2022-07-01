@@ -83,6 +83,7 @@ class NaviErrorStatus {
                 val statusCode = devStatus.statusCode
                 config.setRawStatusCode(String.format("%02X", statusCode and 0xFF))
                 config.setSubId(subId)
+                config.setStatusCode(devStatus.toString())
                 Log.d(TAG, "add error $config")
                 naviErrors.add(config)
                 return true
@@ -130,9 +131,5 @@ class NaviErrorStatus {
         }
         Log.d(TAG, "isMatchStatusCode for ($configStatusCode,$statusCode) return false")
         return false
-    }
-
-    fun getErrors(): ArrayList<ErrorConfig>? {
-        return naviErrors
     }
 }

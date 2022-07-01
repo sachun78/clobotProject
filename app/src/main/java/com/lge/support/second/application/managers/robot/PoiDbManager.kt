@@ -65,8 +65,4 @@ class PoiDbManager {
     fun getAllPoi(): ArrayList<POI>? {
         return mPoi.allPOI
     }
-    fun test(): POI {
-//        mPoi.chargerPosPOI
-        return mPoi.chargerPosPOI
-    }
 }

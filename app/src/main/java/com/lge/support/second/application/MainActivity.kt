@@ -117,11 +117,11 @@ class MainActivity : AppCompatActivity() {
     lateinit var head: HeadPresentation
     lateinit var standby: standby
     lateinit var move_docent: moveDocent
-    lateinit var movement_normal : moveNormal
-    lateinit var promote_normal : moveNormal
-    lateinit var docent_back : docent_back
+    lateinit var movement_normal: moveNormal
+    lateinit var promote_normal: moveNormal
+    lateinit var docent_back: docent_back
 
-    private val chatbotService = ChatbotApi.getInstance()
+    private val chatbotService = ChatbotApi.instance
     private lateinit var googleService: GoogleCloudApi;
 
     ////////////////////관리자 페이지 진입을 위해 필요한 변수/////////////
@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity() {
         var backBtn: Button = findViewById(R.id.backBtn)
         var korBtn: Button = findViewById(R.id.korBtn)
         var enBtn: Button = findViewById(R.id.enBtn)
-        var adminBtn : Button = findViewById(R.id.EnterAdminBtn)
+        var adminBtn: Button = findViewById(R.id.EnterAdminBtn)
 
         displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
@@ -164,14 +164,16 @@ class MainActivity : AppCompatActivity() {
             MainViewModel.Factory(
                 ChatbotRepository(chatbotService),
                 GoogleCloudRepository(googleService),
-                (application as MainApplication).mPageConfigRepo
+                (application as MainApplication).mPageConfigRepo,
+                application as MainApplication
             )
         ).get(MainViewModel::class.java)
 
         robotViewModel = ViewModelProvider(
             this@MainActivity,
             RobotViewModel.Factory(
-                (application as MainApplication).mRobotRepo
+                (application as MainApplication).mRobotRepo,
+                application as MainApplication
             )
         ).get(RobotViewModel::class.java)
 
@@ -218,9 +220,8 @@ class MainActivity : AppCompatActivity() {
 //            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
 //                .addToBackStack(null).commit()
 //
-//            subTest.findViewById<TextView>(R.id.sub_textView).setText("docking - start")
+//            viewModel.enrollSchedule()
             changeFragment("test-docent")
-            //head.changeExpression(Expression.CURIOUS);
 //        head.changeExpression_random(Random().nextInt(3))
         }
         backBtn.setOnClickListener {
@@ -242,18 +243,22 @@ class MainActivity : AppCompatActivity() {
             viewModel.setLanguage(Language.English)
             recreate()
         }
-        adminBtn.setOnClickListener {
-            v -> TouchContinously()
+        adminBtn.setOnClickListener { v ->
+            TouchContinously()
         }
 
         ////////////main-Button Listener end////////////
 
         // Robot Service Observer
         robotViewModel.emergency.observe(this) {
+            println("$it, emergency")
             if (it == true) {
-                println("emergency")
-                subTest.findViewById<TextView>(R.id.sub_textView).text = "emergency, enabled"
+                head.changeExpression(Expression.CURIOUS)
+                standby(this, displays[0]).show()
+                standby(this, displays[1]).show()
+                return@observe
             }
+            head.changeExpression(Expression.WINK)
         }
 
         viewModel.queryResult.observe(this) {
@@ -261,16 +266,10 @@ class MainActivity : AppCompatActivity() {
             if (it == null) {
                 return@observe
             }
-            //viewModel.ttsSpeak(this, it.speech[0])
-//            head.changeText(it.speech[0] + " (" + it.customCode.head + ")")
-//            it.messages.forEach { message ->
-//                Log.d("ViewModel Observe", message.image.toString())
-//            }
+
             page_id = it.customCode.page_id
             tpl_id = it.template_id
 
-            //speechStr = ""
-            //if (it.speech.isNotEmpty()) { //it.data.result.fulfillment.speech.isNotEmpty()
             var speechSize = it.speech.size
             Log.d("tk_test", "speechSize is " + speechSize)
 
@@ -280,19 +279,14 @@ class MainActivity : AppCompatActivity() {
                 speechStr += it.speech[i]
                 Log.d("tk_test", "speech string is " + speechStr)
             }
-            //viewModel.ttsSpeak(this, it.speech[0])
-            //speechStr = it.speech[0]
-            if (speechStr == null) {
-                Log.d("tk_test", "speech string null find")
-            }
 
             if (speechStr != "")
                 viewModel.ttsSpeak(this, speechStr)
-            //}
 
-            if (it.customCode.page_id != null) {
+            if (it.customCode.page_id != null)
                 page_id = it.customCode.page_id
-            } else page_id = ""
+            else page_id = ""
+
             if (it.template_id != null) {
                 tpl_id = it.template_id
             } else tpl_id = ""
@@ -419,7 +413,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             "docent-select" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, docent_select())
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main, docent_select())
                     .addToBackStack(null).commit()
             }
 
@@ -537,43 +532,31 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
+        when (item.itemId) {
+            R.id.action_exit -> {
+                moveTaskToBack(true);
+                android.os.Process.killProcess(android.os.Process.myPid());
+                System.exit(1);
+            }
+            R.id.testBtn -> {
+                val testIntent = Intent(this, TestActivity::class.java)
+                startActivity(testIntent)
+            }
+            R.id.enginBtn -> {
+                var intent = packageManager.getLaunchIntentForPackage("com.lge.engineermenu")
+                //intent?.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
 
-        if (id == R.id.action_exit) {
-            moveTaskToBack(true);
-            android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
-        }
-        /////////////////////test Activity///////////////////////////
-        else if (id == R.id.testBtn) {
-            val testIntent = Intent(this, TestActivity::class.java)
-            startActivity(testIntent)
-        } else if (id == R.id.enginBtn) {
-//            var settingintent : Intent = Intent(this, TestActivity::class.java)
-//            this.startActivity(settingintent)
-            var intent = packageManager.getLaunchIntentForPackage("com.lge.engineermenu")
-            //intent?.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
+                var options = ActivityOptions.makeBasic()
+                options.launchDisplayId = 1
 
-            var options = ActivityOptions.makeBasic()
-            options.launchDisplayId = 1
-
-            subTest.hide()
-            startActivity(intent, options.toBundle())
-            //startActivity(intent)
-        }
-        else if(id == R.id.webBtn) {
-            startActivity(Intent(this, webViewTestActivity::class.java))
+                subTest.hide()
+                startActivity(intent, options.toBundle())
+            }
+            R.id.webBtn -> {
+                startActivity(Intent(this, webViewTestActivity::class.java))
+            }
         }
 
         return super.onOptionsItemSelected(item)
     }
-
-
-}
-
-fun loadImage(imageUrl: String): Bitmap {
-    val url = URL(imageUrl)
-    val stream = url.openStream()
-
-    return BitmapFactory.decodeStream(stream)
 }

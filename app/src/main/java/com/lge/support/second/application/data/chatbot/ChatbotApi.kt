@@ -1,6 +1,5 @@
 package com.lge.support.second.application.data.chatbot
 
-import android.util.Log
 import com.lge.support.second.application.data.chatbot.dto.ChatbotResponseDto
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -15,18 +14,11 @@ interface ChatbotApi {
 
     companion object {
         const val BASE_URL = "http://59.13.28.124:5201/"
-        var chatbotService: ChatbotApi? = null
-
-        fun getInstance(): ChatbotApi {
-            if (chatbotService == null) {
-                val retrofit = Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build()
-                chatbotService = retrofit.create(ChatbotApi::class.java)
-            }
-            Log.i("ChatbotApi", "chat bot service created!")
-            return chatbotService!!
+        val instance: ChatbotApi by lazy {
+            Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build().create(ChatbotApi::class.java)
         }
     }
 }

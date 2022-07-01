@@ -16,6 +16,9 @@ import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatBinding
 import com.lge.support.second.application.view.adapter.questionModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import kotlin.collections.ArrayList
 
 
@@ -34,7 +37,8 @@ class chat : Fragment() {
         binding = FragmentChatBinding.inflate(inflater, container, false)
 
         val mActivity = activity as MainActivity
-        mActivity.findViewById<ConstraintLayout>(R.id.background).setBackgroundResource(R.drawable.gongju_background_3)
+        mActivity.findViewById<ConstraintLayout>(R.id.background)
+            .setBackgroundResource(R.drawable.gongju_background_3)
 
         var dialog = Dialog(mActivity)
         dialog.setContentView(R.layout.count_dialog)
@@ -65,7 +69,7 @@ class chat : Fragment() {
 
         binding.chatB1.text = "시각장애인"
 
-        MainActivity.viewModel.speechText.observe(viewLifecycleOwner){
+        MainActivity.viewModel.speechText.observe(viewLifecycleOwner) {
             binding.chatX2.text = it
         }
 
@@ -97,16 +101,18 @@ class chat : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        Log.d("tk_test" , "chat page destroy")
+        Log.d("tk_test", "chat page destroy")
         MainActivity.viewModel.ischatfirst = true
         MainActivity.viewModel.ttsStop()
         MainActivity.viewModel.speechStop()
     }
 
-    inner class ButtonListener : View.OnClickListener{
+    inner class ButtonListener : View.OnClickListener {
         override fun onClick(v: View?) {
-            when(v?.id){
-                R.id.chat_b1 ->MainActivity.viewModel.getResponse(binding.chatB1.text.toString())
+            GlobalScope.launch {
+                when (v?.id) {
+                    R.id.chat_b1 -> MainActivity.viewModel.getResponse(binding.chatB1.text.toString())
+                }
             }
         }
     }

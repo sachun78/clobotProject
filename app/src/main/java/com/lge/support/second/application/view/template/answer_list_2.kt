@@ -19,6 +19,8 @@ import com.lge.support.second.application.databinding.FragmentAnswerList2Binding
 import com.lge.support.second.application.view.adapter.answerList2Adapter
 import com.lge.support.second.application.view.adapter.answerlist2Model
 import io.grpc.InternalChannelz.id
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class answer_list_2 : Fragment() {
@@ -71,7 +73,12 @@ class answer_list_2 : Fragment() {
             Log.i("answer_list_2", "in_type is " + Arrtype[position])
 
 //            nameList[position].text?.let { MainActivity.viewModel.getResponse(it, Arrtype[position]) }
-            MainActivity.viewModel.getResponse(nameList[position].text.toString(), Arrtype[position])
+            GlobalScope.launch {
+                MainActivity.viewModel.getResponse(
+                    nameList[position].text.toString(),
+                    Arrtype[position]
+                )
+            }
 
         }
 

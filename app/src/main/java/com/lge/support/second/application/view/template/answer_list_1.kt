@@ -13,6 +13,8 @@ import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentAnswerList1Binding
 import com.lge.support.second.application.view.adapter.answer_customAdapter
 import com.lge.support.second.application.view.adapter.questionModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 
 class answer_list_1 : Fragment() {
@@ -70,7 +72,9 @@ class answer_list_1 : Fragment() {
         binding.list1Gridview.setOnItemClickListener { adapterView, view, position, id ->
             Log.i("answer_list check", "position is " + position)
             Log.i("answer_list check", "getResponse is " + questions[position])
-            MainActivity.viewModel.getResponse(questions[position], Arrtype[position])
+            GlobalScope.launch {
+                MainActivity.viewModel.getResponse(questions[position], Arrtype[position])
+            }
         }
 
         return binding.root

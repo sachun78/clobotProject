@@ -165,8 +165,6 @@ class RobotRepository {
 
             override fun onError(error: RobotError) {
                 Log.e(TAG, "RobotError: $error");
-
-                error.description
                 trySendBlocking(error)
             }
 
@@ -221,6 +219,12 @@ class RobotRepository {
                 super.onNaviActionInfo(naviActionInfo)
                 Log.d(TAG, "onNaviActionInfo $naviActionInfo")
                 trySendBlocking(naviActionInfo)
+            }
+
+            override fun onWakeup(navigationMessageType: Int) {
+                super.onWakeup(navigationMessageType)
+                Log.d(TAG, "onWakeUp $navigationMessageType")
+                trySendBlocking(NavigationMessage(navigationMessageType))
             }
 
             override fun onSLAM3DResult(slamPos: SLAM3DPos?) {
