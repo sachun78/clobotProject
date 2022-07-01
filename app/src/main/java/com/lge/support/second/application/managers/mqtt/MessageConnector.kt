@@ -1,15 +1,13 @@
 package com.lge.support.second.application.managers.mqtt
 
 import android.util.Log
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import com.lge.support.second.application.data.mqtt.*
 import com.lge.support.second.application.data.mqtt.cmd.IReceiveCmd
 import com.lge.support.second.application.data.mqtt.cmd.MoveToCtrlCmd
 import com.lge.support.second.application.data.mqtt.cmd.StopCtrlCmd
 import java.lang.RuntimeException
 
-class MessageConnecter: Mqttv5Client() {
+class MessageConnector private constructor(): Mqttv5Client() {
 
     private val HEARTBEAT_PERIOD_SEC = 8 // heartbeat 이벤트 주기
     private val HEARTBEAT_START_DELAY_SEC = 3
@@ -21,12 +19,25 @@ class MessageConnecter: Mqttv5Client() {
     private val properties: MqttProperties = MqttProperties()
     private lateinit var mReceiveCmdMap: HashMap<String, IReceiveCmd>
 
-    init {
-        setId("88")
-        initFunc()
+    companion object {
+        private const val TAG = "messageConn"
+
+        @Volatile private var instance: MessageConnector? = null
+
+        @JvmStatic fun getInstance(): MessageConnector =
+            instance ?: synchronized(this) {
+                instance ?: MessageConnector().also {
+                    instance = it
+                }
+            }
     }
 
-    private fun initFunc() {
+    init {
+        setId("88")
+        //initFunc()
+    }
+
+    fun initFunc() {
         if (!connectServer()) {
             Log.e(TAG, "Connection fail")
             return
@@ -35,6 +46,8 @@ class MessageConnecter: Mqttv5Client() {
             Log.e(TAG, "registerCmd fail")
             return
         }
+
+        Log.e("hjbae", "initFunc call")
     }
 
     private fun connectServer(): Boolean {
@@ -65,9 +78,5 @@ class MessageConnecter: Mqttv5Client() {
         if (curCmd?.process(message) == true) {
             publish(curCmd.getTopic(), curCmd.getPayLoad())
         }
-    }
-
-    companion object {
-        private const val TAG = "messageConn"
     }
 }

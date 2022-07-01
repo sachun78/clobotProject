@@ -19,7 +19,6 @@ import android.view.Display
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -30,6 +29,7 @@ import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.data.chatbot.ChatbotApi
 import com.lge.support.second.application.databinding.ActivityMainBinding
+import com.lge.support.second.application.managers.mqtt.MessageConnector
 import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.model.RobotViewModel
 import com.lge.support.second.application.repository.ChatbotRepository
@@ -99,6 +99,9 @@ class MainActivity : AppCompatActivity() {
 
         lateinit var subTest: SubScreen
         lateinit var subVideo: back_video
+
+        // MQTT
+        val mqttMgr by lazy { MessageConnector.getInstance() }
 
         fun mainContext(): Context {
             return instance
@@ -192,6 +195,9 @@ class MainActivity : AppCompatActivity() {
             promote_normal = moveNormal(this, displays[1])
             docent_back = docent_back(this, displays[1])
         }
+
+        // MQTT Service start
+        mqttMgr.initFunc()
 
         verifyStoragePermissions(this)
         ActivityCompat.requestPermissions(
