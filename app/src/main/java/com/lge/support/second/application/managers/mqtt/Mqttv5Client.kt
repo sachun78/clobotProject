@@ -40,7 +40,6 @@ abstract class Mqttv5Client : Consumer<Mqtt5Publish> {
         mId = id
     }
 
-
     private fun isSelf(name: String): Boolean {
         return mTopicId == name || mClientId == name
     }
@@ -94,25 +93,9 @@ abstract class Mqttv5Client : Consumer<Mqtt5Publish> {
     fun close() {
         for (it in subscribeTopics) {
             unsubscribe(it)
+            delSubscribeTopic(it)
         }
         mClient.disconnect()
-    }
-
-    protected fun addSubscribe(topic: String, distributed: Boolean) {
-        val realTopic = createSubscribeTopic(topic, distributed)
-        addSubscribeTopic(realTopic)
-    }
-
-    fun subscribe(id: String, distributed: Boolean) {
-        val topic = createSubscribeTopic(id, distributed)
-        addSubscribeTopic(id)
-        subscribe(topic)
-    }
-
-    fun unsubscribeAll(id: String, distributed: Boolean) {
-        val topic = createSubscribeTopic(id, distributed)
-        delSubscribeTopic(id)
-        unsubscribe(topic)
     }
 
     private fun handleConnected() {
@@ -129,6 +112,7 @@ abstract class Mqttv5Client : Consumer<Mqtt5Publish> {
         mClient.publishWith()
             .topic(topic)
             .payload(data.toByteArray())
+            .retain(false)
             .send()
             .whenComplete { _, throwable ->
                 if (null != throwable) {
@@ -219,6 +203,6 @@ abstract class Mqttv5Client : Consumer<Mqtt5Publish> {
     protected abstract fun onResponse(cmd: String?, message: MqttMessage?)
 
     companion object {
-        private const val TAG = "mqtt5Client"
+        private const val TAG = "MQTT_Client"
     }
 }
