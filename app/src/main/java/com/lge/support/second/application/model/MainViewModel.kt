@@ -9,10 +9,10 @@ import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.data.chatbot.ChatRequest
 import com.lge.support.second.application.data.chatbot.ChatbotData
-import com.lge.support.second.application.database.pageConfig.PageConfig
+import com.lge.support.second.application.data.pageConfig.PageInfoItem
 import com.lge.support.second.application.managers.robot.worker.ScheduleWorker
 import com.lge.support.second.application.repository.ChatbotRepository
-import com.lge.support.second.application.repository.PageConfigRepo
+import com.lge.support.second.application.repository.SceneConfigRepo
 import com.lge.support.second.application.util.Resource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,7 +22,7 @@ import com.example.googlecloudmanager.common.Resource as R2
 class MainViewModel(
     private val repository: ChatbotRepository,
     private val googleRepositiory: GoogleCloudRepository,
-    private val pageConfigRepo: PageConfigRepo,
+    private val sceneConfigRepo: SceneConfigRepo,
     application: Application
 ) : AndroidViewModel(application) {
     var ischatfirst: Boolean = true    ///////chat페이지 처음 진입하는 것인지 여부//////
@@ -40,22 +40,6 @@ class MainViewModel(
 
     init {
         cancelSchedule()
-    }
-
-    // page config
-    val pageConfgs = pageConfigRepo.getAllPageConfig().asLiveData()
-    fun currPageConfig(id: Int) = pageConfigRepo.getPageConfigById(id).asLiveData()
-    fun insertAllConfig(data: List<PageConfig>) {
-        Log.i("hjbae", "viewModel:  insertAllConfig ")
-        viewModelScope.launch {
-            pageConfigRepo.insertAllPageConfig(data)
-        }
-    }
-
-    fun deleteAll() {
-        viewModelScope.launch {
-            pageConfigRepo.deleteAll()
-        }
     }
 
     // Use Chatbot
@@ -160,11 +144,14 @@ class MainViewModel(
         workManager.cancelUniqueWork("schedule")
     }
 
+    fun getCurrPageInfo(pageId: String): PageInfoItem? {
+        return sceneConfigRepo.getCurrPageInfo(pageId)
+    }
 
     class Factory(
         private val repository: ChatbotRepository,
         private val googleRepository: GoogleCloudRepository,
-        private val pageConfigRepo: PageConfigRepo,
+        private val sceneConfigRepo: SceneConfigRepo,
         private val application: Application
     ) :
         ViewModelProvider.Factory { // factory pattern
@@ -173,7 +160,7 @@ class MainViewModel(
                 return MainViewModel(
                     this.repository,
                     this.googleRepository,
-                    this.pageConfigRepo,
+                    this.sceneConfigRepo,
                     this.application
                 ) as T
             }

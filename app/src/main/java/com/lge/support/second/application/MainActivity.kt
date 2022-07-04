@@ -33,6 +33,7 @@ import com.lge.support.second.application.managers.mqtt.MessageConnector
 import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.model.RobotViewModel
 import com.lge.support.second.application.repository.ChatbotRepository
+import com.lge.support.second.application.repository.SceneConfigRepo
 import com.lge.support.second.application.view.*
 import com.lge.support.second.application.view.docent.move_docent
 import com.lge.support.second.application.view.docent.test_docent
@@ -164,7 +165,7 @@ class MainActivity : AppCompatActivity() {
             MainViewModel.Factory(
                 ChatbotRepository(chatbotService),
                 GoogleCloudRepository(googleService),
-                (application as MainApplication).mPageConfigRepo,
+                SceneConfigRepo(),
                 application as MainApplication
             )
         ).get(MainViewModel::class.java)
@@ -199,7 +200,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // MQTT Service start
-        mqttMgr.initFunc()
+        //mqttMgr.initFunc()
 
         verifyStoragePermissions(this)
         ActivityCompat.requestPermissions(
