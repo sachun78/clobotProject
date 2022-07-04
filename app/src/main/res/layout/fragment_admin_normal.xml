@@ -48,11 +48,13 @@
             android:layout_weight="1" />
 
         <Switch
+            android:id="@+id/fixPromoteSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
         <Button
+            android:id="@+id/fixPromoteSave"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -97,11 +99,13 @@
             android:layout_weight="1" />
 
         <Switch
+            android:id="@+id/docentModeSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
         <Button
+            android:id="@+id/docentModeSave"
             android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -162,8 +166,7 @@
                 android:id="@+id/volume"
                 android:gravity="center"
                 android:layout_width="100px"
-                android:layout_height="wrap_content"
-                android:text="0"/>
+                android:layout_height="wrap_content"/>
             <Button
                 android:layout_gravity="center"
                 android:id="@+id/volUpBtn"

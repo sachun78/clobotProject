@@ -11,6 +11,7 @@ import com.lge.support.second.application.databinding.FragmentChatClickBinding
 import com.lge.support.second.application.view.adapter.questionModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import com.lge.support.second.application.view.adapter.faqCustomAdapter
 
 class chat_click : Fragment() {
 

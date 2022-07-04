@@ -29,11 +29,13 @@
                 android:layout_weight="1" />
 
             <Switch
+                android:id="@+id/forceCharge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
             <Button
+                android:id="@+id/forceChargeSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -127,11 +129,13 @@
                 android:layout_weight="1" />
 
             <Switch
+                android:id="@+id/scheduleSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
             <Button
+                android:id="@+id/scheduleModeSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -163,7 +167,7 @@
                     android:layout_height="wrap_content"
                     android:text="시간대별"/>
                 <RadioButton
-                    android:id="@+id/immediately"
+                    android:id="@+id/byNow"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="wrap_content"
@@ -187,6 +191,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="1" />
             <Button
+                android:id="@+id/batterySave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -250,11 +255,13 @@
                 android:layout_weight="1" />
 
             <Switch
+                android:id="@+id/optSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
             <Button
+                android:id="@+id/optSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -317,11 +324,13 @@
                 android:layout_weight="1" />
 
             <Switch
+                android:id="@+id/findCharger"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />
 
             <Button
+                android:id="@+id/findChargerSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

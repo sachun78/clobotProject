@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="480px"
-    android:layout_height="180px"
-    android:backgroundTint="@color/black">
+    android:layout_height="228px"
+    android:backgroundTint="@color/transparency">
     <TextView
-        android:textColor="@color/white"
-        android:background="@drawable/question_list_shape"
+        android:background="@color/chat_btn"
+        android:textColor="@color/text_darkwhite"
         android:id="@+id/faq_question"
-        android:layout_width="450px"
-        android:layout_height="150px"
+        android:layout_width="match_parent"
+        android:layout_height="188px"
         android:text="question"
+        android:layout_gravity="top"
         android:gravity="center"
-        android:textSize="36px"
-        android:layout_gravity="center"/>
+        android:textSize="32px"/>
 </androidx.cardview.widget.CardView>

@@ -6,11 +6,11 @@
     tools:context=".view.tabView.chat_knowledge">
 
     <GridView
+        android:gravity="center"
         android:numColumns="2"
         android:id="@+id/knowledge_gridView"
         android:layout_width="1000px"
-        android:layout_height="840px"
-        android:layout_gravity="center|bottom"
-        android:layout_marginTop="59px" />
+        android:layout_height="912px"
+        android:layout_gravity="center"/>
 
 </FrameLayout>

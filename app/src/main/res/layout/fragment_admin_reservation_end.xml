@@ -23,11 +23,13 @@
             android:layout_weight="1" />
 
         <Switch
+            android:id="@+id/endMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center" />
 
         <Button
+            android:id="@+id/endModeSave"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

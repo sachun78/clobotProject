@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatFaqBinding
+import com.lge.support.second.application.view.adapter.faqCustomAdapter
 import com.lge.support.second.application.view.adapter.questionModel
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -63,36 +64,5 @@ class chat_faq : Fragment() {
         super.onDestroyView()
         MainActivity.viewModel.ttsStop()
         Log.d("tk_test", "faq destroy")
-    }
-}
-
-class faqCustomAdapter(var itemModel: ArrayList<questionModel>, var context: Context) : BaseAdapter() {
-    var layoutInflater =
-        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-
-    override fun getCount(): Int {
-        return itemModel.size
-    }
-
-    override fun getItem(p0: Int): Any {
-        return itemModel[p0]
-    }
-
-    override fun getItemId(p0: Int): Long {
-        return p0.toLong()
-    }
-
-    override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
-        var view = view
-        if (view == null) {
-            view = layoutInflater.inflate(R.layout.faq_row_item, viewGroup, false)
-        }
-
-        var question = view?.findViewById<TextView>(R.id.faq_question)
-
-        if (question != null) {
-            question.text = itemModel[position].question
-        }
-        return view!!
     }
 }

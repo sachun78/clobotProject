@@ -34,7 +34,7 @@ class answer_customAdapter(var itemModel: ArrayList<questionModel>, var context:
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getCount(): Int {
-        return itemModel.size ///itemModel.size보다 작거나 같은 값을 return
+        return itemModel.size
     }
 
     override fun getItem(p0: Int): Any {
@@ -104,5 +104,36 @@ class answerList2Adapter : BaseAdapter {
 
     override fun getItemId(position: Int): Long {
         return position.toLong()
+    }
+}
+
+class faqCustomAdapter(var itemModel: ArrayList<questionModel>, var context: Context) : BaseAdapter() {
+    var layoutInflater =
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+    override fun getCount(): Int {
+        return itemModel.size
+    }
+
+    override fun getItem(p0: Int): Any {
+        return itemModel[p0]
+    }
+
+    override fun getItemId(p0: Int): Long {
+        return p0.toLong()
+    }
+
+    override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
+        var view = view
+        if (view == null) {
+            view = layoutInflater.inflate(R.layout.faq_row_item, viewGroup, false)
+        }
+
+        var question = view?.findViewById<TextView>(R.id.faq_question)
+
+        if (question != null) {
+            question.text = itemModel[position].question
+        }
+        return view!!
     }
 }

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="1710px"
-    android:background="@color/black"
     android:orientation="vertical">
 
     <TextView
@@ -40,30 +39,31 @@
 
 
     <com.google.android.material.tabs.TabLayout
-        android:background="@drawable/tab_img"
+        android:background="@drawable/chat_tab"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="528px"
         android:id="@+id/chat_tab"
         android:layout_width="904px"
-        android:layout_height="104px"
+        android:layout_height="112px"
+        app:tabIndicator="@drawable/tab_selected"
+        app:tabIndicatorColor="@color/mid_grey"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:tabIndicator="@drawable/tab_indicator"
         app:tabIndicatorHeight="96px"
-        app:tabIndicatorColor="@color/mid_grey"
+        app:tabIndicatorGravity="center"
         app:tabTextColor="@color/text_darkwhite">
 
         <com.google.android.material.tabs.TabItem
-            android:layout_width="330px"
-            android:layout_height="match_parent" />
+            android:layout_width="290px"
+            android:layout_height="96px" />
 
         <com.google.android.material.tabs.TabItem
-            android:layout_width="330px"
-            android:layout_height="match_parent" />
+            android:layout_width="290px"
+            android:layout_height="96px" />
 
         <com.google.android.material.tabs.TabItem
-            android:layout_width="330px"
-            android:layout_height="match_parent" />
+            android:layout_width="290px"
+            android:layout_height="96px" />
     </com.google.android.material.tabs.TabLayout>
 
     <androidx.viewpager2.widget.ViewPager2

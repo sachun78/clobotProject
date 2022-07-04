@@ -5,7 +5,7 @@
     android:backgroundTint="@color/black">
     <TextView
         android:textColor="@color/white"
-        android:background="@drawable/question_list_shape"
+        android:background="@color/chat_btn"
         android:id="@+id/question"
         android:layout_width="480px"
         android:layout_height="180px"
