@@ -1,8 +1,11 @@
 package com.lge.support.second.application
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.VectorDrawable
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +16,9 @@ import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.data.robot.MoveState
 import com.lge.support.second.application.managers.robot.PoiDbManager
 import com.lge.support.second.application.databinding.ActivityTestBinding
+import com.lge.support.second.application.managers.mqtt.MessageConnector
+import com.lge.support.second.application.view.CustomProgressDialogue
+import org.apache.log4j.chainsaw.Main
 
 class TestActivity : AppCompatActivity() {
     private lateinit var binding: ActivityTestBinding
@@ -51,6 +57,20 @@ class TestActivity : AppCompatActivity() {
         binding.btnCruise.setOnClickListener {
 //            robotViewModel.cruiseRequest()
             MainActivity.robotViewModel.onGkr()
+        }
+
+        binding.btnStop.setOnClickListener {  }
+
+        binding.btnPause.setOnClickListener {  }
+
+        binding.btnResume.setOnClickListener {  }
+
+        binding.btnTmp.setOnClickListener {
+            val customDialog: Dialog = CustomProgressDialogue(this)
+            customDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
+            var isChecked = false
+            if (!isChecked) customDialog.show()
+            else customDialog.dismiss()
         }
 
         listView.setOnItemClickListener { parent, view, pos, id ->
