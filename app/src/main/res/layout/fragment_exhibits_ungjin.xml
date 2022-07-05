@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.template.answer_list_2"
+    android:background="@color/black">
+
+
+    <GridView
+        android:layout_gravity="center"
+        android:id="@+id/ungjin_list"
+        android:layout_width="1000px"
+        android:layout_height="1192px"
+        android:numColumns="3" />
+</LinearLayout>

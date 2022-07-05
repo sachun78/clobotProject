@@ -14,6 +14,8 @@ import androidx.fragment.app.FragmentManager
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentMainBinding
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.apache.log4j.chainsaw.Main
 
 class main : Fragment() {
@@ -48,11 +50,11 @@ class main : Fragment() {
         }
 
         menu2.setOnClickListener {
-//            mActivity.changeFragment("theater")
+            mActivity.changeFragment("exhibits-ungjin")
         }
 
         menu3.setOnClickListener {
-//            mActivity.changeFragment("enjoy")
+            mActivity.changeFragment("location-facility")
         }
 
         menu4.setOnClickListener {

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:layout_width="1000px"
+        android:layout_height="60px"
+        android:textSize="48px"
+        android:text="location-facility_x1"
+        android:id="@+id/location_facility_x1"
+        android:layout_marginTop="48px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b3"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b3"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_x1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="48px"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b4"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b4"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_x1"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b3"
+        android:layout_marginLeft="13px"
+        android:layout_marginTop="48px"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b5"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b5"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_x1"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b4"
+        android:layout_marginLeft="13px"
+        android:layout_marginTop="48px"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b6"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b6"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="12px"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b7"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b7"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b3"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b6"
+        android:layout_marginLeft="13px"
+        android:layout_marginTop="12px"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b8"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b8"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b3"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b7"
+        android:layout_marginLeft="13px"
+        android:layout_marginTop="12px"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b9"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b9"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b6"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="12px"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b10"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b10"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b7"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b9"
+        android:layout_marginLeft="13px"
+        android:layout_marginTop="12px"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/location_facility_b11"
+        android:layout_width="325px"
+        android:layout_height="91px"
+        android:text="location-facility_b11"
+        android:background="@drawable/clicked_btn"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b8"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b10"
+        android:layout_marginLeft="13px"
+        android:layout_marginTop="12px"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -61,6 +61,7 @@ class answer_list_2 : Fragment() {
                 }
                 isCreatedThisPage = true
             }
+//            adapter?.notifyDataSetChanged()
         }
 
         adapter = answerList2Adapter(nameList, getActivity()?.getApplicationContext())

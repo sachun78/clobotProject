@@ -413,6 +413,16 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null).commit()
             }
 
+            "exhibits-ungjin" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, exhibits())
+                    .addToBackStack(null).commit()
+            }
+
+            "location-facility" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, location())
+                    .addToBackStack(null).commit()
+            }
+
             "docent-select" -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_main, docent_select())
