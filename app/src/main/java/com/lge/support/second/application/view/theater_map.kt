@@ -41,9 +41,9 @@ class theater_map : Fragment() {
         //기본은 첫 번째 버튼 클릭되어 있게
         selectedBtn = binding.theaterB1
         selectedBtn.isSelected = true
-        GlobalScope.launch {
-            MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t1))
-        }
+//        GlobalScope.launch {
+//            //MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t1))
+//        }
         ttsA = true
 
 //        binding.theaterMapI2.setImageDrawable(BitmapDrawable(MainActivity.BitmapArray[0]))
@@ -71,12 +71,12 @@ class theater_map : Fragment() {
             selectedBtn.isSelected = false
 
             //MainActivity.viewModel.stop()
-            GlobalScope.launch {
-                if (ttsB == false) {
-                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t2))
-                    ttsB = true
-                }
-            }
+//            GlobalScope.launch {
+//                if (ttsB == false) {
+//                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t2))
+//                    ttsB = true
+//                }
+//            }
 
             selectedBtn = binding.theaterB2
             selectedBtn.isSelected = true
@@ -86,12 +86,12 @@ class theater_map : Fragment() {
             selectedBtn.isSelected = false
 
             //MainActivity.viewModel.stop()
-            GlobalScope.launch {
-                if (ttsC == false) {
-                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t3))
-                    ttsC = true
-                }
-            }
+//            GlobalScope.launch {
+//                if (ttsC == false) {
+//                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t3))
+//                    ttsC = true
+//                }
+//            }
 
             selectedBtn = binding.theaterB3
             selectedBtn.isSelected = true
@@ -101,12 +101,12 @@ class theater_map : Fragment() {
             selectedBtn.isSelected = false
 
             //MainActivity.viewModel.stop()
-            GlobalScope.launch {
-                if (ttsD == false) {
-                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t4))
-                    ttsD = true
-                }
-            }
+//            GlobalScope.launch {
+//                if (ttsD == false) {
+//                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t4))
+//                    ttsD = true
+//                }
+//            }
 
             binding.theaterMapI2.setImageResource(R.color.white)
             binding.theaterMapI1.setImageResource(R.color.grey)
@@ -149,12 +149,12 @@ class theater_map : Fragment() {
             selectedBtn.isSelected = false
 
             //MainActivity.viewModel.stop()
-            GlobalScope.launch {
-                if (ttsG == false) {
-                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t7))
-                    ttsG = true
-                }
-            }
+//            GlobalScope.launch {
+//                if (ttsG == false) {
+//                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t7))
+//                    ttsG = true
+//                }
+//            }
 
             binding.theaterMapI2.setImageResource(R.color.grey)
             binding.theaterMapI1.setImageResource(R.color.white)
@@ -167,12 +167,12 @@ class theater_map : Fragment() {
             selectedBtn.isSelected = false
 
             //MainActivity.viewModel.stop()
-            GlobalScope.launch {
-                if (ttsH == false) {
-                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t8))
-                    ttsH = true
-                }
-            }
+//            GlobalScope.launch {
+//                if (ttsH == false) {
+//                    MainActivity.viewModel.getResponse(resources.getString(R.string.theater_map_t8))
+//                    ttsH = true
+//                }
+//            }
 
             selectedBtn = binding.theaterB8
             selectedBtn.isSelected = true

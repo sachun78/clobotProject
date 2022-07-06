@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.docent_select">
+    tools:context=".view.docent.docent_select">
 
     <TextView
         android:id="@+id/docent_select_x1"

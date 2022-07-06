@@ -66,12 +66,14 @@ class HeadPresentation(outerContext: Context?, display: Display?) :
     override fun surfaceCreated(p0: SurfaceHolder) {
         try {
             val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_wink.mp4")
+            mediaPlayer.setDisplay(surfaceHolder) // 화면 호출
+
             mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             mediaPlayer.setOnPreparedListener { mp ->
                 mp.isLooping = true
             }
 
-            mediaPlayer.setDisplay(surfaceHolder) // 화면 호출
+//            mediaPlayer.setDisplay(surfaceHolder) // 화면 호출
             mediaPlayer.prepare() // 비디오 load 준비
             mediaPlayer.start()
 

@@ -3,12 +3,15 @@ package com.lge.support.second.application
 import android.Manifest
 import android.app.Activity
 import android.app.ActivityOptions
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
 import android.net.Uri
 import android.os.Bundle
@@ -19,7 +22,6 @@ import android.view.Display
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
@@ -35,12 +37,14 @@ import com.lge.support.second.application.model.RobotViewModel
 import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.SceneConfigRepo
 import com.lge.support.second.application.view.*
+import com.lge.support.second.application.view.chatView.chat
+import com.lge.support.second.application.view.chatView.chat_fail
+import com.lge.support.second.application.view.docent.docent_select
 import com.lge.support.second.application.view.docent.move_docent
 import com.lge.support.second.application.view.docent.test_docent
 import com.lge.support.second.application.view.subView.*
 import com.lge.support.second.application.view.template.*
 import java.io.InputStream
-import java.net.URL
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -151,12 +155,14 @@ class MainActivity : AppCompatActivity() {
         googleService = GoogleCloudApi.getInstance(googleCredential!!, UUID.randomUUID().toString())
 
         ///////////////////지역 변수 선언 및 초기화////////////////
-        var micBtn: Button = findViewById(R.id.micBtn)
-        var homeBtn: Button = findViewById(R.id.homeBtn)
-        var backBtn: Button = findViewById(R.id.backBtn)
-        var korBtn: Button = findViewById(R.id.korBtn)
-        var enBtn: Button = findViewById(R.id.enBtn)
-        var adminBtn: Button = findViewById(R.id.EnterAdminBtn)
+        val micBtn: Button = findViewById(R.id.micBtn)
+        val homeBtn: Button = findViewById(R.id.homeBtn)
+        val backBtn: Button = findViewById(R.id.backBtn)
+        val korBtn: Button = findViewById(R.id.korBtn)
+        val enBtn: Button = findViewById(R.id.enBtn)
+        val adminBtn: Button = findViewById(R.id.EnterAdminBtn)
+        val jpnBtn : Button = findViewById(R.id.jpnBtn)
+        val chnBtn : Button = findViewById(R.id.chiBtn)
 
         displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
@@ -222,8 +228,8 @@ class MainActivity : AppCompatActivity() {
 //                .addToBackStack(null).commit()
 //
 //            viewModel.enrollSchedule()
-            changeFragment("test-docent")
-//        head.changeExpression_random(Random().nextInt(3))
+//            changeFragment("test-docent")
+        head.changeExpression(Expression.CURIOUS)
         }
         backBtn.setOnClickListener {
             supportFragmentManager.popBackStack()
@@ -242,6 +248,16 @@ class MainActivity : AppCompatActivity() {
         enBtn.setOnClickListener {
             setLocate("en")
             viewModel.setLanguage(Language.English)
+            recreate()
+        }
+        chnBtn.setOnClickListener {
+            setLocate("zh")
+            viewModel.setLanguage(Language.Chinese)
+            recreate()
+        }
+        jpnBtn.setOnClickListener {
+            setLocate("ja")
+            viewModel.setLanguage(Language.Japanese)
             recreate()
         }
         adminBtn.setOnClickListener { v ->
@@ -359,17 +375,39 @@ class MainActivity : AppCompatActivity() {
             }
             ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
 
+            //val prgDialog = ProgressDialog(this)
+            val customDialog: Dialog = CustomProgressDialogue(this)
+            customDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//            var isChecked = false
+//            if (!isChecked) customDialog.show()
+//            else customDialog.dismiss()
             ///////////////////chatbot질의 페이지에서만 page바꿔줌. 나머지는 발화만
             if (chatPage) {
                 if (page_id != "") { //////////////page id가 존재
                     if (tpl_id == "") {///////////tpl_id는 없음
                         if (r_status == "match") ///tpl_id가 공백일 경우에는 response_status값이 match -> page_id
+                        {
+                            //prgDialog.show()
+                            customDialog.show()
                             changeFragment(page_id)
+                            customDialog.dismiss()
+                            //prgDialog.hide()
+                        }
                     } else //////tpl_id가 있음
+                    {
+                        //prgDialog.show()
+                        customDialog.show()
                         changeFragment(tpl_id)
+                        customDialog.dismiss()
+                        //prgDialog.hide()
+                    }
                 } else { /////////page id가 없음
                     if (tpl_id != "") { /////////template id는 있음
+                        //prgDialog.show()
+                        customDialog.show()
                         changeFragment(tpl_id)
+                        customDialog.dismiss()
+                        //prgDialog.hide()
                     }
                 }
             }
@@ -498,6 +536,11 @@ class MainActivity : AppCompatActivity() {
             "chat" -> {
                 supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
+                    .addToBackStack(null).commit()
+            }
+
+            "answer-location" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_location())
                     .addToBackStack(null).commit()
             }
         }

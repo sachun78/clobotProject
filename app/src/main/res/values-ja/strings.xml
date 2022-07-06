@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QIRobotLauncher</string>
+    <string name="gnb_b1">「ハイ、キューアイ」と呼びかけるか、またはマイクボタンをタッチしてください。</string>
+    <string name="gnb_b2">字幕の表示</string>
+
+    <string name="total_items">計 {d0}件</string>
+    <string name="total_people">共 {d0}人</string>
+    <string name="cancel">いいえ</string>
+    <string name="no">いいえ</string>
+    <string name="yes">はい</string>
+    <string name="confirm">確認</string>
+    <string name="go_main">メイン画面に戻る</string>
+    <string name="answer">私が見つけた情報です。</string>
+    <string name="scroll">上下にスクロール\nできます。</string>
+</resources>

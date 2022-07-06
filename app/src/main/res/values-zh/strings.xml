@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QIRobotLauncher</string>
+    <string name="gnb_b1">请说出“嗨，Q。I”或者触碰麦克风按键。</string>
+    <string name="gnb_b2">查看字幕</string>
+
+    <string name="total_items" translatable="false">共 {d0}个</string>
+    <string name="total_people">共 {d0}个</string>
+    <string name="cancel">不是</string>
+    <string name="no" >不是</string>
+    <string name="yes">是</string>
+    <string name="confirm">确认</string>
+    <string name="go_main">返回首页</string>
+    <string name="answer">这是我找到的信息</string>
+    <string name="scroll">请上下滑动</string>
+</resources>

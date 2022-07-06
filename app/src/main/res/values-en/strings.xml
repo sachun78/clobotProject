@@ -2,13 +2,32 @@
 <resources>
     <string name="app_name">QIRobotLauncher</string>
 
-    <string name="theater_map_t1">theater1</string>
-    <string name="theater_map_t2">theater2</string>
-    <string name="theater_map_t3">theater3</string>
-    <string name="theater_map_t4">theater4</string>
-    <string name="theater_map_t5">theater5</string>
-    <string name="theater_map_t6">theater6</string>
-    <string name="theater_map_t7">theater7</string>
-    <string name="theater_map_t8">theater8</string>
+    <string name="gnb_b1">Say \"Hi, Q.I\" or press the microphone button.</string>
+    <string name="gnb_b2">Subtitles</string>
+
+
+    <string name="total_items">{d0}in total </string>
+    <string name="total_people">{d0}in total </string>
+    <string name="cancel">Cancel </string>
+    <string name="no">No </string>
+    <string name="yes">Yes </string>
+    <string name="confirm">Confirm </string>
+    <string name="go_main">Home </string>
+    <string name="answer">This is the information I found. </string>
+    <string name="scroll">Scroll up/down. </string>
+    <string name="docking_x1" translatable="false">I\'m going into the charging deck.</string>
+    <string name="docking_x2" translatable="false">Please step back a little bit.</string>
+    <string name="undocking_x1" translatable="false">I’m coming out of the charging deck.</string>
+    <string name="undocking_x2" translatable="false">Please step back a little bit.</string>
+    <string name="move_charge_x1" translatable="false">Charging is required.</string>
+    <string name="move_charge_x2" translatable="false">Please use the service after a while.</string>
+    <string name="emergency_x1" translatable="false">A problem has occurred!</string>
+    <string name="emergency_x2" translatable="false">Operation is temporarily suspended.</string>
+    <string name="failed_x1" translatable="false">Oops, I got lost!</string>
+    <string name="failed_x2" translatable="false">Operation is temporarily suspended.</string>
+    <string name="server_control_x1" translatable="false">Being remote controlled</string>
+    <string name="server_control_x2" translatable="false">Be careful! The robot may make sudden movements.</string>
+    <string name="ros_x1" translatable="false">The robot needs to be restarted!</string>
+    <string name="ros_x2" translatable="false">"Please contact the administrator. "</string>
 
 </resources>

@@ -6,27 +6,44 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <Button
-        android:text="gnb_b1"
-        android:id="@+id/gnb_b1"
+    <ImageButton
+        android:id="@+id/gnb_btn"
         android:layout_width="848px"
         android:layout_height="107px"
         android:layout_marginLeft="60px"
         android:background="@drawable/qi_message"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
-    </Button>
+    </ImageButton>
 
     <TextView
+        android:textColor="@color/gongju_title"
+        app:layout_constraintTop_toTopOf="@id/gnb_btn"
+        app:layout_constraintLeft_toLeftOf="@id/gnb_btn"
+        android:layout_marginTop="10px"
+        android:id="@+id/gnb_b1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/min_sans_semi_bold"
+        android:textSize="32px"
+        android:paddingTop="30px"
+        android:gravity="center"
+        android:text="@string/gnb_b1"
+        android:layout_marginLeft="75px"/>
+
+    <TextView
+        android:gravity="left|top"
+        android:textColor="@color/gongju_title"
+        android:fontFamily="@font/min_sans_extra_bold"
         android:textSize="64px"
         android:id="@+id/main_x1"
-        android:layout_width="619px"
-        android:layout_height="160px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="62px"
         android:layout_marginTop="148px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="main_t1"/>
+        android:text="@string/main_x1"/>
 
     <LinearLayout
         android:id="@+id/main_grid"

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="1760px"
-    tools:context="com.lge.support.second.application.view.chat">
+    tools:context="com.lge.support.second.application.view.chatView.chat">
 
 
     <TextView
