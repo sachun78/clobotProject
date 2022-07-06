@@ -1,6 +1,7 @@
 package com.lge.support.second.application.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,8 @@ class location : Fragment() {
         //tab
         binding.exhibitsTab.getTabAt(0)?.setText(tab1)
         binding.exhibitsTab.getTabAt(1)?.setText(tab2)
+
+        Log.d("location", binding.exhibitsTab.getSelectedTabPosition().toString())
 
 
 

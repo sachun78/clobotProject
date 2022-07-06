@@ -31,6 +31,8 @@ class main : Fragment() {
         val mActivity = activity as MainActivity
 
         mActivity.findViewById<ConstraintLayout>(R.id.background).setBackgroundResource(R.drawable.gongju_background_1)
+        mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.VISIBLE
+
         mActivity.findViewById<Button>(R.id.backBtn).setBackgroundResource(R.drawable.back_main)
         mActivity.findViewById<Button>(R.id.homeBtn).setBackgroundResource(R.drawable.home_main)
 
@@ -41,9 +43,8 @@ class main : Fragment() {
 
         binding.gnbB1.setOnClickListener {
             mActivity.changeFragment("chat")
+//            mActivity.changeFragment("answer-location")
         }
-//        mActivity.changeVisibility(1)
-        mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.VISIBLE
 
         menu1.setOnClickListener {
             mActivity.changeFragment("information")
@@ -68,8 +69,11 @@ class main : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onResume() {
+        super.onResume()
+        Log.d("main", "fragment resume")
+        (activity as MainActivity).findViewById<Button>(R.id.backBtn).setBackgroundResource(R.drawable.back_main)
+        (activity as MainActivity).findViewById<Button>(R.id.homeBtn).setBackgroundResource(R.drawable.home_main)
     }
 
     override fun onDestroyView() {

@@ -8,12 +8,10 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentManager
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
-import com.lge.support.second.application.view.docent_end
 
 class move_docent : Fragment(), SurfaceHolder.Callback {
     var TAG = "MOVE_DOCENT"
