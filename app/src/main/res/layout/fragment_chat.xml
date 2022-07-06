@@ -86,68 +86,100 @@
         android:layout_width="1000px"
         android:layout_height="50px"
         android:layout_marginTop="60px"
-        android:text="chat_x4"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/chat_x4"
+        android:textColor="@color/text_darkwhite"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/line2" />
 
-    <GridLayout
-        android:id="@+id/chat_grid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="2"
-        android:padding="40px"
-        android:rowCount="3"
-        app:layout_constraintTop_toBottomOf="@id/chat_x4">
+    <Button
+        android:id="@+id/chat_b1"
+        android:layout_width="480px"
+        android:layout_height="188px"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="40px"
+        android:layout_marginRight="40px"
+        android:layout_marginBottom="40px"
+        android:background="@color/chat_btn"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="chat_b1"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chat_x4" />
 
-        <Button
-            android:id="@+id/chat_b1"
-            android:layout_width="480px"
-            android:layout_height="188px"
-            android:layout_marginRight="40px"
-            android:layout_marginBottom="40px"
-            android:background="@color/chat_btn"
-            android:text="chat_b1" />
+    <Button
+        android:id="@+id/chat_b2"
+        android:layout_width="480px"
+        android:layout_height="188px"
+        android:layout_marginRight="40px"
+        android:background="@color/chat_btn"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="chat_b2"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/chat_b1" />
 
-        <Button
-            android:id="@+id/chat_b2"
-            android:layout_width="480px"
-            android:layout_height="188px"
-            android:background="@color/chat_btn"
-            android:text="chat_b2" />
+    <Button
+        android:id="@+id/chat_b3"
+        android:layout_width="480px"
+        android:layout_height="188px"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="40px"
+        android:layout_marginRight="40px"
+        android:layout_marginBottom="40px"
+        android:background="@color/chat_btn"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="chat_b3"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chat_b1" />
 
-        <Button
-            android:id="@+id/chat_b3"
-            android:layout_width="480px"
-            android:layout_height="188px"
-            android:layout_marginRight="40px"
-            android:layout_marginBottom="40px"
-            android:background="@color/chat_btn"
-            android:text="chat_b3" />
+    <Button
+        android:id="@+id/chat_b4"
+        android:layout_width="480px"
+        android:layout_height="188px"
+        android:layout_marginRight="40px"
+        android:background="@color/chat_btn"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="chat_b4"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/chat_b3" />
 
-        <Button
-            android:id="@+id/chat_b4"
-            android:layout_width="480px"
-            android:layout_height="188px"
-            android:background="@color/chat_btn"
-            android:text="chat_b4" />
+    <Button
+        android:id="@+id/chat_b5"
+        android:layout_width="480px"
+        android:layout_height="188px"
+        android:layout_marginLeft="40px"
+        android:layout_marginTop="40px"
+        android:layout_marginRight="40px"
+        android:layout_marginBottom="40px"
+        android:background="@color/chat_btn"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="chat_b5"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chat_b3" />
 
-        <Button
-            android:id="@+id/chat_b5"
-            android:layout_width="480px"
-            android:layout_height="188px"
-            android:layout_marginRight="40px"
-            android:layout_marginBottom="40px"
-            android:background="@color/chat_btn"
-            android:text="chat_b5" />
-
-        <Button
-            android:id="@+id/chat_b6"
-            android:layout_width="480px"
-            android:layout_height="188px"
-            android:background="@color/chat_btn"
-            android:text="chat_b6" />
-    </GridLayout>
+    <Button
+        android:id="@+id/chat_b6"
+        android:layout_width="480px"
+        android:layout_height="188px"
+        android:layout_marginTop="40px"
+        android:layout_marginRight="40px"
+        android:background="@color/chat_btn"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="chat_b6"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/chat_b4" />
 
     <Button
         android:id="@+id/chat_b11"
@@ -155,7 +187,10 @@
         android:layout_height="188px"
         android:layout_marginBottom="262px"
         android:background="@color/chat_btn"
-        android:text="chat_b11"
+        android:fontFamily="@font/min_sans_bold"
+        android:text="@string/chat_b11"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="40px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent" />
