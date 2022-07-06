@@ -126,8 +126,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var displays: Array<Display>
     lateinit var head: HeadPresentation
     lateinit var move_docent: moveDocent
-    lateinit var movement_normal: moveNormal
-    lateinit var promote_normal: moveNormal
+    lateinit var movement_normal: movement_normal
+    lateinit var promote_normal: promote_normal
     lateinit var docent_back: docent_back
 
     private val chatbotService = ChatbotApi.instance
@@ -202,8 +202,8 @@ class MainActivity : AppCompatActivity() {
 
             ////////////////////추가
             move_docent = moveDocent(this, displays[1])
-            movement_normal = moveNormal(this, displays[0])
-            promote_normal = moveNormal(this, displays[1])
+            movement_normal = movement_normal(this, displays[0])
+            promote_normal = promote_normal(this, displays[1])
             docent_back = docent_back(this, displays[1])
         }
 

@@ -31,4 +31,5 @@
     <color name="gongju_gradient">#BE966B</color>
     <color name="gongju_button">#2E2E2F</color>
     <color name="gongju_title">#FBFCFE</color>
+    <color name="gonju_subtitle">#CCCED3</color>
 </resources>

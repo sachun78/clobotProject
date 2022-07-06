@@ -53,5 +53,12 @@
         <item name="android:textSize">25sp</item>
     </style>
 
+    <style name="tab_text" parent="@android:style/TextAppearance.Widget.TabWidget">
+        <item name="android:fontFamily">@font/min_sans_bold</item>
+        <item name="android:textSize">40px</item>
+        <item name="android:fontStyle">normal</item>
+
+    </style>
+
 
 </resources>

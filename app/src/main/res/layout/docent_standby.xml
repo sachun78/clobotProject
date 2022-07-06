@@ -16,15 +16,28 @@
 
     <TextView
         android:fontFamily="@font/min_sans_extra_bold"
-        android:id="@+id/standby_t1"
+        android:id="@+id/docent_standby_x1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/gongju_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/standby_x1"
+        android:text="@string/docent_standby_x1"
         android:textSize="72px"
         android:layout_marginTop="447px" />
+
+    <TextView
+        android:fontFamily="@font/min_sans_extra_bold"
+        android:id="@+id/docent_standby_x2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gongju_title"
+        app:layout_constraintTop_toBottomOf="@id/docent_standby_x1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:text="@string/docent_standby_x2"
+        android:textSize="72px"
+        android:layout_marginTop="64px" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

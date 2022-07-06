@@ -19,6 +19,9 @@ import com.lge.support.second.application.view.tabView.chat_knowledge
 class chat_fail : Fragment() {
 
     private lateinit var binding: FragmentChatFailBinding
+    lateinit var tab1 : String
+    lateinit var tab2 : String
+    lateinit var tab3 : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,11 +30,15 @@ class chat_fail : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentChatFailBinding.inflate(inflater, container, false)
 
-        val mActivity = activity as MainActivity
+//        val mActivity = activity as MainActivity
+        tab1 = resources.getString(R.string.chat_faq_b1)
+        tab2 = resources.getString(R.string.chat_faq_b2)
+        tab3 = resources.getString(R.string.chat_faq_b3)
 
         val adapter = FragmentAdapter(this)
         val fragments = listOf<Fragment>(chat_faq(), chat_click(), chat_knowledge())
-        val tabTitles = listOf<String>("FAQ", "용어사전", "극장상식")
+        val tabTitles = listOf<String>(tab1, tab2, tab3)
+
         adapter.fragments = fragments
 
         binding.chatViewPager.adapter = adapter

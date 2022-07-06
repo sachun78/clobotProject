@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/promote_background">
+    <TextView
+        android:id="@+id/promote_2_x1"
+        android:layout_width="wrap_content"
+        android:layout_height="100px"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="60px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="72px"
+        android:fontFamily="@font/min_sans_extra_bold"
+        android:text="@string/promote_2_x1"
+        android:textColor="@color/gongju_title"/>
+    <TextView
+        android:id="@+id/promote_2_x2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/promote_2_x1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="48px"
+        android:fontFamily="@font/min_sans_extra_bold"
+        android:text="@string/promote_2_x2"
+        android:textColor="@color/gonju_subtitle"/>
+
+    <ImageView
+        android:id="@+id/promote_img"
+        android:layout_width="740px"
+        android:layout_height="1125px"
+        app:layout_constraintTop_toBottomOf="@id/promote_2_x2"
+        android:layout_marginTop="60px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:src="@drawable/promote_img"/>
+
+    <TextView
+        android:gravity="center"
+        android:id="@+id/promote_2_x3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/promote_img"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="48px"
+        android:layout_marginTop="60px"
+        android:fontFamily="@font/min_sans_bold"
+        android:text="@string/promote_2_x3"
+        android:textColor="@color/gongju_title"/>
+
+    <ImageView
+        android:layout_width="440px"
+        android:layout_height="108px"
+        android:src="@drawable/gonju_icon"
+        app:layout_constraintTop_toBottomOf="@id/promote_2_x3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="50px"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

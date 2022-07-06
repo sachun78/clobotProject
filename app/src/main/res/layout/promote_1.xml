@@ -16,14 +16,15 @@
 
     <TextView
         android:fontFamily="@font/min_sans_extra_bold"
-        android:id="@+id/standby_t1"
+        android:gravity="center"
+        android:id="@+id/promote_1_x1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/gongju_title"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="@string/standby_x1"
+        android:text="@string/promote_1_x1"
         android:textSize="72px"
         android:layout_marginTop="447px" />
 

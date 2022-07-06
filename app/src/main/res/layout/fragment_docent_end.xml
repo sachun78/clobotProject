@@ -3,34 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="1920px"
-    android:background="@color/black"
+    android:background="@drawable/end_background"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".view.docent.docent_end">
 
     <TextView
-        android:layout_width="1000px"
-        android:layout_height="80px"
-        android:layout_marginTop="120px"
+        android:fontFamily="@font/min_sans_bold"
+        android:textColor="@color/text_darkwhite"
+        android:layout_width="1016px"
+        android:layout_height="wrap_content"
+        android:textSize="64px"
+        android:layout_marginTop="295px"
         android:gravity="center"
-        android:text="해설 종료" />
+        android:text="@string/docent_end_x1" />
 
     <TextView
-        android:layout_width="690px"
-        android:layout_height="154px"
+        android:textColor="@color/text_darkwhite"
+        android:layout_width="1000px"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="종료~~ \n 재미있게??" />
+        android:textSize="40px"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/docent_end_x2" />
 
     <ImageView
-        android:layout_width="233px"
-        android:layout_height="276px"
+        android:layout_marginTop="60px"
+        android:layout_width="640px"
+        android:layout_height="640px"
         android:src="@drawable/end_qi" />
-
-    <TextView
-        android:layout_width="960px"
-        android:layout_height="116px"
-        android:gravity="center"
-        android:text="해설을 다시 들으시거나.. \n 다른 서비스.." />
 
     <GridLayout
         android:layout_width="1000px"

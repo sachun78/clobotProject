@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lge.support.second.application.MainActivity
+import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatKnowledgeBinding
 import com.lge.support.second.application.view.adapter.questionModel
 import kotlinx.coroutines.GlobalScope
@@ -22,10 +23,15 @@ class chat_knowledge : Fragment() {
     var click: Boolean = false
 
     var modelList = ArrayList<questionModel>()
-    var questions = arrayOf(
-        "국립극장공연이궁금해요", "question", "question","question",
-        "question", "question", "question","question"
-    )
+
+    lateinit var exhibits1 : String
+    lateinit var exhibits2 : String
+    lateinit var exhibits3 : String
+    lateinit var exhibits4 : String
+    lateinit var exhibits5 : String
+    lateinit var exhibits6 : String
+    lateinit var exhibits7 : String
+    lateinit var exhibits8 : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +44,19 @@ class chat_knowledge : Fragment() {
 
         binding.knowledgeGridView.adapter = customAdapter
 
+        exhibits1 = resources.getString(R.string.chat_exhibits_b4)
+        exhibits2 = resources.getString(R.string.chat_exhibits_b5)
+        exhibits3 = resources.getString(R.string.chat_exhibits_b6)
+        exhibits4 = resources.getString(R.string.chat_exhibits_b7)
+        exhibits5 = resources.getString(R.string.chat_exhibits_b8)
+        exhibits6 = resources.getString(R.string.chat_exhibits_b9)
+        exhibits7 = resources.getString(R.string.chat_exhibits_b10)
+        exhibits8 = resources.getString(R.string.chat_exhibits_b11)
+
+        var questions = arrayOf(
+            exhibits1 , exhibits2, exhibits3 , exhibits4,exhibits5, exhibits6, exhibits7, exhibits8
+        )
+
         if (click == false) {
             for (i in questions.indices) {
                 modelList.add(questionModel(questions[i]))
@@ -45,16 +64,13 @@ class chat_knowledge : Fragment() {
             click = true
         }
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.knowledgeGridView.setOnItemClickListener { adapterView, view, i, l ->
             GlobalScope.launch {
                 MainActivity.viewModel.getResponse(questions[i])
             }
         }
+
+        return binding.root
     }
 
     override fun onDestroyView() {

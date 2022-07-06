@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.lge.support.second.application.MainActivity
+import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatClickBinding
 import com.lge.support.second.application.view.adapter.questionModel
 import kotlinx.coroutines.GlobalScope
@@ -21,10 +22,15 @@ class chat_click : Fragment() {
     var click: Boolean = false
 
     var modelList = ArrayList<questionModel>()
-    var questions = arrayOf(
-        "무대", "좌석배치도", "오케스트라 피트","예술감독",
-        "제작자", "무대감독, 음향감독, 조명감독", "음향반사판","하우스 매니저"
-    )
+
+    lateinit var guide1 : String
+    lateinit var guide2 : String
+    lateinit var guide3 : String
+    lateinit var guide4 : String
+    lateinit var guide5 : String
+    lateinit var guide6 : String
+    lateinit var guide7 : String
+    lateinit var guide8 : String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +43,18 @@ class chat_click : Fragment() {
 
         binding.clickGridView.adapter = customAdapter
 
+        guide1 = resources.getString(R.string.chat_guide_b4)
+        guide2 = resources.getString(R.string.chat_guide_b5)
+        guide3 = resources.getString(R.string.chat_guide_b6)
+        guide4 = resources.getString(R.string.chat_guide_b7)
+        guide5 = resources.getString(R.string.chat_guide_b8)
+        guide6 = resources.getString(R.string.chat_guide_b9)
+        guide7 = resources.getString(R.string.chat_guide_b10)
+        guide8 = resources.getString(R.string.chat_guide_b11)
+
+        var questions = arrayOf(
+            guide1 , guide2, guide3, guide4, guide5 , guide6 , guide7 , guide8 )
+
         if (click == false) {
             for (i in questions.indices) {
                 modelList.add(questionModel(questions[i]))
@@ -44,18 +62,15 @@ class chat_click : Fragment() {
             click = true
         }
 
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         binding.clickGridView.setOnItemClickListener { adapterView, view, i, l ->
 
             GlobalScope.launch {
                 MainActivity.viewModel.getResponse(questions[i])
             }
         }
+        return binding.root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
