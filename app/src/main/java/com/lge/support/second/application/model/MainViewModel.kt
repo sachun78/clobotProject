@@ -9,6 +9,7 @@ import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.data.chatbot.ChatRequest
 import com.lge.support.second.application.data.chatbot.ChatbotData
+import com.lge.support.second.application.data.chatbot.dto.ChatbotResponseDto
 import com.lge.support.second.application.data.pageConfig.PageInfoItem
 import com.lge.support.second.application.managers.robot.worker.ScheduleWorker
 import com.lge.support.second.application.repository.ChatbotRepository
@@ -30,16 +31,38 @@ class MainViewModel(
     private val _queryResult: MutableLiveData<ChatbotData?> = MutableLiveData<ChatbotData?>()
     val queryResult: LiveData<ChatbotData?> get() = _queryResult
 
+    private val _breakData: MutableLiveData<ChatbotResponseDto?> =
+        MutableLiveData<ChatbotResponseDto?>()
+    val breakData: LiveData<ChatbotResponseDto?> get() = _breakData
+
     private val _speechText: MutableLiveData<String> = MutableLiveData()
     val speechText: LiveData<String> get() = _speechText
 
     private val _speechStatus: MutableLiveData<String> = MutableLiveData()
     val speechStatus: LiveData<String> get() = _speechStatus
 
+    private val _currentPage: MutableLiveData<String> = MutableLiveData()
+    val currentPage: LiveData<String> get() = _currentPage
+
     private val workManager = WorkManager.getInstance(application)
 
     init {
         cancelSchedule()
+    }
+
+    suspend fun breakChat() {
+        repository.breakChat().onEach { result ->
+            when (result) {
+                is Resource.Success -> {
+                    _breakData.value = result.data!!
+                }
+                is Resource.Error -> {
+                }
+                is Resource.Loading -> {
+                }
+            }
+        }.launchIn(viewModelScope).join()
+
     }
 
     // Use Chatbot
@@ -59,21 +82,29 @@ class MainViewModel(
             when (result) {
                 is Resource.Success -> {
                     _queryResult.value = result.data!!
+                    if (result.data.customCode.page_id != "") {
+                        if (_currentPage.value != result.data.customCode.page_id) {
+                            _currentPage.value = result.data.customCode.page_id
+                        }
+                    } else if (result.data.template_id != "") {
+                        if (_currentPage.value != result.data.template_id) {
+                            _currentPage.value = result.data.template_id
+                        }
+                    } else {
+                        _currentPage.value = ""
+                    }
                 }
-                is Resource.Error -> {
-                    _queryResult.value = null
-                }
-                is Resource.Loading -> {
-                    _queryResult.value = null
-                }
+                is Resource.Error -> {}
+                is Resource.Loading -> {}
             }
         }.launchIn(viewModelScope)
 
         //chatbot request.. async
         job.join()
-//        while (!job.isCompleted) {
-//            Thread.sleep(100)
-//        }
+    }
+
+    fun resetCurrentPage() {
+        _currentPage.value = ""
     }
 
     // Use GoogleCloud API
