@@ -11,9 +11,11 @@ import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentMainBinding
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.apache.log4j.chainsaw.Main
@@ -30,7 +32,8 @@ class main : Fragment() {
 
         val mActivity = activity as MainActivity
 
-        mActivity.findViewById<ConstraintLayout>(R.id.background).setBackgroundResource(R.drawable.gongju_background_1)
+        mActivity.findViewById<ConstraintLayout>(R.id.background)
+            .setBackgroundResource(R.drawable.gongju_background_1)
         mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.VISIBLE
 
         mActivity.findViewById<Button>(R.id.backBtn).setBackgroundResource(R.drawable.back_main)
@@ -51,7 +54,11 @@ class main : Fragment() {
         }
 
         menu2.setOnClickListener {
-            mActivity.changeFragment("exhibits-ungjin")
+           // mActivity.changeFragment("exhibits-ungjin")
+            lifecycleScope.launch(Dispatchers.IO) {
+                MainActivity.viewModel.breakChat()
+                MainActivity.viewModel.getResponse("전시된 작품 뭐 있어")
+            }
         }
 
         menu3.setOnClickListener {

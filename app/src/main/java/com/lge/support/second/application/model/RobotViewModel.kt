@@ -107,7 +107,6 @@ class RobotViewModel(
                 }
                 is NaviError -> {
                     checkNaviError(naviData)
-                    println("else $naviData")
                 }
             }
         }.launchIn(viewModelScope)
@@ -145,6 +144,7 @@ class RobotViewModel(
 
         mTimerTask = kotlin.concurrent.timer(period = 1000) {
             RobotRepository.mSensorManager.requestEmergencyStatus()
+            RobotRepository.mNavigationManager.requestInitialized()
         }
     }
 

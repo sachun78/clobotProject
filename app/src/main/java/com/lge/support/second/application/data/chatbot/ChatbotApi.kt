@@ -12,6 +12,11 @@ interface ChatbotApi {
         @Body parameters: ChatRequest,
     ): ChatbotResponseDto
 
+    @POST("/chat")
+    suspend fun breakChat(
+        @Body parameters: ChatRequest,
+    ): ChatbotResponseDto
+
     companion object {
         const val BASE_URL = "http://59.13.28.124:5201/"
         val instance: ChatbotApi by lazy {

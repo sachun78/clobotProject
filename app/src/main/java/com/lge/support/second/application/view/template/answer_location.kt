@@ -48,7 +48,7 @@ class answer_location : Fragment() {
 //        arrImage = MainActivity.urlArray
 
         imageSwitcher.setFactory {
-            var imageView = ImageView(getActivity()?.getApplicationContext())
+            var imageView = ImageView(activity?.applicationContext)
             imageView.scaleType = ImageView.ScaleType.FIT_CENTER
             imageView
         }

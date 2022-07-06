@@ -24,6 +24,7 @@ import android.view.MenuItem
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import com.example.googlecloudmanager.common.Language
@@ -44,6 +45,8 @@ import com.lge.support.second.application.view.docent.move_docent
 import com.lge.support.second.application.view.docent.test_docent
 import com.lge.support.second.application.view.subView.*
 import com.lge.support.second.application.view.template.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.InputStream
 import java.util.*
 
@@ -88,29 +91,31 @@ class MainActivity : AppCompatActivity() {
         /////////
         lateinit var inStr: String
         lateinit var speechStr: String
-        lateinit var descriptStr: String
+        var descriptStr: String = ""
 
-        private val PERMISSIONS_STORAGE = arrayOf(
+//        private val PERMISSIONS_STORAGE = arrayOf(
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE
+//        )
+        private val PERMISSIONS = arrayOf(
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
-        private val PERMISSIONS = arrayOf(
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA
-        )
-        private const val REQUEST_RECORD_AUDIO_PERMISSION = 200
-        private const val REQUEST_EXTERNAL_STORAGE = 1
-        const val REQUEST_IMAGE_CAPTURE = 2
+        private const val REQUEST_CODE_PERMISSION = 200
+//        private const val REQUEST_EXTERNAL_STORAGE = 1
 
         lateinit var subTest: SubScreen
         lateinit var subVideo: back_video
-
-        // MQTT
-        val mqttMgr by lazy { MessageConnector.getInstance() }
+        lateinit var standby: standby
 
         fun mainContext(): Context {
             return instance
         }
+
+        // MQTT
+        val mqttMgr by lazy { MessageConnector.getInstance() }
     }
 
     private lateinit var mActivityMainBinding: ActivityMainBinding
@@ -120,7 +125,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var displayManager: DisplayManager
     private lateinit var displays: Array<Display>
     lateinit var head: HeadPresentation
-    lateinit var standby: standby
     lateinit var move_docent: moveDocent
     lateinit var movement_normal: moveNormal
     lateinit var promote_normal: moveNormal
@@ -146,7 +150,7 @@ class MainActivity : AppCompatActivity() {
         //toolbar
         var toolbar: androidx.appcompat.widget.Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        getSupportActionBar()?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         Log.i(tk_TAG, "MainActivity OnCreate")
 
@@ -163,8 +167,6 @@ class MainActivity : AppCompatActivity() {
         val adminBtn: Button = findViewById(R.id.EnterAdminBtn)
         val jpnBtn : Button = findViewById(R.id.jpnBtn)
         val chnBtn : Button = findViewById(R.id.chiBtn)
-
-        displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
 
         viewModel = ViewModelProvider(
             this@MainActivity,
@@ -184,6 +186,7 @@ class MainActivity : AppCompatActivity() {
             )
         ).get(RobotViewModel::class.java)
 
+        displayManager = getSystemService(Context.DISPLAY_SERVICE) as DisplayManager
         displays = displayManager.displays
 
         if (displays.isNotEmpty()) {
@@ -191,7 +194,6 @@ class MainActivity : AppCompatActivity() {
             subTest.show()
 
             standby = standby(this, displays[0])
-            standby.show()
 
             subVideo = back_video(this, displays[1])
 
@@ -205,13 +207,17 @@ class MainActivity : AppCompatActivity() {
             docent_back = docent_back(this, displays[1])
         }
 
+        // CHECK PERMISSIONS
+        if(allPermissionsGranted()) {
+            standby.show()
+        } else {
+            ActivityCompat.requestPermissions(
+                this, PERMISSIONS, REQUEST_CODE_PERMISSION
+            )
+        }
+
         // MQTT Service start
         //mqttMgr.initFunc()
-
-        verifyStoragePermissions(this)
-        ActivityCompat.requestPermissions(
-            this, PERMISSIONS, REQUEST_RECORD_AUDIO_PERMISSION
-        )
 
         val sharedPreferences = getSharedPreferences("Setting", Activity.MODE_PRIVATE)
         val language = sharedPreferences.getString("My_Lang", "")
@@ -299,10 +305,6 @@ class MainActivity : AppCompatActivity() {
 
             if (speechStr != "")
                 viewModel.ttsSpeak(this, speechStr)
-
-            if (it.customCode.page_id != null)
-                page_id = it.customCode.page_id
-            else page_id = ""
 
             if (it.template_id != null) {
                 tpl_id = it.template_id
@@ -411,8 +413,28 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+//            else {
+//                if (page_id != "") {
+//                    changeFragment(page_id)
+//                } else if (tpl_id != "") {
+//                    changeFragment(tpl_id)
+//                }
+//            }
+        } // observe queryResult
+        viewModel.currentPage.observe(this) {
+            if (it == null || chatPage) return@observe
+            changeFragment(it)
         }
-//        viewModel.getResponse("intro", "intro")
+
+//        if (allPermissionsGranted()) {
+//            //start camera
+//        } else {
+//            ActivityCompat.requestPermissions(
+//                this,
+//                PERMISSIONS,
+//                REQUEST_CODE_PERMISSIONS
+//            )
+//        }
     } //onCreate
 
     private fun TouchContinously() { //////////좌측 상단 연속 클릭 시 호출되는 함수
@@ -451,7 +473,7 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null).commit()
             }
 
-            "exhibits-ungjin" -> {
+            "exhibits-ungjin", "arts" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, exhibits())
                     .addToBackStack(null).commit()
             }
@@ -511,6 +533,12 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null).commit()
             }
 
+            // TEST FOR MMCA SCENARIO
+            "tpl-single-art", "answer-art" -> {
+                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_location())
+                    .addToBackStack(null).commit()
+            }
+
             "answer_4", "tpl-com-05" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_4())
                     .addToBackStack(null).commit()
@@ -546,18 +574,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun verifyStoragePermissions(activity: MainActivity) {
-        val permission = ActivityCompat.checkSelfPermission(
-            activity, Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(
-                activity,
-                PERMISSIONS_STORAGE,
-                REQUEST_EXTERNAL_STORAGE
-            )
-        }
-
+    private fun allPermissionsGranted() = PERMISSIONS.all {
+        ContextCompat.checkSelfPermission(mainContext(), it) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onResume() {

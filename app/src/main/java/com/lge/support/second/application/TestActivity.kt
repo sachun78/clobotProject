@@ -141,10 +141,11 @@ class TestActivity : AppCompatActivity() {
                 (y + height - selectedPOI!!.positionY * 10)
             )
             pinDrawable.draw(canvas)
+
+            canvas.restore()
         }
 
-
-        canvas.restore()
+        canvas.save();
         // 510 -> y좌표 시작점 480 + height 40
         canvas.translate(
             (pos.robotPos.x * 10 - x).toFloat(),

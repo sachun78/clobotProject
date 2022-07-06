@@ -1,41 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/gongju_background_1">
+
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
     <ImageView
         android:layout_width="440px"
         android:layout_height="108.46px"
+        android:layout_marginTop="282px"
         android:src="@drawable/gonju_icon"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="282px"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/standby_t1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="447px"
+        android:text="test1"
         android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="72px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="test1"
-        android:textSize="72px"
-        android:layout_marginTop="447px" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/standby_t2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="55px"
+        android:text="test2"
         android:textColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/standby_t1"
+        android:textSize="72px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:text="test2"
-        android:textSize="72px"
-        android:layout_marginTop="55px"/>
+        app:layout_constraintTop_toBottomOf="@id/standby_t1" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
