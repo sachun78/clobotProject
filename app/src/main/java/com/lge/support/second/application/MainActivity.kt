@@ -79,7 +79,9 @@ class MainActivity : AppCompatActivity() {
 
         ////////////////chatbot제공 이미지 파일이 여러개인 경우->mutable 리스트 사용////
         var messageSize: Int = 0
-        val urlArray = ArrayList<String>()
+        var imgBtnSize : Int = 0
+        val urlArray = ArrayList<String>() //message에 포함된 image
+        var urlArray2 = ArrayList<String>()
         val BitmapArray = ArrayList<Bitmap>()
 
         ///////////////chatbot제공 이미지 형식 총 2개
@@ -167,6 +169,9 @@ class MainActivity : AppCompatActivity() {
         val adminBtn: Button = findViewById(R.id.EnterAdminBtn)
         val jpnBtn : Button = findViewById(R.id.jpnBtn)
         val chnBtn : Button = findViewById(R.id.chiBtn)
+
+        val customDialog: Dialog = CustomProgressDialogue(this)
+        customDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         viewModel = ViewModelProvider(
             this@MainActivity,
@@ -348,7 +353,7 @@ class MainActivity : AppCompatActivity() {
 
                         for (i in 0..messageSize) {
                             url = it.messages[0].image[i].url
-//                            Log.d("tk_test", "img type is uri " + url) //맞는 값 얻어왔는지 확인
+                            Log.d("tk_test", "img type is uri " + url) //맞는 값 얻어왔는지 확인
 
                             urlArray.add(url) ///////string으로 들어가있음.
                             Log.d("tk_test", "urlArray add done " + urlArray[i])
@@ -357,7 +362,7 @@ class MainActivity : AppCompatActivity() {
                         urlArray.clear()
                         BitmapArray.clear()
 
-                        for (i in 0..messageSize - 1) {
+                        for (i in 0 until messageSize) {
                             url = it.messages[0].image[i].url.substring(
                                 it.messages[0].image[0].url.indexOf(",") + 1
                             )
@@ -374,12 +379,25 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
+
+                if(!it.messages[0].imageButton.isNullOrEmpty()) {
+                    imgBtnSize = it.messages[0].imageButton.size
+                    Log.d("tk_test", "message Button list size is " + imgBtnSize)
+
+                    urlArray2.clear()
+
+                    for (i in 0..imgBtnSize-1) {
+                        url = it.messages[0].imageButton[i].url
+                        Log.d("tk_test", "imageButton url is " + url) //맞는 값 얻어왔는지 확인
+
+                        urlArray2.add(url) ///////string으로 들어가있음.
+                        Log.d("tk_test", "urlArray2 add done " + urlArray2[i])
+                    }
+                }
             }
             ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
 
             //val prgDialog = ProgressDialog(this)
-            val customDialog: Dialog = CustomProgressDialogue(this)
-            customDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 //            var isChecked = false
 //            if (!isChecked) customDialog.show()
 //            else customDialog.dismiss()
@@ -423,7 +441,9 @@ class MainActivity : AppCompatActivity() {
         } // observe queryResult
         viewModel.currentPage.observe(this) {
             if (it == null || chatPage) return@observe
+            customDialog.show()
             changeFragment(it)
+            customDialog.hide()
         }
 
 //        if (allPermissionsGranted()) {

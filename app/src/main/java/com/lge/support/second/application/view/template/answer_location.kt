@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageSwitcher
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentAnswerLocationBinding
+import com.lge.support.second.application.view.exhibits
 import com.lge.support.second.application.view.subView.image_popup
 import com.lge.support.second.application.view.subView.threeD_popup
 
@@ -39,13 +41,16 @@ class answer_location : Fragment() {
     ): View? {
         binding = FragmentAnswerLocationBinding.inflate(inflater, container, false)
 
+        (activity as MainActivity).findViewById<ConstraintLayout>(R.id.background)
+            .setBackgroundResource(R.drawable.gongju_background_3)
+
         binding.answerLocationC4.movementMethod
 
         imageSwitcher = binding.answerLocationC3
         btnNext = binding.answerLocNext
         btnBack = binding.answerLocBack
 
-//        arrImage = MainActivity.urlArray
+        binding.answerLocationC1.text = exhibits.nameList[position].text
 
         imageSwitcher.setFactory {
             var imageView = ImageView(activity?.applicationContext)
@@ -53,20 +58,17 @@ class answer_location : Fragment() {
             imageView
         }
 
-        arrImage.add("https://ichef.bbci.co.uk/news/640/cpsprodpb/14C73/production/_121170158_planepoogettyimages-1135673520.jpg")
-        arrImage.add("https://greenium.kr/wp-content/uploads/2021/06/%EB%B9%84%ED%96%89%EA%B8%B0-1.jpg")
-        arrImage.add("https://www.ekn.kr/mnt/file/202110/2021101201000367900015741.jpg")
-
-        ////////////Main -> urlArray[0]
-//        arrImage.clear()
-//        for(imgUrl in MainActivity.urlArray){
-//            arrImage.add(imgUrl)
-//        }
+        ////////////Main -> urlArray2[ position ]
+        arrImage.clear()
+        for(imgUrl in MainActivity.urlArray2){
+            arrImage.add(imgUrl)
+        }
 
         //첫 화면 세팅
-        Glide.with(imageSwitcher.context).load(arrImage[0])
+        Glide.with(imageSwitcher.context).load(arrImage[position])
             .into(imageSwitcher.currentView as ImageView)
-        btnBack.visibility = View.INVISIBLE
+        if(position == 0)
+            btnBack.visibility = View.INVISIBLE
         if(position == arrImage.size-1)
             btnNext.visibility = View.INVISIBLE
 
@@ -79,6 +81,7 @@ class answer_location : Fragment() {
                     btnBack.visibility = View.INVISIBLE
                 Glide.with(imageSwitcher.context).load(arrImage[position])
                     .into(imageSwitcher.currentView as ImageView)
+                binding.answerLocationC1.text = exhibits.nameList[position].text
             }
             if(position == 0)
                 btnBack.visibility = View.INVISIBLE
@@ -89,6 +92,7 @@ class answer_location : Fragment() {
                 position += 1
                 Glide.with(imageSwitcher.context).load(arrImage[position])
                     .into(imageSwitcher.currentView as ImageView)
+                binding.answerLocationC1.text = exhibits.nameList[position].text
             }
 
             if(position == arrImage.size - 1){

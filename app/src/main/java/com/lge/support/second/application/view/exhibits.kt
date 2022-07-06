@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.PagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -19,6 +20,7 @@ import com.lge.support.second.application.view.adapter.answerList2Adapter
 import com.lge.support.second.application.view.adapter.answerlist2Model
 import com.lge.support.second.application.view.tabView.*
 import kotlinx.coroutines.*
+import org.apache.log4j.chainsaw.Main
 
 
 class exhibits : Fragment() {
@@ -46,27 +48,36 @@ class exhibits : Fragment() {
     var Arrtype = ArrayList<String>()
     var isCreatedThisPage = false
     var adapter: answerList2Adapter? = null
-    var nameList = ArrayList<answerlist2Model>()
+    companion object{
+        var nameList = ArrayList<answerlist2Model>()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        (activity as MainActivity).findViewById<ConstraintLayout>(R.id.background)
+            .setBackgroundResource(R.drawable.gongju_background_2)
+
         binding = FragmentExhibitsBinding.inflate(inflater, container, false)
 
+        Log.d("exhibits", "onCreateView")
         val mActivity = activity as MainActivity
         println("exhibits onCreate")
         //보여질 화면 세팅
-        viewList.add(layoutInflater.inflate(R.layout.fragment_exhibits_ungjin, null))
-        viewList.add(layoutInflater.inflate(R.layout.fragment_exhibits_treasure, null))
+        //if(!isCreatedThisPage){
+        viewList.clear()
+            viewList.add(layoutInflater.inflate(R.layout.fragment_exhibits_ungjin, null))
+            viewList.add(layoutInflater.inflate(R.layout.fragment_exhibits_treasure, null))
+        //}
 
         binding.exhibitsViewPager.adapter = pagerAdapter()
 
         //tab - view connect
         binding.exhibitsTab.setupWithViewPager(binding.exhibitsViewPager)
 
-        tab1 = "웅진 백제실"
-        tab2 = "국보/보물"
+        tab1 = resources.getString(R.string.exhibits_ungjin_b1)
+        tab2 = resources.getString(R.string.exhibits_ungjin_b2)
         //tab
         binding.exhibitsTab.getTabAt(0)?.text = tab1
         binding.exhibitsTab.getTabAt(1)?.text = tab2
@@ -89,8 +100,8 @@ class exhibits : Fragment() {
         adapter = answerList2Adapter(nameList, activity?.getApplicationContext())
         viewList[0].findViewById<GridView>(R.id.ungjin_list).adapter = adapter
 
-        when (binding.exhibitsTab.selectedTabPosition) {
-            0 -> {
+//        when (binding.exhibitsTab.selectedTabPosition) {
+//            0 -> {
                 viewList[0].findViewById<GridView>(R.id.ungjin_list)
                     .setOnItemClickListener { adapterView, view, position, id ->
 //            Log.i
@@ -105,9 +116,9 @@ class exhibits : Fragment() {
                             )
                         }
                     }
-            }
-            1 -> {}
-        }
+//            }
+//            1 -> {}
+//        }
         return binding.root
     }
 
@@ -121,12 +132,20 @@ class exhibits : Fragment() {
 
             MainActivity.viewModel.ttsStop()
         }
+
+        Log.d("exhibits", "onResume")
     }
 
     override fun onPause() {
         super.onPause()
         MainActivity.viewModel.ttsStop()
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.d("exhibits", "onDestroy")
+    }
+
 
     inner class pagerAdapter : PagerAdapter() {
         override fun isViewFromObject(view: View, `object`: Any) = view == `object`
