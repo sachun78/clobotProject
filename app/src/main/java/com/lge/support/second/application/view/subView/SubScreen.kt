@@ -11,6 +11,7 @@ import android.view.Display
 import android.view.MotionEvent
 import android.view.SurfaceHolder
 import android.view.SurfaceView
+import android.widget.Button
 import android.widget.TextView
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
@@ -135,6 +136,26 @@ class docent_back(outerContext: Context?, display: Display?) : Presentation(oute
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.move_docent)
+    }
+
+    override fun onStart() {
+        super.onStart()
+    }
+
+    override fun onStop() {
+        super.onStop()
+    }
+}
+
+class move_arrive1(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
+    /////////////////move_arrive (front), information_back(back)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.move_arrive1)
+
+        findViewById<Button>(R.id.b1).setOnClickListener {
+            hide()
+        }
     }
 
     override fun onStart() {
