@@ -83,13 +83,16 @@ class TestActivity : AppCompatActivity() {
 
         MainActivity.robotViewModel.moveState.observe(this) {
             when (it) {
-                MoveState.MOVE_DONE -> MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).text =
-                    "WAITING"
+                MoveState.MOVE_DONE -> {
+                    MainActivity.movement_normal.hide()
+                }
                 MoveState.MOVING -> TODO()
-                MoveState.MOVE_START -> MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).text =
-                    "MOVING"
-                MoveState.MOVE_FAIL -> MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).text =
-                    "MOVE ERROR"
+                MoveState.MOVE_START -> {
+                    MainActivity.movement_normal.show()
+                }
+                MoveState.MOVE_FAIL -> {
+                    MainActivity.movement_normal.hide()
+                }
                 MoveState.SCHEDULE_MOVE -> TODO()
                 MoveState.SCHEDULE_WAIT -> TODO()
             }

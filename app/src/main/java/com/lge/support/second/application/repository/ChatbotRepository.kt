@@ -42,6 +42,10 @@ class ChatbotRepository constructor(
     }
 
     fun breakChat(): Flow<Resource<ChatbotResponseDto>> = flow {
+        Log.d(
+            TAG,
+            "Break CHAT"
+        )
         try {
             emit(Resource.Loading())
             val result = breakChatRequest()

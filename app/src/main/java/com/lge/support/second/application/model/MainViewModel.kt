@@ -17,7 +17,6 @@ import com.lge.support.second.application.repository.SceneConfigRepo
 import com.lge.support.second.application.util.Resource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.launch
 import com.example.googlecloudmanager.common.Resource as R2
 
 class MainViewModel(
@@ -62,11 +61,15 @@ class MainViewModel(
                 }
             }
         }.launchIn(viewModelScope).join()
-
     }
 
     // Use Chatbot
-    suspend fun getResponse(in_str: String, in_type: String? = null, raw_str: String = "") {
+    suspend fun getResponse(
+        in_str: String,
+        in_type: String? = null,
+        raw_str: String = "",
+        changePage: Boolean = true
+    ) {
         val domain_id = "seoul_mmca"
         val request = ChatRequest(
             domain_id,
@@ -82,6 +85,8 @@ class MainViewModel(
             when (result) {
                 is Resource.Success -> {
                     _queryResult.value = result.data!!
+                    if (!changePage) return@onEach
+
                     if (result.data.customCode.page_id != "") {
                         if (_currentPage.value != result.data.customCode.page_id) {
                             _currentPage.value = result.data.customCode.page_id
@@ -104,7 +109,7 @@ class MainViewModel(
     }
 
     fun resetCurrentPage() {
-        _currentPage.value = ""
+        _currentPage.postValue("")
     }
 
     // Use GoogleCloud API
@@ -149,7 +154,6 @@ class MainViewModel(
                 is R2.Loading -> {
                     Log.i(TAG, "onLoading : ${result.data}")
                     _speechStatus.value = result.data
-//                    _speechText.value = result.data
                 }
                 is R2.Listen -> {
                     Log.i(TAG, "onListen ${result.data}")

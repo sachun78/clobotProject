@@ -36,7 +36,7 @@ class MoveToCtrlCmd: IReceiveCmd {
         Log.d("hjbae", "getPayload: ${msg?.getPayload()}")
         Log.d("hjbae", "$mRequest")
 
-        MainApplication().mRobotRepo.moveToPos(
+        MainApplication.mRobotRepo.moveToPos(
             mRequest.request?.x!!.toDouble(),
             mRequest.request?.y!!.toDouble(),
             7.0,

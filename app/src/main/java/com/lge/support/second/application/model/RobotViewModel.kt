@@ -144,7 +144,7 @@ class RobotViewModel(
 
         mTimerTask = kotlin.concurrent.timer(period = 1000) {
             RobotRepository.mSensorManager.requestEmergencyStatus()
-            RobotRepository.mNavigationManager.requestInitialized()
+            RobotRepository.mMonitoringManager.batteryStatus
         }
     }
 
@@ -372,6 +372,8 @@ class RobotViewModel(
                 println("MOVE GOAL ACCEPTED")
                 if (isDocking.value != true) {
                     _moveState.value = MoveState.MOVE_START
+                } else {
+                    TODO("DOKCING View")
                 }
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_DOCKING_ACCEPTED -> {
@@ -390,6 +392,9 @@ class RobotViewModel(
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_UNDOCKING_DONE -> {
                 println("UNDOCKING SUCCESS")
+            }
+            NavigationMessageType.EXTERN_NAVI_EVENT_INITIALIZED -> {
+                println("INITIALIZED!")
             }
         }
     }

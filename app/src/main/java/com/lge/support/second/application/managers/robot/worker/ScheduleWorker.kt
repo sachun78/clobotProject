@@ -7,8 +7,7 @@ import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.MainApplication
 import com.lge.support.second.application.data.robot.MoveState
 import kotlinx.coroutines.*
-import kotlin.random.Random
-
+import org.apache.log4j.chainsaw.Main
 
 class ScheduleWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(ctx, params) {
     //    val mNavigationManager = NavigationManagerInstance.instance.getNavigationManager()
@@ -24,9 +23,10 @@ class ScheduleWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(c
     }
 
     suspend fun doActualWork() {
-        val mainViewModel = MainActivity.viewModel
-        val roboRepo = mainViewModel.getApplication<MainApplication>().mRobotRepo
-        val roboViewModel = MainActivity.robotViewModel
+//        val mainViewModel = MainActivity.viewModel
+        val roboRepo = MainApplication.mRobotRepo
+        val chatbotRepo = MainApplication.mChatbotRepo
+//        val roboViewModel = MainActivity.robotViewModel
 
         try {
             // TODO(0. EMERGENCY 인경우 작업 취소)
@@ -38,36 +38,38 @@ class ScheduleWorker(ctx: Context, params: WorkerParameters) : CoroutineWorker(c
             // TODO(2. 현재 대기 상태인지 체크)
 
             // Promote_n 요청
-            withContext(Dispatchers.IO) {
-                MainActivity.viewModel.getResponse("promote_n")
+            coroutineScope {
+//                MainActivity.viewModel.breakChat()
+                chatbotRepo.breakChat()
+                println("promote_n start")
+//                MainActivity.viewModel.getResponse("promote_n")
+                println("promote_n end")
+            }
 
-                println(MainActivity.viewModel.queryResult.value)
+            // random poi 중 이동
+//            if (roboViewModel.pois != null && roboViewModel.pois.size > 0) {
+//                roboViewModel.pois[0].let { roboRepo.moveWithPoi(it) }
+//
+//                println("MOVE_DONE CHECK")
+//                while (true) {
+//                    println("MOVESTATE: ${roboViewModel.moveState.value}")
+//                    if (roboViewModel.moveState.value == MoveState.MOVE_DONE) {
+//                        break
+//                    } else if (roboViewModel.moveState.value == MoveState.MOVE_FAIL) {
+//                        Result.failure()
+//                        break
+//                    } else {
+//                        delay(100)
+//                    }
+//                }
+//            }
 
-                // random poi 중 이동
-                if (roboViewModel.pois != null && roboViewModel.pois.size > 6) {
-                    roboViewModel.pois.get(Random.nextInt(7)).let { roboRepo.moveWithPoi(it) }
-                }
-
-                println("MOVE_DONE CHECK")
-
-                while (true) {
-                    if (roboViewModel.moveState.value == MoveState.MOVE_DONE) {
-                        break
-                    }
-                    if (roboViewModel.moveState.value == MoveState.MOVE_FAIL) {
-                        Result.failure()
-                    }
-                    delay(1000)
-                    break
-                }
-
-                delay(1000 * 30)
+            delay(1000 * 30)
 //            val outputCount = suspendCoroutine <Any> { continuation ->
 //                roboRepo.monitoringMangerCallback.onEach {
 //                    continuation.resume(it!!)
 //                }
 //            }
-            }
         } catch (error: Throwable) {
             Log.e("ScheduleWorker", "Error Scheulde DoWork")
         }

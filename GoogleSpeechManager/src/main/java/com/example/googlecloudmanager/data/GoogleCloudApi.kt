@@ -31,6 +31,7 @@ interface GoogleCloudApi {
     }
 
     fun textToAudio(text: String, file: File) {
+        Log.i(TAG, "textToAudio")
         val input: SynthesisInput = SynthesisInput.newBuilder().setText(text).build()
         val voice: VoiceSelectionParams = VoiceSelectionParams.newBuilder()
             .setLanguageCode(language.toString())
@@ -39,14 +40,20 @@ interface GoogleCloudApi {
         val audioConfig: AudioConfig =
             AudioConfig.newBuilder().setAudioEncoding(AudioEncoding.MP3)
                 .setSampleRateHertz(44100).build()
-        val response: SynthesizeSpeechResponse? =
-            ttsClient.synthesizeSpeech(input, voice, audioConfig)
-        val audioContents: ByteString = response!!.audioContent
 
-        FileOutputStream(file).use { out ->
-            out.write(audioContents.toByteArray())
-            Log.i(TAG, "Audio content written to file \"output.mp3\"")
-            out.close()
+        try {
+            Log.i(TAG, "textToAudio response Before")
+            val response: SynthesizeSpeechResponse? =
+                ttsClient.synthesizeSpeech(input, voice, audioConfig)
+            Log.i(TAG, "textToAudio response After")
+            val audioContents: ByteString = response!!.audioContent
+            FileOutputStream(file).use { out ->
+                out.write(audioContents.toByteArray())
+                Log.i(TAG, "Audio content written to file \"output.mp3\"")
+                out.close()
+            }
+        } catch (e: Throwable) {
+            Log.e(TAG, "$e")
         }
     }
 

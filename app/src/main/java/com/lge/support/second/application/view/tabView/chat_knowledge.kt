@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentChatKnowledgeBinding
@@ -65,7 +66,7 @@ class chat_knowledge : Fragment() {
         }
 
         binding.knowledgeGridView.setOnItemClickListener { adapterView, view, i, l ->
-            GlobalScope.launch {
+            lifecycleScope.launch {
                 MainActivity.viewModel.getResponse(questions[i])
             }
         }

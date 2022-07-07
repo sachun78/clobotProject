@@ -31,6 +31,7 @@ import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
 import com.lge.support.second.application.data.chatbot.ChatbotApi
+import com.lge.support.second.application.data.robot.MoveState
 import com.lge.support.second.application.databinding.ActivityMainBinding
 import com.lge.support.second.application.managers.mqtt.MessageConnector
 import com.lge.support.second.application.model.MainViewModel
@@ -47,6 +48,7 @@ import com.lge.support.second.application.view.subView.*
 import com.lge.support.second.application.view.template.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import org.apache.log4j.chainsaw.Main
 import java.io.InputStream
 import java.util.*
 
@@ -79,7 +81,7 @@ class MainActivity : AppCompatActivity() {
 
         ////////////////chatbot제공 이미지 파일이 여러개인 경우->mutable 리스트 사용////
         var messageSize: Int = 0
-        var imgBtnSize : Int = 0
+        var imgBtnSize: Int = 0
         val urlArray = ArrayList<String>() //message에 포함된 image
         var urlArray2 = ArrayList<String>()
         val BitmapArray = ArrayList<Bitmap>()
@@ -95,7 +97,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var speechStr: String
         var descriptStr: String = ""
 
-//        private val PERMISSIONS_STORAGE = arrayOf(
+        //        private val PERMISSIONS_STORAGE = arrayOf(
 //            Manifest.permission.READ_EXTERNAL_STORAGE,
 //            Manifest.permission.WRITE_EXTERNAL_STORAGE
 //        )
@@ -111,6 +113,8 @@ class MainActivity : AppCompatActivity() {
         lateinit var subTest: SubScreen
         lateinit var subVideo: back_video
         lateinit var standby: standby
+        lateinit var movement_normal: movement_normal
+        lateinit var promote_normal: promote_normal
 
         fun mainContext(): Context {
             return instance
@@ -128,11 +132,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var displays: Array<Display>
     lateinit var head: HeadPresentation
     lateinit var move_docent: moveDocent
-    lateinit var movement_normal: movement_normal
-    lateinit var promote_normal: promote_normal
+
     lateinit var docent_back: docent_back
 
-    private val chatbotService = ChatbotApi.instance
     private lateinit var googleService: GoogleCloudApi;
 
     ////////////////////관리자 페이지 진입을 위해 필요한 변수/////////////
@@ -167,8 +169,8 @@ class MainActivity : AppCompatActivity() {
         val korBtn: Button = findViewById(R.id.korBtn)
         val enBtn: Button = findViewById(R.id.enBtn)
         val adminBtn: Button = findViewById(R.id.EnterAdminBtn)
-        val jpnBtn : Button = findViewById(R.id.jpnBtn)
-        val chnBtn : Button = findViewById(R.id.chiBtn)
+        val jpnBtn: Button = findViewById(R.id.jpnBtn)
+        val chnBtn: Button = findViewById(R.id.chiBtn)
 
         val customDialog: Dialog = CustomProgressDialogue(this)
         customDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -176,7 +178,7 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(
             this@MainActivity,
             MainViewModel.Factory(
-                ChatbotRepository(chatbotService),
+                MainApplication.mChatbotRepo,
                 GoogleCloudRepository(googleService),
                 SceneConfigRepo(),
                 application as MainApplication
@@ -186,7 +188,7 @@ class MainActivity : AppCompatActivity() {
         robotViewModel = ViewModelProvider(
             this@MainActivity,
             RobotViewModel.Factory(
-                (application as MainApplication).mRobotRepo,
+                MainApplication.mRobotRepo,
                 application as MainApplication
             )
         ).get(RobotViewModel::class.java)
@@ -213,7 +215,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // CHECK PERMISSIONS
-        if(allPermissionsGranted()) {
+        if (allPermissionsGranted()) {
             standby.show()
         } else {
             ActivityCompat.requestPermissions(
@@ -238,9 +240,8 @@ class MainActivity : AppCompatActivity() {
 //            supportFragmentManager.beginTransaction().replace(R.id.fragment_main, chat())
 //                .addToBackStack(null).commit()
 //
-//            viewModel.enrollSchedule()
-//            changeFragment("test-docent")
-        head.changeExpression(Expression.CURIOUS)
+            viewModel.enrollSchedule()
+            head.changeExpression(Expression.CURIOUS)
         }
         backBtn.setOnClickListener {
             supportFragmentManager.popBackStack()
@@ -248,6 +249,7 @@ class MainActivity : AppCompatActivity() {
         }
         homeBtn.setOnClickListener {
             supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+            viewModel.resetCurrentPage()
 //            viewModel.ttsStop()
             //chatPage = false
         }
@@ -303,13 +305,12 @@ class MainActivity : AppCompatActivity() {
 
             speechStr = ""
             for (i in 0 until (speechSize)) {
-                //viewModel.ttsSpeak(this, it.speech[i])
                 speechStr += it.speech[i]
                 Log.d("tk_test", "speech string is " + speechStr)
             }
 
             if (speechStr != "")
-                viewModel.ttsSpeak(this, speechStr)
+                viewModel.ttsSpeak(applicationContext, speechStr)
 
             if (it.template_id != null) {
                 tpl_id = it.template_id
@@ -380,13 +381,13 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
 
-                if(!it.messages[0].imageButton.isNullOrEmpty()) {
+                if (!it.messages[0].imageButton.isNullOrEmpty()) {
                     imgBtnSize = it.messages[0].imageButton.size
                     Log.d("tk_test", "message Button list size is " + imgBtnSize)
 
                     urlArray2.clear()
 
-                    for (i in 0..imgBtnSize-1) {
+                    for (i in 0..imgBtnSize - 1) {
                         url = it.messages[0].imageButton[i].url
                         Log.d("tk_test", "imageButton url is " + url) //맞는 값 얻어왔는지 확인
 
@@ -431,30 +432,23 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-//            else {
-//                if (page_id != "") {
-//                    changeFragment(page_id)
-//                } else if (tpl_id != "") {
-//                    changeFragment(tpl_id)
-//                }
-//            }
         } // observe queryResult
         viewModel.currentPage.observe(this) {
-            if (it == null || chatPage) return@observe
+            if (it == null || chatPage || it == "")
+                return@observe
+            println("currentPage: $it")
             customDialog.show()
             changeFragment(it)
             customDialog.hide()
         }
+        robotViewModel.moveState.observe(this) {
+            when (it) {
+                MoveState.MOVE_START -> {
 
-//        if (allPermissionsGranted()) {
-//            //start camera
-//        } else {
-//            ActivityCompat.requestPermissions(
-//                this,
-//                PERMISSIONS,
-//                REQUEST_CODE_PERMISSIONS
-//            )
-//        }
+                }
+                MoveState.MOVE_DONE -> {}
+            }
+        }
     } //onCreate
 
     private fun TouchContinously() { //////////좌측 상단 연속 클릭 시 호출되는 함수
@@ -549,7 +543,8 @@ class MainActivity : AppCompatActivity() {
 
             // TEST FOR MMCA SCENARIO
             "tpl-single-art", "answer-art" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_location())
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main, answer_location())
                     .addToBackStack(null).commit()
             }
 
@@ -582,7 +577,8 @@ class MainActivity : AppCompatActivity() {
             }
 
             "answer-location" -> {
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_location())
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main, answer_location())
                     .addToBackStack(null).commit()
             }
         }
