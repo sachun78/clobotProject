@@ -8,12 +8,16 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageSwitcher
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentAnswerLocationBinding
+import com.lge.support.second.application.model.MainViewModel
+import com.lge.support.second.application.model.RobotViewModel
 import com.lge.support.second.application.view.exhibits
 import com.lge.support.second.application.view.subView.image_popup
 import com.lge.support.second.application.view.subView.threeD_popup
@@ -33,6 +37,9 @@ class answer_location : Fragment() {
         var arrImage = ArrayList<String>()
         var position: Int = 0
     }
+
+    val viewModel by activityViewModels<MainViewModel>()
+    private val robotViewModel by activityViewModels<RobotViewModel>()
 
     //공통 사용
     lateinit var btnNext: Button
@@ -66,6 +73,7 @@ class answer_location : Fragment() {
             .setBackgroundResource(R.drawable.gongju_background_3)
 
         binding.answerLocationC4.movementMethod
+
 
         imageSwitcher = binding.answerLocationC3
         btnNext = binding.answerLocNext
@@ -134,6 +142,14 @@ class answer_location : Fragment() {
                 .replace(R.id.fragment_main, image_popup())
                 .addToBackStack(null).commit()
         }
+
+        binding.testDocentB1.setOnClickListener {
+            Toast.makeText(context, "click", Toast.LENGTH_SHORT).show()
+            viewModel.ttsStop()
+            robotViewModel.docentRequest(activity as MainActivity, 3)
+
+        }
+
         return binding.root
     }
 }

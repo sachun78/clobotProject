@@ -25,7 +25,8 @@ class docent_select : Fragment() {
 
         val mActivity = activity as MainActivity
 
-        mActivity.findViewById<ConstraintLayout>(R.id.background).setBackgroundResource(R.drawable.gongju_background_4)
+        mActivity.findViewById<ConstraintLayout>(R.id.background)
+            .setBackgroundResource(R.drawable.gongju_background_4)
         mActivity.findViewById<Button>(R.id.homeBtn).visibility = View.INVISIBLE
         mActivity.findViewById<Button>(R.id.micBtn).visibility = View.INVISIBLE
         mActivity.findViewById<ImageView>(R.id.gnbIcon).visibility = View.INVISIBLE
@@ -34,11 +35,8 @@ class docent_select : Fragment() {
         mActivity.findViewById<Button>(R.id.chiBtn).visibility = View.INVISIBLE
         mActivity.findViewById<Button>(R.id.jpnBtn).visibility = View.INVISIBLE
 
-        //        mActivity.findViewById<Button>(R.id.backBtn).setBackgroundResource(R.drawable.back_main)
-        //        mActivity.findViewById<Button>(R.id.homeBtn).setBackgroundResource(R.drawable.home_main)
-
         binding.listenAllBtn.setOnClickListener {
-            MainActivity.robotViewModel.docent1Request(mActivity)
+            MainActivity.robotViewModel.docentRequest(mActivity, 3)
         }
 
         return binding.root

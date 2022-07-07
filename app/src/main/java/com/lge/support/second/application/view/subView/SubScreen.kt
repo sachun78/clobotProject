@@ -15,6 +15,7 @@ import android.widget.Button
 import android.widget.TextView
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
+import org.apache.log4j.chainsaw.Main
 
 
 class SubScreen(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
@@ -50,7 +51,7 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
     @SuppressLint("RestrictedApi")
     override fun surfaceCreated(p0: SurfaceHolder) {
         //if (mediaPlayer == null) {
-            mediaPlayer = MediaPlayer()
+        mediaPlayer = MediaPlayer()
 //        } else {
 //            mediaPlayer!!.reset()
 //        }
@@ -102,12 +103,13 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
 
     override fun hide() {
         super.hide()
-        MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("문화해설 서비스를 이용중..")
+        MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("문화 해설 서비스 중입니다.")
     }
 }
 
 //////////////////////////////////////////////////docent//////////////////////////////////////////////////
-class movement_normal(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
+class movement_normal(outerContext: Context?, display: Display?) :
+    Presentation(outerContext, display) {
     /////////////////promote-normal, movement-normal(front)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,13 +149,14 @@ class docent_back(outerContext: Context?, display: Display?) : Presentation(oute
     }
 }
 
-class move_arrive1(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
+class move_arrive1(outerContext: Context?, display: Display?, val page: MainActivity) :
+    Presentation(outerContext, display) {
     /////////////////move_arrive (front), information_back(back)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.move_arrive1)
-
         findViewById<Button>(R.id.b1).setOnClickListener {
+            page.changeFragment("docent")
             hide()
         }
     }

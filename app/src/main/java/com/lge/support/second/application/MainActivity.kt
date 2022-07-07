@@ -22,6 +22,7 @@ import android.view.Display
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -36,7 +37,6 @@ import com.lge.support.second.application.databinding.ActivityMainBinding
 import com.lge.support.second.application.managers.mqtt.MessageConnector
 import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.model.RobotViewModel
-import com.lge.support.second.application.repository.ChatbotRepository
 import com.lge.support.second.application.repository.SceneConfigRepo
 import com.lge.support.second.application.view.*
 import com.lge.support.second.application.view.chatView.chat
@@ -46,9 +46,6 @@ import com.lge.support.second.application.view.docent.move_docent
 import com.lge.support.second.application.view.docent.test_docent
 import com.lge.support.second.application.view.subView.*
 import com.lge.support.second.application.view.template.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import org.apache.log4j.chainsaw.Main
 import java.io.InputStream
 import java.util.*
 
@@ -97,10 +94,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var speechStr: String
         var descriptStr: String = ""
 
-        //        private val PERMISSIONS_STORAGE = arrayOf(
-//            Manifest.permission.READ_EXTERNAL_STORAGE,
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE
-//        )
         private val PERMISSIONS = arrayOf(
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.CAMERA,
@@ -108,13 +101,13 @@ class MainActivity : AppCompatActivity() {
             Manifest.permission.WRITE_EXTERNAL_STORAGE
         )
         private const val REQUEST_CODE_PERMISSION = 200
-//        private const val REQUEST_EXTERNAL_STORAGE = 1
 
         lateinit var subTest: SubScreen
         lateinit var subVideo: back_video
         lateinit var standby: standby
         lateinit var movement_normal: movement_normal
         lateinit var promote_normal: promote_normal
+        lateinit var moveArrive1: move_arrive1
 
         fun mainContext(): Context {
             return instance
@@ -211,6 +204,7 @@ class MainActivity : AppCompatActivity() {
             move_docent = moveDocent(this, displays[1])
             movement_normal = movement_normal(this, displays[0])
             promote_normal = promote_normal(this, displays[1])
+            moveArrive1 = move_arrive1(this, displays[0], this)
             docent_back = docent_back(this, displays[1])
         }
 
@@ -434,19 +428,19 @@ class MainActivity : AppCompatActivity() {
             }
         } // observe queryResult
         viewModel.currentPage.observe(this) {
-            if (it == null || chatPage || it == "")
-                return@observe
+            if (it == null || chatPage || it == "") return@observe
             println("currentPage: $it")
             customDialog.show()
             changeFragment(it)
             customDialog.hide()
         }
+
         robotViewModel.moveState.observe(this) {
             when (it) {
-                MoveState.MOVE_START -> {
-
-                }
-                MoveState.MOVE_DONE -> {}
+                MoveState.MOVE_START -> movement_normal.show()
+                MoveState.DOCENT_MOVE -> movement_normal.show()
+                MoveState.STAY -> Toast.makeText(this, "STAY", Toast.LENGTH_SHORT)
+                MoveState.MOVE_DONE -> movement_normal.hide()
             }
         }
     } //onCreate
@@ -580,6 +574,9 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_main, answer_location())
                     .addToBackStack(null).commit()
+            }
+            "move-arrive_1" -> {
+                moveArrive1.show()
             }
         }
     }

@@ -14,7 +14,6 @@ import com.lge.support.second.application.data.robot.NaviError
 import com.lge.support.second.application.data.robot.NaviErrorStatus
 import com.lge.support.second.application.data.robot.NavigationMessage
 import com.lge.support.second.application.repository.RobotRepository
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -31,9 +30,7 @@ class RobotViewModel(
         private const val TAG = "RobotViewModel"
     }
 
-    // private val workManager = WorkManager.getInstance(application)
     private var mTimerTask: Timer
-    var currentJob: Job? = null
 
     val mActionStatus = MutableLiveData<ActionStatus>()
     val mNaviStatus2 = MutableLiveData<NaviStatus2>()
@@ -47,7 +44,7 @@ class RobotViewModel(
     private val _isMoving = MutableLiveData(false)
     val isMoving: LiveData<Boolean> = _isMoving
 
-    private val _moveState = MutableLiveData<MoveState>()
+    private val _moveState = MutableLiveData(MoveState.STAY)
     val moveState: LiveData<MoveState> get() = _moveState
 
     private val _emergency = MutableLiveData(false)
@@ -148,37 +145,44 @@ class RobotViewModel(
         }
     }
 
-    fun docent1Request(page: MainActivity) {
-        currentJob = docent1().onEach {
+    fun docentRequest(page: MainActivity, docentId: Int) {
+        docent(docentId).onEach {
             when (it) {
-                "moving" -> {
-                    //TODO(상태알림, speak 위치이동)
-//                    googleRepositiory.speak(
-//                        MainActivity.mainContext(),
-//                        "문화 해설 위치로 이동합니다. 저를 따라오세요."
-//                    )
-                }
                 "move_done" -> {
-                    page.changeFragment("docent")
+                    page.changeFragment("move-arrive_1")
+                }
+                "move_done2" -> {
+                    page.changeFragment("move-arrive_1")
+                }
+                "move_done3" -> {
+                    page.changeFragment("move-arrive_1")
                 }
             }
 
         }.launchIn(viewModelScope)
     }
 
-    private fun docent1(): Flow<String> = flow {
+    private fun docent(docentId: Int): Flow<String> = flow {
         // docking 상태가 아닌 home 위치 혹은 다른 위치에 있다고 가정.
         _isDocent1.value = true
-        emit("moving")
         // 지점 이동
-        pois?.get(3)?.let { it1 -> robotRepository.moveWithPoi(it1) }
+        pois?.get(docentId)?.let { it1 -> robotRepository.moveWithPoi(it1) }
 
         while (_isDocent1.value == true) {
+            // TODO(Check EMERGENCY)
+            if (emergency.value == true) {
+                _isDocent1.value = false
+                return@flow
+            }
             delay(100)
         }
-
         // page 전환
-        emit("move_done")
+        when (docentId) {
+            0 -> emit("move_done")
+            2 -> emit("move_done2")
+            3 -> emit("move_done3")
+            else -> emit("move_done")
+        }
     }
 
     private fun unDocking(): Flow<Boolean> = flow {
@@ -371,7 +375,11 @@ class RobotViewModel(
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_MOVE_TO_GOAL_ACCEPTED -> {
                 println("MOVE GOAL ACCEPTED")
                 if (isDocking.value != true) {
-                    _moveState.value = MoveState.MOVE_START
+                    if (isDocent1.value == true) {
+                        _moveState.value = MoveState.DOCENT_MOVE
+                    } else {
+                        _moveState.value = MoveState.MOVE_START
+                    }
                 } else {
                     TODO("DOKCING View")
                 }
@@ -384,7 +392,6 @@ class RobotViewModel(
                 println("DOCKING SUCCESS")
                 _isDocking.value = false
             }
-            // TODO(Failure인 경우 처리 필요확인)
 
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_UNDOCKING_ACCEPTED -> {
                 println("UNDOCKING Accepted")
@@ -392,9 +399,6 @@ class RobotViewModel(
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_UNDOCKING_DONE -> {
                 println("UNDOCKING SUCCESS")
-            }
-            NavigationMessageType.EXTERN_NAVI_EVENT_INITIALIZED -> {
-                println("INITIALIZED!")
             }
         }
     }
