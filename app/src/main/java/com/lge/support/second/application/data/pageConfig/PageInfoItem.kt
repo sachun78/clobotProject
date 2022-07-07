@@ -1,15 +1,16 @@
 package com.lge.support.second.application.data.pageConfig
 
 data class PageInfoItem(
-    val back_src_id: Int,
-    val id: Int,
-    val is_back_src: Boolean,
-    val is_chatbot_entry: Boolean,
-    val is_chatbot_req: Boolean,
-    val is_croms: Boolean,
-    val is_srt: Boolean,
-    val is_tts: Boolean,
-    val language: Int,
-    val page_id: String,
-    var ttsInfo: ArrayList<TtsInfoItem>
+    val chat_required: Boolean = false,
+    val entry_by_chat: Boolean = false,
+    val id: Int = -1,
+    val is_tts: Boolean = false,
+    val language: Int = 0,
+    val page_id: String = "",
+    val page_name: String = "",
+    val page_type: String = "",
+    val page_wait: Int = 0,
+    val rank: Boolean = false,
+    val sub_yn: Boolean = false,
+    var tts_info: ArrayList<TtsInfoItem> = arrayListOf()
 )

@@ -43,10 +43,17 @@ class MainViewModel(
     private val _currentPage: MutableLiveData<String> = MutableLiveData()
     val currentPage: LiveData<String> get() = _currentPage
 
+    private val _currentPageInfo: MutableLiveData<PageInfoItem> = MutableLiveData()
+    val currentPageInfo: LiveData<PageInfoItem> get() = _currentPageInfo
+
     private val workManager = WorkManager.getInstance(application)
 
     init {
         cancelSchedule()
+    }
+
+    fun updatePageInfo(pageId: String) {
+        _currentPageInfo.value = sceneConfigRepo.getCurrPageInfo(pageId)
     }
 
     suspend fun breakChat() {

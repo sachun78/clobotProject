@@ -7,7 +7,6 @@ import com.lge.support.second.application.data.pageConfig.PageInfoItem
 import com.lge.support.second.application.data.pageConfig.TtsInfoItem
 
 class SceneConfigRepo {
-
     private var pageInfo: ArrayList<PageInfoItem>
     private var ttsInfo : ArrayList<TtsInfoItem>
 
@@ -22,16 +21,17 @@ class SceneConfigRepo {
 
         for (pageInfoItem in pageInfo) {
             if (pageInfoItem.is_tts) {
-                pageInfoItem.ttsInfo = ttsInfo.filter {
-                    pageInfoItem.id == it.page_conf_id
+                pageInfoItem.tts_info = ttsInfo.filter {
+                    (it.tts_id).contains(pageInfoItem.page_id)
                 } as ArrayList<TtsInfoItem>
             }
         }
     }
 
-    fun getCurrPageInfo(pageId: String): PageInfoItem? {
-        return pageInfo.find {
+    fun getCurrPageInfo(pageId: String): PageInfoItem {
+        var findData = pageInfo.find {
             it.page_id == pageId
         }
+        return findData ?: PageInfoItem()
     }
 }
