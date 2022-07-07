@@ -3,5 +3,5 @@
     <item android:state_selected="true"
         android:drawable="@color/select"/>
     <item android:state_selected="false"
-        android:drawable="@color/grey"/>
+        android:drawable="@color/gongju_button"/>
 </selector>

@@ -514,12 +514,6 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null).commit()
             }
 
-            "theater-parking" -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_main, theater_parking_bus())
-                    .addToBackStack(null).commit()
-            }
-
 //            "enjoy-exhbn" -> {
 //                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy_1())
 //                    .addToBackStack(null).commit()

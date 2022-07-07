@@ -7,22 +7,27 @@
     tools:context=".view.docent.docent_select">
 
     <TextView
+        android:textColor="@color/text_darkwhite"
         android:id="@+id/docent_select_x1"
         android:layout_width="wrap_content"
-        android:layout_height="80px"
+        android:layout_height="wrap_content"
         android:layout_marginTop="22px"
-        android:text="docent-select-x1"
+        android:text="@string/docent_select_x1"
+        android:fontFamily="@font/min_sans_bold"
         android:textSize="64px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:textSize="40px"
         android:id="@+id/docent_select_x2"
         android:layout_width="wrap_content"
-        android:layout_height="50px"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gongju_docent"
+        android:fontFamily="@font/min_sans_regular"
         android:layout_marginTop="24px"
-        android:text="docent_select_x2"
+        android:text="@string/docent_select_x2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/docent_select_x1" />
@@ -49,11 +54,12 @@
         <Button
             android:id="@+id/docent_select_b1"
             android:layout_width="wrap_content"
-            android:layout_height="60px"
+            android:layout_height="70px"
             android:layout_marginLeft="271px"
-            android:layout_marginTop="69px"
+            android:layout_marginTop="60px"
             android:background="@color/transparency"
-            android:text="docent_select_b1"
+            android:text="@string/docent_select_b1"
+            android:fontFamily="@font/min_sans_extra_bold"
             android:textSize="48px"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -63,10 +69,10 @@
             android:layout_width="wrap_content"
             android:layout_height="60px"
             android:layout_marginLeft="271px"
-            android:layout_marginTop="17px"
             android:background="@color/transparency"
-            android:text="docent_select_b2"
+            android:text="@string/docent_select_b2"
             android:textSize="32px"
+            android:textColor="@color/gongju_docent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/docent_select_b1" />
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -78,7 +84,8 @@
         android:layout_marginLeft="27px"
         android:layout_marginTop="467px"
         android:background="@drawable/docent_select_button"
-        android:text="docent_select_b3"
+        android:text="@string/docent_select_b3"
+        android:fontFamily="@font/min_sans_bold"
         android:textSize="32px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/docent_select_x2" />
@@ -90,7 +97,8 @@
         android:layout_marginLeft="15px"
         android:layout_marginTop="467px"
         android:background="@drawable/docent_select_button"
-        android:text="docent_select_b4"
+        android:text="@string/docent_select_b4"
+        android:fontFamily="@font/min_sans_bold"
         android:textSize="32px"
         app:layout_constraintLeft_toRightOf="@id/docent_select_b3"
         app:layout_constraintTop_toBottomOf="@id/docent_select_x2" />
@@ -101,9 +109,10 @@
         android:layout_height="196px"
         android:layout_marginLeft="27px"
         android:background="@drawable/docent_select_button"
-        android:text="docent_select_b5"
+        android:text="@string/docent_select_b5"
         android:textSize="32px"
         android:layout_marginTop="46px"
+        android:fontFamily="@font/min_sans_bold"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/docent_select_b3" />
 
@@ -113,8 +122,9 @@
         android:layout_height="196px"
         android:layout_marginLeft="15px"
         android:background="@drawable/docent_select_button"
-        android:text="docent_select_b6"
+        android:text="@string/docent_select_b6"
         android:textSize="32px"
+        android:fontFamily="@font/min_sans_bold"
         android:layout_marginTop="46px"
         app:layout_constraintLeft_toRightOf="@id/docent_select_b5"
         app:layout_constraintTop_toBottomOf="@id/docent_select_b4" />

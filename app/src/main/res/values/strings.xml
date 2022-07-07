@@ -40,7 +40,7 @@
     <string name="main_x1" translatable="false">웅진백제의 역사와 문화,\n함께하는 박물관</string>
     <string name="main_t1" translatable="false">안녕하세요? 만나서 반갑습니다. 저는 국립공주박물관 안내 로봇 큐아이입니다. 제가 관람에 도움을 드릴까요? 원하시는 메뉴를 선택해 주세요.</string>
     <string name="main_t2" translatable="false">원하시는 메뉴를 선택해 주세요.</string>
-    <string name="main_b1" translatable="false">공주박물관 소개</string>
+    <string name="main_b1" translatable="false">공주박물관\n소개</string>
     <string name="main_b2" translatable="false">전시품 소개</string>
     <string name="main_b3" translatable="false">위치 안내</string>
     <string name="main_b4" translatable="false">웅진백제실 해설</string>
@@ -180,7 +180,7 @@
 
     <!--information-->
     <string name="information_t1" translatable="false">국립공주박물관을 소개해드리겠습니다. 화면의 내용을 읽어 보시고, 더 궁금한 사항이 있다면 마이크 버튼을 눌러서 질문해 주세요.</string>
-    <string name="information_x1" translatable="false">국립공주박물관은 웅진백제문화를 중심으로 충청남도의 역사와 문화를 보존, 전시하기 위해 1946년 4월 1일 개관하였고, 2004년 5월 14일 지금의 자리로 신축 이전하였습니다. \n 국립공주 박물관은 1971년 발굴된 무령왕릉 출토품과 대전·충남지역 출토 문화재를 보관하고 있습니다. 국보, 보물 등 지정문화재와 학술적 가치가 높은 중요문화재는 상설전시와 특별전시로 공개하고 있습니다. 2021년 11월에는 충청권역 수장고를 건립하여 충청권 국립박물관 소장 문화재를 안전하고 효율적으로 보관·공개하고 있습니다.</string>
+    <string name="information_x1" translatable="false">국립공주박물관은 웅진백제문화를 중심으로 충청남도의 역사와 문화를 보존, 전시하기 위해 1946년 4월 1일 개관하였고,\n2004년 5월 14일 지금의 자리로 신축 이전하였습니다.\n\n국립공주 박물관은 1971년 발굴된 무령왕릉 출토품과 대전·충남지역 출토 문화재를 보관하고 있습니다. 국보, 보물 등 지정문화재와 학술적 가치가 높은 중요문화재는 상설전시와 특별전시로 공개하고 있습니다. 2021년 11월에는 충청권역 수장고를 건립하여 충청권 국립박물관 소장 문화재를 안전하고 효율적으로 보관·공개하고 있습니다.</string>
     <string name="information_x2" translatable="false">관람안내</string>
     <string name="information_x3" translatable="false">관람시간</string>
     <string name="information_x4" translatable="false">매주 : 화 ~ 일 (월요일 휴관)</string>
@@ -212,9 +212,9 @@
     <string name="location_facility_b7" translatable="false">충청권역 수장고</string>
     <string name="location_facility_b8" translatable="false">디지털 실감영상관</string>
     <string name="location_facility_b9" translatable="false">수유실</string>
-    <string name="location_facility_b10" translatable="false">웅진백제 어린이 체험실</string>
+    <string name="location_facility_b10" translatable="false">웅진백제\n어린이 체험실</string>
     <string name="location_facility_b11" translatable="false">강당</string>
-    <string name="location_facility_x1" translatable="false">위치를 확인하시려면\n버튼을 눌러주세요.</string>
+    <string name="location_facility_x1" translatable="false">위치를 확인하시려면 버튼을 눌러주세요.</string>
 
     <string name="location_exhibits_t1" translatable="false">국립공주박물관의 대표 전시품 위치 안내 정보입니다. 대표 전시품을 더 자세히 알아보시려면 버튼을 선택해 주세요.</string>
     <string name="location_exhibits_x1" translatable="false">웅진백제실 대표 전시품에 대해 자세히\n알아보시려면 버튼을 눌러주세요.</string>
@@ -240,7 +240,7 @@
     <string name="docent_select_x9" translatable="false">해설 위치</string>
     <string name="docent_select_x10" translatable="false">현재 위치에서 해설을 진행할까요?\n아니면 전시품 앞으로 이동 후 해설을 진행할까요?</string>
     <string name="docent_select_b1" translatable="false">전체 해설 듣기</string>
-    <string name="docent_select_b2" translatable="false">웅진백제실 대표 유물 이야기\n이어 듣기</string>
+    <string name="docent_select_b2" translatable="false">웅진백제실 대표 유물 이야기 이어 듣기</string>
     <string name="docent_select_b3" translatable="false">무령왕과 묘지석</string>
     <string name="docent_select_b4" translatable="false">신선의 세계를 담은 은잔</string>
     <string name="docent_select_b5" translatable="false">무령왕과 왕비의 목관</string>

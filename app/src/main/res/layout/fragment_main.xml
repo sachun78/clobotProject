@@ -13,37 +13,36 @@
         android:layout_marginLeft="60px"
         android:background="@drawable/qi_message"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-    </ImageButton>
+        app:layout_constraintTop_toTopOf="parent"></ImageButton>
 
     <TextView
-        android:textColor="@color/gongju_title"
-        app:layout_constraintTop_toTopOf="@id/gnb_btn"
-        app:layout_constraintLeft_toLeftOf="@id/gnb_btn"
-        android:layout_marginTop="10px"
         android:id="@+id/gnb_b1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="75px"
+        android:layout_marginTop="10px"
         android:fontFamily="@font/min_sans_semi_bold"
-        android:textSize="32px"
-        android:paddingTop="30px"
         android:gravity="center"
+        android:paddingTop="30px"
         android:text="@string/gnb_b1"
-        android:layout_marginLeft="75px"/>
+        android:textColor="@color/gongju_title"
+        android:textSize="32px"
+        app:layout_constraintLeft_toLeftOf="@id/gnb_btn"
+        app:layout_constraintTop_toTopOf="@id/gnb_btn" />
 
     <TextView
-        android:gravity="left|top"
-        android:textColor="@color/gongju_title"
-        android:fontFamily="@font/min_sans_extra_bold"
-        android:textSize="64px"
         android:id="@+id/main_x1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="62px"
         android:layout_marginTop="148px"
+        android:fontFamily="@font/min_sans_extra_bold"
+        android:gravity="left|top"
+        android:text="@string/main_x1"
+        android:textColor="@color/gongju_title"
+        android:textSize="64px"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="@string/main_x1"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:id="@+id/main_grid"
@@ -59,6 +58,7 @@
             android:layout_width="320px"
             android:layout_height="664px"
             android:background="@drawable/main_vertical_button">
+
             <ImageView
                 android:layout_width="100px"
                 android:layout_height="100px"
@@ -67,17 +67,20 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <Button
-                android:textSize="48px"
                 android:id="@+id/main_b1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="376px"
+                android:background="@color/transparency"
+                android:fontFamily="@font/min_sans_bold"
+                android:text="@string/main_b1"
+                android:textColor="@color/text_darkwhite"
+                android:textSize="48px"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@color/transparency"
-                android:text="main_b1"
-                android:layout_marginTop="376px"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -87,6 +90,7 @@
             android:layout_marginLeft="24px"
             android:layout_marginRight="24px"
             android:background="@drawable/main_vertical_button">
+
             <ImageView
                 android:layout_width="100px"
                 android:layout_height="100px"
@@ -95,17 +99,19 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <Button
-                android:textSize="48px"
                 android:id="@+id/main_b2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="376px"
+                android:background="@color/transparency"
+                android:fontFamily="@font/min_sans_bold"
+                android:text="@string/main_b2"
+                android:textSize="48px"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@color/transparency"
-                android:text="main_b2"
-                android:layout_marginTop="376px"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -113,6 +119,7 @@
             android:layout_width="320px"
             android:layout_height="664px"
             android:background="@drawable/main_vertical_button">
+
             <ImageView
                 android:layout_width="100px"
                 android:layout_height="100px"
@@ -121,17 +128,19 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <Button
-                android:textSize="48px"
                 android:id="@+id/main_b3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="376px"
+                android:background="@color/transparency"
+                android:fontFamily="@font/min_sans_bold"
+                android:text="@string/main_b3"
+                android:textSize="48px"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:background="@color/transparency"
-                android:text="main_b3"
-                android:layout_marginTop="376px"/>
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 
@@ -144,24 +153,27 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/main_grid">
+
         <ImageView
             android:layout_width="160px"
             android:layout_height="160px"
-            android:layout_marginTop="26px"
             android:layout_marginLeft="102px"
+            android:layout_marginTop="26px"
             android:src="@drawable/gonju_explain_picto"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
         <Button
-            android:textSize="48px"
+            android:fontFamily="@font/min_sans_bold"
             android:id="@+id/main_b4"
             android:layout_width="wrap_content"
-            android:layout_height="60px"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="289px"
+            android:background="@color/transparency"
+            android:text="@string/main_b4"
+            android:textSize="48px"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@color/transparency"
-            android:text="main_b4"
-            android:layout_marginTop="76px"
-            android:layout_marginLeft="289px"/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,118 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="1000px"
-        android:layout_height="60px"
-        android:textSize="48px"
-        android:text="location-facility_x1"
         android:id="@+id/location_facility_x1"
+        android:layout_width="1000px"
+        android:layout_height="wrap_content"
         android:layout_marginTop="48px"
+        android:fontFamily="@font/min_sans_bold"
+        android:text="@string/location_facility_x1"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="48px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b3"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b3"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_x1"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="100px"
         android:layout_marginLeft="40px"
-        android:layout_marginTop="48px"/>
+        android:layout_marginTop="48px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:gravity="center"
+        android:text="@string/location_facility_b3"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_x1" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b4"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b4"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_x1"
-        app:layout_constraintLeft_toRightOf="@id/location_facility_b3"
+        android:layout_height="100px"
         android:layout_marginLeft="13px"
-        android:layout_marginTop="48px"/>
+        android:layout_marginTop="48px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/location_facility_b4"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b3"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_x1" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b5"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b5"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_x1"
-        app:layout_constraintLeft_toRightOf="@id/location_facility_b4"
+        android:layout_height="100px"
         android:layout_marginLeft="13px"
-        android:layout_marginTop="48px"/>
+        android:layout_marginTop="48px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/location_facility_b5"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b4"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_x1" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b6"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b6"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_b3"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="100px"
         android:layout_marginLeft="40px"
-        android:layout_marginTop="12px"/>
+        android:layout_marginTop="12px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/location_facility_b6"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b7"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b7"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_b3"
-        app:layout_constraintLeft_toRightOf="@id/location_facility_b6"
+        android:layout_height="100px"
         android:layout_marginLeft="13px"
-        android:layout_marginTop="12px"/>
+        android:layout_marginTop="12px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/location_facility_b7"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b6"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b8"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b8"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_b3"
-        app:layout_constraintLeft_toRightOf="@id/location_facility_b7"
+        android:layout_height="100px"
         android:layout_marginLeft="13px"
-        android:layout_marginTop="12px"/>
+        android:layout_marginTop="12px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/location_facility_b8"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b7"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b9"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b9"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_b6"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_height="100px"
         android:layout_marginLeft="40px"
-        android:layout_marginTop="12px"/>
+        android:layout_marginTop="12px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/location_facility_b9"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b6" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b10"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b10"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_b7"
-        app:layout_constraintLeft_toRightOf="@id/location_facility_b9"
+        android:layout_height="100px"
         android:layout_marginLeft="13px"
-        android:layout_marginTop="12px"/>
+        android:layout_marginTop="12px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/location_facility_b10"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b9"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b7" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/location_facility_b11"
         android:layout_width="325px"
-        android:layout_height="91px"
-        android:text="location-facility_b11"
-        android:background="@drawable/clicked_btn"
-        app:layout_constraintTop_toBottomOf="@id/location_facility_b8"
-        app:layout_constraintLeft_toRightOf="@id/location_facility_b10"
+        android:layout_height="100px"
         android:layout_marginLeft="13px"
-        android:layout_marginTop="12px"/>
+        android:layout_marginTop="12px"
+        android:background="@color/gongju_button"
+        android:fontFamily="@font/min_sans_medium"
+        android:text="@string/location_facility_b11"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="32px"
+        app:layout_constraintLeft_toRightOf="@id/location_facility_b10"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b8" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

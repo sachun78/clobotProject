@@ -34,6 +34,7 @@ class location : Fragment() {
         mActivity.findViewById<ConstraintLayout>(R.id.background).setBackgroundResource(R.drawable.gongju_background_3)
 
         //보여질 화면 세팅
+        viewList.clear()
         viewList.add(layoutInflater.inflate(R.layout.location_facility, null))
         viewList.add(layoutInflater.inflate(R.layout.location_exhibits, null))
 
@@ -42,8 +43,8 @@ class location : Fragment() {
         //tab - view connect
         binding.exhibitsTab.setupWithViewPager(binding.locationViewPager)
 
-        tab1 = "시설 위치"
-        tab2 = "대표 전시품 위치"
+        tab1 = resources.getString(R.string.location_facility_b1)
+        tab2 = resources.getString(R.string.location_facility_b2)
         
         //tab
         binding.exhibitsTab.getTabAt(0)?.setText(tab1)
