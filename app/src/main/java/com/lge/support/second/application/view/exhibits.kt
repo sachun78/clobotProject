@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.PagerAdapter
 import com.google.android.material.tabs.TabLayoutMediator
@@ -15,6 +16,7 @@ import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentExhibitsBinding
 import com.lge.support.second.application.databinding.FragmentExhibitsUngjinBinding
+import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.view.adapter.FragmentAdapter
 import com.lge.support.second.application.view.adapter.answerList2Adapter
 import com.lge.support.second.application.view.adapter.answerlist2Model
@@ -29,6 +31,7 @@ class exhibits : Fragment() {
 
     //tab에 연결해 줄 view들 (tab view - list)
     var viewList = ArrayList<View>()
+    val viewModel by activityViewModels<MainViewModel>()
 
     //fragment_test1에서 해야 할 작업
     //이미지 부분
@@ -48,27 +51,44 @@ class exhibits : Fragment() {
     var Arrtype = ArrayList<String>()
     var isCreatedThisPage = false
     var adapter: answerList2Adapter? = null
-    companion object{
+
+    companion object {
         var nameList = ArrayList<answerlist2Model>()
+    }
+
+    var isInit: Boolean = true;
+
+    init {
+        isInit = true
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         (activity as MainActivity).findViewById<ConstraintLayout>(R.id.background)
             .setBackgroundResource(R.drawable.gongju_background_2)
 
         binding = FragmentExhibitsBinding.inflate(inflater, container, false)
 
         Log.d("exhibits", "onCreateView")
-        val mActivity = activity as MainActivity
-        println("exhibits onCreate")
+
+        if (!isInit) {
+            Log.d("exhibits", "called in exhibits: 전시된 작품 뭐 있어 $isInit")
+            lifecycleScope.launch(Dispatchers.Default) {
+                viewModel.breakChat()
+                viewModel.getResponse("전시된 작품 뭐 있어", changePage = false)
+                viewModel.ttsStop()
+            }
+        } else {
+            isInit = false
+        }
         //보여질 화면 세팅
+
         //if(!isCreatedThisPage){
         viewList.clear()
-            viewList.add(layoutInflater.inflate(R.layout.fragment_exhibits_ungjin, null))
-            viewList.add(layoutInflater.inflate(R.layout.fragment_exhibits_treasure, null))
+        viewList.add(layoutInflater.inflate(R.layout.fragment_exhibits_ungjin, null))
+        viewList.add(layoutInflater.inflate(R.layout.fragment_exhibits_treasure, null))
         //}
 
         binding.exhibitsViewPager.adapter = pagerAdapter()
@@ -100,45 +120,32 @@ class exhibits : Fragment() {
         adapter = answerList2Adapter(nameList, activity?.getApplicationContext())
         viewList[0].findViewById<GridView>(R.id.ungjin_list).adapter = adapter
 
-//        when (binding.exhibitsTab.selectedTabPosition) {
-//            0 -> {
-                viewList[0].findViewById<GridView>(R.id.ungjin_list)
-                    .setOnItemClickListener { adapterView, view, position, id ->
-//            Log.i
-                        Toast.makeText(context, "click $id", Toast.LENGTH_SHORT).show()
-                        Log.i("exhibits", "text is " + nameList[position].text.toString())
-                        Log.i("exhibits", "in_type is " + Arrtype[position])
+        viewList[0].findViewById<GridView>(R.id.ungjin_list)
+            .setOnItemClickListener { adapterView, view, position, id ->
+                Toast.makeText(context, "click $id", Toast.LENGTH_SHORT).show()
+                Log.i("exhibits", "text is " + nameList[position].text.toString())
+                println("$Arrtype")
+                Log.i("exhibits", "in_type is " + Arrtype[position])
 
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            MainActivity.viewModel.getResponse(
-                                nameList[position].text.toString(),
-                                Arrtype[position]
-                            )
-                        }
-                    }
-//            }
-//            1 -> {}
-//        }
+                lifecycleScope.launch(Dispatchers.IO) {
+                    viewModel.resetCurrentPage()
+                    MainActivity.viewModel.getResponse(
+                        nameList[position].text.toString(),
+                        Arrtype[position]
+                    )
+                }
+            }
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-
-        lifecycleScope.launch(Dispatchers.IO) {
-            println("called in exhibits: 전시된 작품 뭐 있어")
-            MainActivity.viewModel.breakChat()
-            MainActivity.viewModel.getResponse("전시된 작품 뭐 있어")
-
-            MainActivity.viewModel.ttsStop()
-        }
-
         Log.d("exhibits", "onResume")
     }
 
     override fun onPause() {
         super.onPause()
-        MainActivity.viewModel.ttsStop()
+        viewModel.ttsStop()
     }
 
     override fun onDestroyView() {

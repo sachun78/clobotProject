@@ -20,7 +20,9 @@ import com.lge.support.second.application.view.adapter.answerList2Adapter
 import com.lge.support.second.application.view.adapter.answerlist2Model
 import io.grpc.InternalChannelz.id
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.apache.log4j.chainsaw.Main
 
 
 class answer_list_2 : Fragment() {
@@ -29,8 +31,8 @@ class answer_list_2 : Fragment() {
 
     var Arrtype = ArrayList<String>()
     var isCreatedThisPage = false
-    val questionStr = MainActivity.inStr
-    val answerStr = MainActivity.speechStr
+    var questionStr = "전시된 작품 뭐 있어"//MainActivity.inStr
+    var answerStr = "" //MainActivity.speechStr
 
     var adapter: answerList2Adapter? = null
     var nameList = ArrayList<answerlist2Model>()
@@ -49,22 +51,26 @@ class answer_list_2 : Fragment() {
         binding.answerList1T2.setText(answerStr)
 
         MainActivity.viewModel.queryResult.observe(viewLifecycleOwner) {
-
             if (it == null) {
                 return@observe
             }
+            answerStr = it.speech[0]
+            questionStr = it.in_str
 
-            if (isCreatedThisPage == false) {
+            if (!isCreatedThisPage) {
                 for (question in it.messages[0].imageButton) {
                     nameList.add(answerlist2Model(question.text, question.url))
                     Arrtype.add(question.type)
                 }
                 isCreatedThisPage = true
+                adapter!!.notifyDataSetChanged()
+            } else {
+                MainActivity.viewModel.ttsStop()
             }
 //            adapter?.notifyDataSetChanged()
         }
 
-        adapter = answerList2Adapter(nameList, getActivity()?.getApplicationContext())
+        adapter = answerList2Adapter(nameList, activity?.getApplicationContext())
         binding.list2Gridview.adapter = adapter
 
         binding.list2Gridview.setOnItemClickListener { adapterView, view, position, id ->
@@ -73,17 +79,20 @@ class answer_list_2 : Fragment() {
             Log.i("answer_list_2", "text is " + nameList[position].text.toString())
             Log.i("answer_list_2", "in_type is " + Arrtype[position])
 
-//            nameList[position].text?.let { MainActivity.viewModel.getResponse(it, Arrtype[position]) }
             GlobalScope.launch {
                 MainActivity.viewModel.getResponse(
                     nameList[position].text.toString(),
                     Arrtype[position]
                 )
             }
-
         }
 
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MainActivity.viewModel.ttsStop()
     }
 
     override fun onDestroyView() {

@@ -6,23 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentMainBinding
+import com.lge.support.second.application.model.MainViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import org.apache.log4j.chainsaw.Main
 
 class main : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
+    private val viewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,10 +53,10 @@ class main : Fragment() {
         }
 
         menu2.setOnClickListener {
-           // mActivity.changeFragment("exhibits-ungjin")
-            lifecycleScope.launch(Dispatchers.IO) {
-                MainActivity.viewModel.breakChat()
-                MainActivity.viewModel.getResponse("전시된 작품 뭐 있어")
+            // mActivity.changeFragment("exhibits-ungjin")
+            lifecycleScope.launch(Dispatchers.Default) {
+                viewModel.breakChat()
+                viewModel.getResponse("전시된 작품 뭐 있어")
             }
         }
 
@@ -79,8 +78,11 @@ class main : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.d("main", "fragment resume")
-        (activity as MainActivity).findViewById<Button>(R.id.backBtn).setBackgroundResource(R.drawable.back_main)
-        (activity as MainActivity).findViewById<Button>(R.id.homeBtn).setBackgroundResource(R.drawable.home_main)
+        (activity as MainActivity).findViewById<Button>(R.id.backBtn)
+            .setBackgroundResource(R.drawable.back_main)
+        (activity as MainActivity).findViewById<Button>(R.id.homeBtn)
+            .setBackgroundResource(R.drawable.home_main)
+        MainActivity.viewModel.resetCurrentPage()
     }
 
     override fun onDestroyView() {
@@ -89,7 +91,6 @@ class main : Fragment() {
 
         mActivity.findViewById<Button>(R.id.backBtn).setBackgroundResource(R.drawable.back)
         mActivity.findViewById<Button>(R.id.homeBtn).setBackgroundResource(R.drawable.home)
-        MainActivity.viewModel.ttsStop()
         Log.d("tk_test", "main fragment view destoy")
     }
 }

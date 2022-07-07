@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageSwitcher
 import android.widget.ImageView
+import androidx.lifecycle.lifecycleScope
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.bumptech.glide.Glide
 import com.lge.support.second.application.MainActivity
@@ -16,6 +17,8 @@ import com.lge.support.second.application.databinding.FragmentAnswerLocationBind
 import com.lge.support.second.application.view.exhibits
 import com.lge.support.second.application.view.subView.image_popup
 import com.lge.support.second.application.view.subView.threeD_popup
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class answer_location : Fragment() {
@@ -26,7 +29,7 @@ class answer_location : Fragment() {
     lateinit var imageSwitcher: ImageSwitcher
 
     //    lateinit var arrImage : IntArray
-    companion object{
+    companion object {
         var arrImage = ArrayList<String>()
         var position: Int = 0
     }
@@ -34,6 +37,24 @@ class answer_location : Fragment() {
     //공통 사용
     lateinit var btnNext: Button
     lateinit var btnBack: Button
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        MainActivity.viewModel.ttsStop()
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        lifecycleScope.launch(Dispatchers.IO) {
+            MainActivity.viewModel.queryResult.value?.in_str?.let {
+                MainActivity.viewModel.getResponse(
+                    it,
+                    "query"
+                )
+            }
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -60,16 +81,16 @@ class answer_location : Fragment() {
 
         ////////////Main -> urlArray2[ position ]
         arrImage.clear()
-        for(imgUrl in MainActivity.urlArray2){
+        for (imgUrl in MainActivity.urlArray2) {
             arrImage.add(imgUrl)
         }
 
         //첫 화면 세팅
         Glide.with(imageSwitcher.context).load(arrImage[position])
             .into(imageSwitcher.currentView as ImageView)
-        if(position == 0)
+        if (position == 0)
             btnBack.visibility = View.INVISIBLE
-        if(position == arrImage.size-1)
+        if (position == arrImage.size - 1)
             btnNext.visibility = View.INVISIBLE
 
         //button click listener
@@ -77,13 +98,13 @@ class answer_location : Fragment() {
             if (position > 0) {
                 btnNext.visibility = View.VISIBLE
                 position -= 1
-                if(position == 0)
+                if (position == 0)
                     btnBack.visibility = View.INVISIBLE
                 Glide.with(imageSwitcher.context).load(arrImage[position])
                     .into(imageSwitcher.currentView as ImageView)
                 binding.answerLocationC1.text = exhibits.nameList[position].text
             }
-            if(position == 0)
+            if (position == 0)
                 btnBack.visibility = View.INVISIBLE
         }
         btnNext.setOnClickListener {
@@ -95,7 +116,7 @@ class answer_location : Fragment() {
                 binding.answerLocationC1.text = exhibits.nameList[position].text
             }
 
-            if(position == arrImage.size - 1){
+            if (position == arrImage.size - 1) {
                 btnNext.visibility = View.INVISIBLE
             }
         }
