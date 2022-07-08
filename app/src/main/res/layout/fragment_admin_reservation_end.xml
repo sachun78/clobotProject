@@ -3,19 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="60px"
+    android:paddingRight="60px">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="예약 종료 모드"
-            android:textColor="@color/black" />
+            android:text="@string/admin_x42"
+            android:textColor="@color/admin_text"
+            android:textSize="48px" />
 
         <View
             android:layout_width="0dp"
@@ -30,240 +32,390 @@
 
         <Button
             android:id="@+id/endModeSave"
-            android:layout_width="wrap_content"
+            android:layout_width="70px"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="저장" />
+            android:background="@color/transparency"
+            android:fontFamily="@font/min_sans_regular"
+            android:text="@string/admin_b5"
+            android:textColor="@color/admin_blue"
+            android:textSize="36px" />
     </LinearLayout>
+
     <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:layout_width="960px"
+        android:layout_height="wrap_content"
+        android:paddingLeft="48px"
+        android:paddingRight="48px"
+        android:paddingTop="24px"
+        android:paddingBottom="24px"
+        android:background="@drawable/border"
+        android:backgroundTint="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_x43"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Spinner
+                android:id="@+id/finishHour1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="31px"
+                android:text="@string/admin_x44"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <Spinner
+                android:id="@+id/finishMin1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:text="@string/admin_x45"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_x46"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Spinner
+                android:id="@+id/finishHour2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="31px"
+                android:text="@string/admin_x44"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px" />
+
+            <Spinner
+                android:id="@+id/finishMin2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:text="@string/admin_x45"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_x47"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Spinner
+                android:id="@+id/finishHour3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="31px"
+                android:text="@string/admin_x44"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px" />
+
+            <Spinner
+                android:id="@+id/finishMin3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:text="@string/admin_x45"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_x48"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Spinner
+                android:id="@+id/finishHour4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="31px"
+                android:text="@string/admin_x44"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px" />
+
+            <Spinner
+                android:id="@+id/finishMin4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:text="@string/admin_x45"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_x49"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Spinner
+                android:id="@+id/finishHour5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="31px"
+                android:text="@string/admin_x44"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px" />
+
+            <Spinner
+                android:id="@+id/finishMin5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:text="@string/admin_x45"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_x50"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Spinner
+                android:id="@+id/finishHour6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="31px"
+                android:text="@string/admin_x44"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px" />
+
+            <Spinner
+                android:id="@+id/finishMin6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:text="@string/admin_x45"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/admin_x51"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+            <Spinner
+                android:id="@+id/finishHour7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="31px"
+                android:text="@string/admin_x44"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px" />
+
+            <Spinner
+                android:id="@+id/finishMin7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="24px"
+                android:text="@string/admin_x45"
+                android:textColor="@color/admin_text"
+                android:fontFamily="@font/min_sans_bold"
+                android:textSize="36px"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_marginTop="25px"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="일요일"
-            android:layout_marginRight="50dp"/>
-        <Spinner
-            android:id="@+id/finishHour1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시"
-            android:layout_marginRight="30dp"/>
-        <Spinner
-            android:id="@+id/finishMin1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분"
-            android:layout_marginRight="20dp"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="월요일"
-            android:layout_marginRight="50dp"/>
-        <Spinner
-            android:id="@+id/finishHour2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시"
-            android:layout_marginRight="30dp"/>
-        <Spinner
-            android:id="@+id/finishMin2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분"
-            android:layout_marginRight="20dp"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="화요일"
-            android:layout_marginRight="50dp"/>
-        <Spinner
-            android:id="@+id/finishHour3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시"
-            android:layout_marginRight="30dp"/>
-        <Spinner
-            android:id="@+id/finishMin3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분"
-            android:layout_marginRight="20dp"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="수요일"
-            android:layout_marginRight="50dp"/>
-        <Spinner
-            android:id="@+id/finishHour4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시"
-            android:layout_marginRight="30dp"/>
-        <Spinner
-            android:id="@+id/finishMin4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분"
-            android:layout_marginRight="20dp"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="목요일"
-            android:layout_marginRight="50dp"/>
-        <Spinner
-            android:id="@+id/finishHour5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시"
-            android:layout_marginRight="30dp"/>
-        <Spinner
-            android:id="@+id/finishMin5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분"
-            android:layout_marginRight="20dp"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="금요일"
-            android:layout_marginRight="50dp"/>
-        <Spinner
-            android:id="@+id/finishHour6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시"
-            android:layout_marginRight="30dp"/>
-        <Spinner
-            android:id="@+id/finishMin6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분"
-            android:layout_marginRight="20dp"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </LinearLayout>
-    <LinearLayout
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="토요일"
-            android:layout_marginRight="50dp"/>
-        <Spinner
-            android:id="@+id/finishHour7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="시"
-            android:layout_marginRight="30dp"/>
-        <Spinner
-            android:id="@+id/finishMin7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="분"
-            android:layout_marginRight="20dp"/>
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:text="@string/admin_x52"
+            android:textColor="@color/admin_grey"
+            android:textSize="32px" />
     </LinearLayout>
 </LinearLayout>

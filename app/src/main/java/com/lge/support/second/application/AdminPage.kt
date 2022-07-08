@@ -1,6 +1,5 @@
 package com.lge.support.second.application
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.NotificationManager
@@ -8,16 +7,23 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.Paint
 import android.media.AudioManager
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.ContextMenu
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
 import com.lge.support.second.application.databinding.ActivityAdminPageBinding
+
+
 import java.io.File
 import java.lang.Math.ceil
 import kotlin.math.roundToInt
@@ -64,6 +70,7 @@ class AdminPage : AppCompatActivity() {
     var fixPromote: Boolean = true //고정 홍보 멘트, 초기값 false
     var docentM: Boolean = true //이동 해설 모드
     var mentRepeat: Int = 0 //멘트 반복 시간
+
     //추가 설정 페이지
     var forceChargeM: Boolean = true //강제 충전 모드
     var moveLimitS: Int = 0 //이동 제한 시작 시간
@@ -75,22 +82,23 @@ class AdminPage : AppCompatActivity() {
     var moveContOff: Int = 0 // 비활성화
     var controlOpt: Boolean = true //컨트롤러(옵션) 설정
     var findCharger: Boolean = true //부팅 시 충전기 찾기
+
     //예약 종료 페이지
-    var reservationE : Boolean = true
+    var reservationE: Boolean = true
     var sunH: Int = 0 //일
     var sunM: Int = 0
     var monH: Int = 0 //월
     var monM: Int = 0
     var tueH: Int = 0 //화
     var tueM: Int = 0
-    var wedH : Int = 0 //수
-    var wedM : Int = 0
-    var thuH : Int = 0 //목
-    var thuM : Int = 0
-    var friH : Int = 0 //금
-    var friM : Int = 0
-    var satH : Int = 0 //토
-    var satM : Int = 0
+    var wedH: Int = 0 //수
+    var wedM: Int = 0
+    var thuH: Int = 0 //목
+    var thuM: Int = 0
+    var friH: Int = 0 //금
+    var friM: Int = 0
+    var satH: Int = 0 //토
+    var satM: Int = 0
 
     ///////////////////////////////////////onCreate////////////////////////////////////////////////
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -122,14 +130,15 @@ class AdminPage : AppCompatActivity() {
 
         mAdminPageBinding.adminTab.setupWithViewPager(mAdminPageBinding.adminViewPager)
 
-        mAdminPageBinding.adminTab.getTabAt(0)?.setText("일반 설정")
-        mAdminPageBinding.adminTab.getTabAt(1)?.setText("추가 설정")
-        mAdminPageBinding.adminTab.getTabAt(2)?.setText("예약 종료")
+        mAdminPageBinding.adminTab.getTabAt(0)?.setText(resources.getString(R.string.admin_b2))
+        mAdminPageBinding.adminTab.getTabAt(1)?.setText(resources.getString(R.string.admin_b3))
+        mAdminPageBinding.adminTab.getTabAt(2)?.setText(resources.getString(R.string.admin_b4))
 
         //////////button listener/////////
         mAdminPageBinding.adminCloseBtn.setOnClickListener {
             this.finish()
         }
+
 
         //이전에 저장해 둔 값 불러오기(만약 저장된 값이 없다면 초기화) => default : On(true)상태
         fixPromote = pref.getBoolean("fixPromoteMent", true)
@@ -149,29 +158,30 @@ class AdminPage : AppCompatActivity() {
         sunH = pref.getInt("sundayH", 0)
         sunM = pref.getInt("sundayM", 0)
 
-        monH = pref.getInt("mondayH",0)
-        monM = pref.getInt("mondayM",0)
+        monH = pref.getInt("mondayH", 0)
+        monM = pref.getInt("mondayM", 0)
 
-        tueH = pref.getInt("tuesdayH",0)
-        tueM = pref.getInt("tuesdayM",0)
+        tueH = pref.getInt("tuesdayH", 0)
+        tueM = pref.getInt("tuesdayM", 0)
 
-        wedH = pref.getInt("wednesdayH",0)
-        wedM = pref.getInt("wednesdayM",0)
+        wedH = pref.getInt("wednesdayH", 0)
+        wedM = pref.getInt("wednesdayM", 0)
 
-        thuH = pref.getInt("thursdayH",0)
-        thuM = pref.getInt("thursdayM",0)
+        thuH = pref.getInt("thursdayH", 0)
+        thuM = pref.getInt("thursdayM", 0)
 
-        friH = pref.getInt("fridayH",0)
-        friM = pref.getInt("fridayM",0)
+        friH = pref.getInt("fridayH", 0)
+        friM = pref.getInt("fridayM", 0)
 
-        satH = pref.getInt("saturdayH",0)
-        satM = pref.getInt("saturdayM",0)
+        satH = pref.getInt("saturdayH", 0)
+        satM = pref.getInt("saturdayM", 0)
 
         ///////////////////////////////first tab page setting page///////////////////////////////
         ///////fix promote ment///////
         //저장해 둔 값 확인해서 기본 화면 세팅
         viewList[0].findViewById<Switch>(R.id.fixPromoteSwitch).isChecked = fixPromote
         //저장 버튼 -> 저장
+        viewList[0].findViewById<Button>(R.id.fixPromoteSave).paintFlags = Paint.UNDERLINE_TEXT_FLAG
         viewList[0].findViewById<Button>(R.id.fixPromoteSave).setOnClickListener {
             fixPromote = viewList[0].findViewById<Switch>(R.id.fixPromoteSwitch).isChecked
             editor.putBoolean("fixPromoteMent", fixPromote)
@@ -194,6 +204,7 @@ class AdminPage : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+                (mentTspinner.getChildAt(0) as TextView).setTextColor(Color.BLACK)
                 mentRepeat = position
                 editor.putInt("mentRepeatT", position)
                 editor.apply()
@@ -201,7 +212,6 @@ class AdminPage : AppCompatActivity() {
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
-
             }
         })
 //        Log.d("AdminPage", "selected position is " + viewList[0].findViewById<Spinner>(R.id.mentRepeatT).selectedItemPosition)
@@ -210,6 +220,7 @@ class AdminPage : AppCompatActivity() {
         //저장해 둔 값 확인해서 기본 화면 세팅
         viewList[0].findViewById<Switch>(R.id.docentModeSwitch).isChecked = docentM
         //저장 버튼 클릭 -> 저장
+        viewList[0].findViewById<Button>(R.id.docentModeSave).paintFlags = Paint.UNDERLINE_TEXT_FLAG
         viewList[0].findViewById<Button>(R.id.docentModeSave).setOnClickListener {
             docentM = viewList[0].findViewById<Switch>(R.id.docentModeSwitch).isChecked
             editor.putBoolean("docentMode", fixPromote)
@@ -294,6 +305,7 @@ class AdminPage : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+                (startSpin.getChildAt(0) as TextView).setTextColor(Color.BLACK)
                 moveLimitS = position
                 editor.putInt("moveLimitStart", position)
                 editor.apply()
@@ -308,6 +320,7 @@ class AdminPage : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+                (endSpin.getChildAt(0) as TextView).setTextColor(Color.BLACK)
                 moveLimitEnd = position
                 editor.putInt("moveLimitEnd", position)
                 editor.apply()
@@ -330,6 +343,7 @@ class AdminPage : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
+                (chargeSpin.getChildAt(0) as TextView).setTextColor(Color.BLACK)
                 forceCharge = position
                 editor.putInt("forceCharge", position)
                 editor.apply()
@@ -346,6 +360,8 @@ class AdminPage : AppCompatActivity() {
         Log.d("AdminPage", "Button 2 id " + R.id.byTime)
         Log.d("AdminPage", "Button 3 id " + R.id.byNow)
 
+        viewList[1].findViewById<Button>(R.id.scheduleModeSave).paintFlags =
+            Paint.UNDERLINE_TEXT_FLAG
         viewList[1].findViewById<Button>(R.id.scheduleModeSave).setOnClickListener {
             scheduleM = viewList[1].findViewById<Switch>(R.id.scheduleSwitch).isChecked
             selectedM =
@@ -362,6 +378,20 @@ class AdminPage : AppCompatActivity() {
         moveSpin.adapter = moveAdp
 
         moveSpin.setSelection(moveContOn)
+        moveSpin.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                (moveSpin.getChildAt(0) as TextView).setTextColor(Color.BLACK)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+            }
+        })
+        viewList[1].findViewById<Button>(R.id.batterySave).paintFlags = Paint.UNDERLINE_TEXT_FLAG
         viewList[1].findViewById<Button>(R.id.batterySave).setOnClickListener {
             moveContOn = moveSpin.selectedItemPosition
             editor.putInt("moveContentOn", moveContOn)
@@ -439,6 +469,8 @@ class AdminPage : AppCompatActivity() {
 
         /////find charger/////
         viewList[1].findViewById<Switch>(R.id.findCharger).isChecked = findCharger
+        viewList[1].findViewById<Button>(R.id.findChargerSave).paintFlags =
+            Paint.UNDERLINE_TEXT_FLAG
         viewList[1].findViewById<Button>(R.id.findChargerSave).setOnClickListener {
             findCharger = viewList[1].findViewById<Switch>(R.id.findCharger).isChecked
             editor.putBoolean("findCharger", findCharger)
@@ -524,7 +556,8 @@ class AdminPage : AppCompatActivity() {
         minSpin7.setSelection(satM)
 
         viewList[2].findViewById<Button>(R.id.endModeSave).setOnClickListener {
-            reservationE = viewList[2].findViewById<Switch>(R.id.endMode).isChecked //예약 종료 모드 on인지 off인지
+            reservationE =
+                viewList[2].findViewById<Switch>(R.id.endMode).isChecked //예약 종료 모드 on인지 off인지
             editor.putBoolean("reservationEndMode", reservationE)
             //일요일
             sunH = hourSpin1.selectedItemPosition

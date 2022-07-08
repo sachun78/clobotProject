@@ -1,340 +1,508 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent"
+    android:background="#E6E6E6"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ScrollView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:scrollbars="none">
 
         <LinearLayout
-            android:layout_weight="1"
+            android:paddingLeft="60px"
+            android:paddingRight="60px"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="강제 충전 모드"
-                android:textColor="@color/black" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Switch
-                android:id="@+id/forceCharge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <Button
-                android:id="@+id/forceChargeSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="저장" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="이동 제한 시간" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/limitTStart"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.3" />
-
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="~" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="0.3" />
-
-            <Spinner
-                android:id="@+id/limitTimeEnd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="강제 충전" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/enforceCharge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="스케줄 모드"
-                android:textColor="@color/black" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Switch
-                android:id="@+id/scheduleSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <Button
-                android:id="@+id/scheduleModeSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="저장" />
-        </LinearLayout>
-        <LinearLayout
-            android:gravity="center"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <RadioGroup
-                android:id="@+id/schedule_radioGroup"
-                android:padding="5dp"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <RadioButton
-                    android:id="@+id/byCycle"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="주기별"/>
-                <RadioButton
-                    android:id="@+id/byTime"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="시간대별"/>
-                <RadioButton
-                    android:id="@+id/byNow"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="즉시"/>
-            </RadioGroup>
-        </LinearLayout>
-        <LinearLayout
-            android:background="@color/white"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <TextView
-                android:textColor="@color/black"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="배터리 설정"/>
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-            <Button
-                android:id="@+id/batterySave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="저장" />
-        </LinearLayout>
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="80px">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="이동 콘텐츠 활성화"/>
+                    android:fontFamily="@font/min_sans_bold"
+                    android:text="@string/admin_x17"
+                    android:textColor="@color/admin_text"
+                    android:textSize="48px" />
+
                 <View
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
 
-                <Spinner
-                    android:id="@+id/moveContentsOn"
+                <Switch
+                    android:id="@+id/forceCharge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center" />
+
+                <Button
+                    android:id="@+id/forceChargeSave"
+                    android:layout_width="70px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/transparency"
+                    android:fontFamily="@font/min_sans_regular"
+                    android:text="@string/admin_b5"
+                    android:textColor="@color/admin_blue"
+                    android:textSize="36px" />
             </LinearLayout>
+
             <LinearLayout
-                android:layout_weight="1"
                 android:layout_width="match_parent"
-                android:layout_height="0dp">
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="48px"
+                android:paddingTop="44px"
+                android:paddingBottom="30px">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/min_sans_bold"
+                        android:text="@string/admin_x18"
+                        android:textColor="@color/admin_text"
+                        android:textSize="36px" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/limitTStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+
+                    <TextView
+                        android:layout_width="63px"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="~"
+                        android:textColor="@color/admin_text" />
+
+                    <Spinner
+                        android:id="@+id/limitTimeEnd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/min_sans_bold"
+                        android:text="@string/admin_x19"
+                        android:textColor="@color/admin_text"
+                        android:textSize="36px" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/enforceCharge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/admin_x20"
+                    android:textColor="@color/admin_grey"
+                    android:textSize="32px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80px">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="이동 콘텐츠 비활성화"/>
-<!--                <View-->
-<!--                    android:layout_width="0dp"-->
-<!--                    android:layout_height="0dp"-->
-<!--                    android:layout_weight="1" />-->
+                    android:fontFamily="@font/min_sans_bold"
+                    android:text="@string/admin_x21"
+                    android:textColor="@color/admin_text"
+                    android:textSize="48px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Switch
+                    android:id="@+id/scheduleSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <Button
+                    android:id="@+id/scheduleModeSave"
+                    android:layout_width="70px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/transparency"
+                    android:fontFamily="@font/min_sans_regular"
+                    android:text="@string/admin_b5"
+                    android:textColor="@color/admin_blue"
+                    android:textSize="36px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="164px"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical">
+
+                <RadioGroup
+                    android:id="@+id/schedule_radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <RadioButton
+                        android:id="@+id/byCycle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="주기별"
+                        android:textColor="@color/admin_text"
+                        android:textSize="36px" />
+
+                    <RadioButton
+                        android:id="@+id/byTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30dp"
+                        android:layout_marginRight="30dp"
+                        android:text="시간대별"
+                        android:textColor="@color/admin_text"
+                        android:textSize="36px" />
+
+                    <RadioButton
+                        android:id="@+id/byNow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="즉시"
+                        android:textColor="@color/admin_text"
+                        android:textSize="36px" />
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/min_sans_bold"
+                    android:text="@string/admin_x25"
+                    android:textColor="@color/admin_text"
+                    android:textSize="48px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Button
+                    android:id="@+id/batterySave"
+                    android:layout_width="70px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/transparency"
+                    android:fontFamily="@font/min_sans_regular"
+                    android:text="@string/admin_b5"
+                    android:textColor="@color/admin_blue"
+                    android:textSize="36px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingLeft="48px"
+                android:paddingTop="24px"
+                android:paddingRight="48px"
+                android:paddingBottom="30px">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/min_sans_bold"
+                        android:text="@string/admin_x26"
+                        android:textColor="@color/admin_text"
+                        android:textSize="36px" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <Spinner
+                        android:id="@+id/moveContentsOn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25px">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/min_sans_bold"
+                        android:text="@string/admin_x27"
+                        android:textColor="@color/admin_text"
+                        android:textSize="36px" />
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <TextView
+                        android:layout_width="277px"
+                        android:layout_height="84px"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/admin_border"
+                        android:backgroundTint="@color/admin_grey"
+                        android:fontFamily="@font/min_sans_regular"
+                        android:gravity="center"
+                        android:text="@string/admin_x28"
+                        android:textColor="@color/admin_text" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="25px"
+                    android:text="@string/admin_x29"
+                    android:textColor="@color/admin_grey"
+                    android:textSize="32px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/min_sans_bold"
+                    android:text="@string/admin_x30"
+                    android:textColor="@color/admin_text"
+                    android:textSize="48px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Switch
+                    android:id="@+id/optSwitch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <Button
+                    android:id="@+id/optSave"
+                    android:layout_width="70px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/transparency"
+                    android:fontFamily="@font/min_sans_regular"
+                    android:text="@string/admin_b5"
+                    android:textColor="@color/admin_blue"
+                    android:textSize="36px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="164px"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/white">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/admin_x31"
+                    android:textColor="@color/admin_text" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/min_sans_bold"
+                    android:gravity="center"
+                    android:text="@string/admin_x32"
+                    android:textColor="@color/admin_text"
+                    android:textSize="48px" />
+
+                <GridLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center">
+
+                    <Button
+                        android:id="@+id/programEnd"
+                        android:layout_width="310px"
+                        android:layout_height="96px"
+                        android:layout_marginRight="15px"
+                        android:background="@drawable/admin_border"
+                        android:backgroundTint="@color/admin_info"
+                        android:fontFamily="@font/min_sans_semi_bold"
+                        android:text="@string/admin_b6"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <Button
+                        android:id="@+id/robotEnd"
+                        android:layout_width="310px"
+                        android:layout_height="96px"
+                        android:layout_marginRight="15px"
+                        android:background="@drawable/admin_border"
+                        android:backgroundTint="@color/admin_info"
+                        android:fontFamily="@font/min_sans_semi_bold"
+                        android:text="@string/admin_b7"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+
+                    <Button
+                        android:id="@+id/goCharger"
+                        android:layout_width="310px"
+                        android:layout_height="96px"
+                        android:background="@drawable/admin_border"
+                        android:backgroundTint="@color/selected"
+                        android:fontFamily="@font/min_sans_semi_bold"
+                        android:text="@string/admin_b8"
+                        android:textColor="@color/white"
+                        android:textSize="36px" />
+                </GridLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="80px">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/min_sans_bold"
+                    android:text="@string/admin_x40"
+                    android:textColor="@color/admin_text"
+                    android:textSize="48px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <Switch
+                    android:id="@+id/findCharger"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <Button
+                    android:id="@+id/findChargerSave"
+                    android:layout_width="70px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="@color/transparency"
+                    android:fontFamily="@font/min_sans_regular"
+                    android:text="@string/admin_b5"
+                    android:textColor="@color/admin_blue"
+                    android:textSize="36px" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border"
+                android:backgroundTint="@color/white"
+                android:paddingLeft="48px"
+                android:paddingTop="39px"
+                android:paddingRight="48px"
+                android:paddingBottom="39px">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="@string/admin_x41"
+                    android:textColor="@color/admin_text"
+                    android:textSize="35px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
             </LinearLayout>
         </LinearLayout>
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="@color/white">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="컨트롤러(옵션) 설정"
-                android:textColor="@color/black" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Switch
-                android:id="@+id/optSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <Button
-                android:id="@+id/optSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="저장" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <TextView
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="컨트롤러 작동 시 등록된 어쩌고.."/>
-        </LinearLayout>
-        <LinearLayout
-
-            android:background="@color/white"
-            android:orientation="vertical"
-            android:layout_weight="2"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <TextView
-                android:textColor="@color/black"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="로봇 관리"/>
-            <GridLayout
-                android:layout_gravity="center"
-                android:background="@color/white"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <Button
-                    android:id="@+id/programEnd"
-                    android:text="프로그램\n종료"/>
-                <Button
-                    android:id="@+id/robotEnd"
-                    android:text="로봇\n종료"/>
-                <Button
-                    android:id="@+id/goCharger"
-                    android:text="충전기로\n이동"/>
-            </GridLayout>
-        </LinearLayout>
-        <LinearLayout
-            android:background="@color/white"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="부팅 시 충전기 찾기"
-                android:textColor="@color/black" />
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1" />
-
-            <Switch
-                android:id="@+id/findCharger"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-
-            <Button
-                android:id="@+id/findChargerSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="저장" />
-        </LinearLayout>
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>

@@ -6,6 +6,7 @@ import android.app.ActivityOptions
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.Bitmap
@@ -14,6 +15,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.hardware.display.DisplayManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Base64
@@ -136,6 +138,11 @@ class MainActivity : AppCompatActivity() {
     var clickTime = 0 // 클릭 된 횟수
     val TIMES_REQUIRED = 2 // 총 필요한 클릭 횟수 val TIMES_REQUIRED = 6
     val TIME_TIMEOUT = 2000 //연속 클릭 시간 제한 지금은 2초..
+
+    lateinit var korBtn: Button
+    lateinit var enBtn: Button
+    lateinit var jpnBtn: Button
+    lateinit var chnBtn: Button
     /////////////////여기까지/////////////
 
     ///////////////////////////////////////////////////////on Create ////////////////////////////////
@@ -160,11 +167,11 @@ class MainActivity : AppCompatActivity() {
         val micBtn: Button = findViewById(R.id.micBtn)
         val homeBtn: Button = findViewById(R.id.homeBtn)
         val backBtn: Button = findViewById(R.id.backBtn)
-        val korBtn: Button = findViewById(R.id.korBtn)
-        val enBtn: Button = findViewById(R.id.enBtn)
+        korBtn = findViewById(R.id.korBtn)
+        enBtn = findViewById(R.id.enBtn)
         val adminBtn: Button = findViewById(R.id.EnterAdminBtn)
-        val jpnBtn: Button = findViewById(R.id.jpnBtn)
-        val chnBtn: Button = findViewById(R.id.chiBtn)
+        jpnBtn = findViewById(R.id.jpnBtn)
+        chnBtn = findViewById(R.id.chiBtn)
 
         val customDialog: Dialog = CustomProgressDialogue(this)
         customDialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
@@ -222,8 +229,24 @@ class MainActivity : AppCompatActivity() {
         // MQTT Service start
         //mqttMgr.initFunc()
 
+        //현재 기기에 셋팅된 국가코드 값 가져오기
+        var locale : Locale
+//        var locale = applicationContext.resources.configuration.locale
+//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) //현재 단말의 SDK
+//            locale = applicationContext.resources.configuration.locales.get(0)
+//        else
+        locale = applicationContext.resources.configuration.locale
+        Log.i(tk_TAG, "국가코드 : " + locale.getCountry() + " 언어 코드 : " + locale.language)
+//        fun setLanguageColor(){
+//            korBtn.setTextColor(getColor(R.color.gongju_title))
+//        }
+
         val sharedPreferences = getSharedPreferences("Setting", Activity.MODE_PRIVATE)
-        val language = sharedPreferences.getString("My_Lang", "")
+        val language = sharedPreferences.getString("My_Lang", locale.language)
+
+        Log.i(tk_TAG, "current Language is " + boot_check.langPref.getString("My_Lang", locale.language))
+        var currentLang = boot_check.langPref.getString("My_Lang", locale.language)
+        setLanguageColor(currentLang)
         if (language != null) {
             Log.i(tk_TAG, "language : " + language)
             language_code = language
@@ -252,21 +275,25 @@ class MainActivity : AppCompatActivity() {
         korBtn.setOnClickListener {
             setLocate("ko")
             viewModel.setLanguage(Language.Korean)
+            setLanguageColor("ko")
             recreate()
         }
         enBtn.setOnClickListener {
             setLocate("en")
             viewModel.setLanguage(Language.English)
+            setLanguageColor("en")
             recreate()
         }
         chnBtn.setOnClickListener {
             setLocate("zh")
             viewModel.setLanguage(Language.Chinese)
+            setLanguageColor("zh")
             recreate()
         }
         jpnBtn.setOnClickListener {
             setLocate("ja")
             viewModel.setLanguage(Language.Japanese)
+            setLanguageColor("ja")
             recreate()
         }
         adminBtn.setOnClickListener { v ->
@@ -394,37 +421,27 @@ class MainActivity : AppCompatActivity() {
             }
             ///////////////////////chatbot 제공 이미지 정보 저장 끝///////////////////
 
-            //val prgDialog = ProgressDialog(this)
-//            var isChecked = false
-//            if (!isChecked) customDialog.show()
-//            else customDialog.dismiss()
             ///////////////////chatbot질의 페이지에서만 page바꿔줌. 나머지는 발화만
             if (chatPage) {
                 if (page_id != "") { //////////////page id가 존재
                     if (tpl_id == "") {///////////tpl_id는 없음
                         if (r_status == "match") ///tpl_id가 공백일 경우에는 response_status값이 match -> page_id
                         {
-                            //prgDialog.show()
                             customDialog.show()
                             changeFragment(page_id)
                             customDialog.dismiss()
-                            //prgDialog.hide()
                         }
                     } else //////tpl_id가 있음
                     {
-                        //prgDialog.show()
                         customDialog.show()
                         changeFragment(tpl_id)
                         customDialog.dismiss()
-                        //prgDialog.hide()
                     }
                 } else { /////////page id가 없음
                     if (tpl_id != "") { /////////template id는 있음
-                        //prgDialog.show()
                         customDialog.show()
                         changeFragment(tpl_id)
                         customDialog.dismiss()
-                        //prgDialog.hide()
                     }
                 }
             }
@@ -446,25 +463,39 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-            viewModel.currentPageInfo.observe(this) {
-                Log.d("pageInfoStrCheck", "page change, currentPage is " + it.page_id)
+        viewModel.currentPageInfo.observe(this) {
+            Log.d("pageInfoStrCheck", "page change, currentPage is " + it.page_id)
 
-                if (it.is_tts) {
-                    //if(speechStr != ""){
-                    val str = it.tts_info[0].tts_id
-                    Log.d("pageInfoStrCheck", str)
-                    val changeStr = str.replace("-", "_")
-                    Log.d("pageInfoStrCheck", changeStr)
+            if (it.is_tts) {
+                //if(speechStr != ""){
+                val str = it.tts_info[0].tts_id
+                Log.d("pageInfoStrCheck", str)
+                val changeStr = str.replace("-", "_")
+                Log.d("pageInfoStrCheck", changeStr)
 //                viewModel.ttsSpeak(applicationContext, it.tts_info[0].tts_id)
-                    //Log.d(TAG, speechStr)
-                    //}
-                    //val testInt = changeStr.toInt()
-                    //Log.d("pageInfoStrCheck", testInt.toString())
+                //Log.d(TAG, speechStr)
+                //}
+                //val testInt = changeStr.toInt()
+                //Log.d("pageInfoStrCheck", testInt.toString())
 
 //                resources.getString(R.string.exhibits_ungjin_b1)
-                }
             }
+        }
     } //onCreate
+
+    private fun setLanguageColor(currentLang: String?) {
+        korBtn.setTextColor(getColor(R.color.gonju_disabled))
+        enBtn.setTextColor(getColor(R.color.gonju_disabled))
+        chnBtn.setTextColor(getColor(R.color.gonju_disabled))
+        jpnBtn.setTextColor(getColor(R.color.gonju_disabled))
+
+        when(currentLang) {
+            "ko" -> korBtn.setTextColor(getColor(R.color.gongju_title))
+            "en" -> enBtn.setTextColor(getColor(R.color.gongju_title))
+            "zh" -> chnBtn.setTextColor(getColor(R.color.gongju_title))
+            "ja" -> jpnBtn.setTextColor(getColor(R.color.gongju_title))
+        }
+    }
 
     private fun TouchContinously() { //////////좌측 상단 연속 클릭 시 호출되는 함수
         if (SystemClock.elapsedRealtime() - lastClickTime < TIME_TIMEOUT) { //제한시간 초과 x
@@ -489,9 +520,8 @@ class MainActivity : AppCompatActivity() {
         config.setLocale(locale)
         baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
 
-        val editor = getSharedPreferences(tk_TAG, Context.MODE_PRIVATE).edit()
-        editor.putString("My_Lang", Lang)
-        editor.apply()
+        boot_check.editor.putString("My_Lang", Lang)
+        boot_check.editor.apply()
     }
 
     //fragment change

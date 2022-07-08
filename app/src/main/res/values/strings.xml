@@ -461,16 +461,18 @@
     <string name="admin_x12" translatable="false">상태 정보</string>
     <string name="admin_x13" translatable="false">배터리</string>
     <string name="admin_x14" translatable="false">디스크 사용</string>
-    <string name="admin_x15" translatable="false">이용 가능 시간 (대략)</string>
-    <string name="admin_x16" translatable="false">이동 가능 시간 (대략)</string>
+    <string name="admin_x15" translatable="false">이용 가능 시간\n(대략)</string>
+    <string name="admin_x16" translatable="false">이동 가능 시간\n(대략)</string>
     <string name="admin_b6" translatable="false">프로그램 재시작</string>
     <string name="admin_b7" translatable="false">로봇 종료</string>
     <string name="admin_b8" translatable="false">충전기로 이동</string>
     <string name="admin_b9" translatable="false">아니요</string>
     <string name="admin_b10" translatable="false">네</string>
+
+    <!--추가 설정-->
     <string name="admin_x17" translatable="false">강제 충전 모드</string>
     <string name="admin_x18" translatable="false">이동 제한 시간</string>
-    <string name="admin_x19" translatable="false">강체 충전</string>
+    <string name="admin_x19" translatable="false">강제 충전</string>
     <string name="admin_x20" translatable="false">※ 강제 충전 모드가 실행되면 이동 홍보 모드, 문화 해설 모드, 길 안내 서비스를 제외한 기본 서비스만 제공</string>
     <string name="admin_x21" translatable="false">스케줄 모드</string>
     <string name="admin_x22" translatable="false">주기별</string>

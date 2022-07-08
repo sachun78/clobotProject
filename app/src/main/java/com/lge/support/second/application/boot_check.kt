@@ -1,8 +1,10 @@
 package com.lge.support.second.application
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
@@ -34,11 +36,18 @@ class boot_check : AppCompatActivity() {
         )
 
         private const val REQUEST_CODE_PERMISSION = 200
+
+        //language
+        lateinit var langPref : SharedPreferences
+        lateinit var editor: SharedPreferences.Editor
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_boot_check)
+        setContentView(R.layout.activity_boot_check) //activity_boot_check
+
+        langPref = getSharedPreferences("My_Lang", Activity.MODE_PRIVATE)
+        editor = langPref.edit()
 
         // CHECK PERMISSIONS
         if (allPermissionsGranted()) {

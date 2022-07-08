@@ -34,4 +34,13 @@
     <color name="gonju_subtitle">#CCCED3</color>
     <color name="gongju_background">#333333</color>
     <color name="gongju_docent">#B4B8BE</color>
+    <color name="gonju_disabled">#99FFFFFF</color>
+
+<!--    admin page-->
+    <color name="selected">#F15A22</color>
+    <color name="admin_text">#343A40</color>
+    <color name="admin_blue">#3466C2</color>
+    <color name="admin_grey">#D8D8D8</color>
+    <color name="admin_info">#979797</color>
+
 </resources>

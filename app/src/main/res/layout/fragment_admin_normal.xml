@@ -3,44 +3,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#E6E6E6"
     android:orientation="vertical"
-    android:weightSum="12">
+    android:paddingLeft="60px"
+    android:paddingRight="60px">
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white">
+        android:layout_height="80px">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="로봇 설치\n위치"
-            android:textColor="@color/black" />
+            android:fontFamily="@font/min_sans_bold"
+            android:text="@string/admin_x1"
+            android:textColor="@color/admin_text"
+            android:textSize="48px" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
+        android:layout_height="132px"
+        android:layout_gravity="center"
+        android:background="@drawable/border"
+        android:backgroundTint="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="설치 위치" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="48px"
+            android:fontFamily="@font/min_sans_bold"
+            android:text="@string/admin_x2"
+            android:textColor="@color/admin_text"
+            android:textSize="36px" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="277px"
+            android:layout_height="84px"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="48px"
+            android:background="@drawable/admin_border"
+            android:backgroundTint="@color/admin_grey"
+            android:fontFamily="@font/min_sans_regular"
+            android:gravity="center"
+            android:text="@string/admin_x3"
+            android:textColor="@color/admin_text" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white">
+        android:layout_height="wrap_content"
+        android:gravity="center">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="고정 홍보\n멘트"
-            android:textColor="@color/black" />
+            android:fontFamily="@font/min_sans_bold"
+            android:text="@string/admin_x4"
+            android:textColor="@color/black"
+            android:textSize="48px" />
 
         <View
             android:layout_width="0dp"
@@ -55,21 +82,33 @@
 
         <Button
             android:id="@+id/fixPromoteSave"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
+            android:layout_width="70px"
             android:layout_height="wrap_content"
-            android:text="저장" />
+            android:layout_gravity="center"
+            android:background="@color/transparency"
+            android:fontFamily="@font/min_sans_regular"
+            android:text="@string/admin_b5"
+            android:textColor="@color/admin_blue"
+            android:textSize="36px" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="0.5"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="132px"
+        android:paddingRight="48px"
+        android:background="@drawable/border"
+        android:backgroundTint="@color/white">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="멘트 반복 시간" />
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="48px"
+            android:fontFamily="@font/min_sans_bold"
+            android:text="@string/admin_x5"
+            android:textColor="@color/admin_text"
+            android:textSize="36px" />
+
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -78,21 +117,20 @@
             android:id="@+id/mentRepeatT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white">
-
+        android:layout_height="wrap_content">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="전시 해설\n모드"
-            android:textColor="@color/black" />
-
+            android:layout_gravity="center_vertical"
+            android:fontFamily="@font/min_sans_bold"
+            android:text="@string/admin_x6"
+            android:textColor="@color/black"
+            android:textSize="48px" />
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -106,163 +144,307 @@
 
         <Button
             android:id="@+id/docentModeSave"
+            android:layout_width="70px"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="저장" />
+            android:background="@color/transparency"
+            android:fontFamily="@font/min_sans_regular"
+            android:text="저장"
+            android:textColor="@color/admin_blue"
+            android:textSize="36px" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="164px"
+        android:background="@drawable/border"
+        android:backgroundTint="@color/white">
+
+        <TextView
+            android:layout_width="334dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="48px"
+            android:text="@string/admin_x7"
+            android:textColor="@color/admin_text"
+            android:textSize="36px" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="배터리 잔량이 어쩌고...." />
+            android:fontFamily="@font/min_sans_bold"
+            android:text="@string/admin_x8"
+            android:textColor="@color/admin_text"
+            android:textSize="48px" />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="0.5"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white">
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:backgroundTint="@color/white"
+        android:orientation="vertical"
+        android:paddingLeft="48px"
+        android:paddingTop="24px"
+        android:paddingRight="48px"
+        android:paddingBottom="24px">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="기본 설정"
-            android:textColor="@color/black" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="2"
-        android:weightSum="2"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical">
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="볼륨" />
+                android:layout_gravity="center_vertical"
+                android:fontFamily="@font/min_sans_bold"
+                android:text="@string/admin_x9"
+                android:textColor="@color/admin_text"
+                android:textSize="36px" />
+
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_weight="1" />
-            <Button
-                android:layout_gravity="center"
-                android:id="@+id/volDownBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="down"/>
-            <TextView
-                android:layout_gravity="center"
-                android:id="@+id/volume"
-                android:gravity="center"
-                android:layout_width="100px"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:layout_gravity="center"
-                android:id="@+id/volUpBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="up"/>
+
+            <LinearLayout
+                android:layout_width="277px"
+                android:layout_height="84px"
+                android:background="@drawable/admin_border"
+                android:gravity="center_vertical"
+                android:paddingLeft="16px">
+
+                <Button
+                    android:id="@+id/volDownBtn"
+                    android:layout_width="52px"
+                    android:layout_height="52px"
+                    android:layout_gravity="center"
+                    android:background="@drawable/admin_blue_button"
+                    android:text="-" />
+
+                <TextView
+                    android:id="@+id/volume"
+                    android:layout_width="142px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:fontFamily="@font/min_sans_regular"
+                    android:gravity="center"
+                    android:textColor="@color/admin_text"
+                    android:textSize="36px" />
+
+                <Button
+                    android:id="@+id/volUpBtn"
+                    android:layout_width="52px"
+                    android:layout_height="52px"
+                    android:layout_gravity="center"
+                    android:background="@drawable/admin_blue_button"
+                    android:text="+" />
+            </LinearLayout>
 
         </LinearLayout>
+
         <LinearLayout
-            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
+            android:layout_marginTop="24px"
+            android:layout_weight="1"
             android:orientation="horizontal">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="로봇 상태" />
+                android:fontFamily="@font/min_sans_bold"
+                android:text="@string/admin_x10"
+                android:textColor="@color/admin_text" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="277px"
+                android:layout_height="84px"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/admin_border"
+                android:backgroundTint="@color/admin_grey"
+                android:fontFamily="@font/min_sans_regular"
+                android:gravity="center"
+                android:text="@string/admin_x11"
+                android:textColor="@color/admin_text" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
-        android:layout_weight="0.5"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:background="@color/white">
+        android:layout_height="wrap_content">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="상태 정보"
-            android:textColor="@color/black" />
+            android:fontFamily="@font/min_sans_bold"
+            android:text="@string/admin_x12"
+            android:textColor="@color/admin_text"
+            android:textSize="48px" />
     </LinearLayout>
 
     <LinearLayout
-        android:gravity="center"
-        android:layout_weight="2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:background="@drawable/border"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingLeft="48px"
+        android:paddingRight="48px"
+        android:paddingTop="40px"
+        android:paddingBottom="40px">
+
         <GridLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:columnCount="2">
+
             <LinearLayout
+                android:layout_width="422px"
+                android:layout_height="102px"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:background="@drawable/admin_border"
+                android:backgroundTint="@color/admin_grey"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="32px"
+                android:paddingTop="24px"
+                android:paddingRight="32px"
+                android:paddingBottom="24px">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="배터리"/>
+                    android:text="@string/admin_x13"
+                    android:textColor="@color/admin_info"
+                    android:textSize="32px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/battery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="%?"/>
+                    android:text="%?"
+                    android:textColor="@color/admin_text"
+                    android:textSize="36px" />
             </LinearLayout>
+
             <LinearLayout
+                android:layout_width="422px"
+                android:layout_height="102px"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginLeft="20px"
+                android:background="@drawable/admin_border"
+                android:backgroundTint="@color/admin_grey"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="32px"
+                android:paddingTop="24px"
+                android:paddingRight="32px"
+                android:paddingBottom="24px">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="디스크 사용"/>
+                    android:text="@string/admin_x14"
+                    android:textColor="@color/admin_info"
+                    android:textSize="32px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:id="@+id/usage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="%?"/>
+                    android:text="%?"
+                    android:textColor="@color/admin_text"
+                    android:textSize="36px" />
             </LinearLayout>
+
             <LinearLayout
+                android:layout_width="422px"
+                android:layout_height="142px"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_marginTop="20px"
+                android:background="@drawable/admin_border"
+                android:backgroundTint="@color/admin_grey"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="32px"
+                android:paddingRight="32px">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="이용 가능 시간 (대략)"/>
+                    android:text="@string/admin_x15"
+                    android:textColor="@color/admin_info"
+                    android:textSize="32px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="%?"/>
+                    android:text="%?"
+                    android:textColor="@color/admin_text"
+                    android:textSize="36px" />
             </LinearLayout>
+
             <LinearLayout
+                android:layout_marginTop="20px"
+                android:layout_width="422px"
+                android:layout_height="142px"
+                android:layout_marginLeft="20px"
                 android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:background="@drawable/admin_border"
+                android:backgroundTint="@color/admin_grey"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="32px"
+                android:paddingTop="23px"
+                android:paddingRight="32px"
+                android:paddingBottom="23px">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="이용 가능 시간 (대략)"/>
+                    android:text="@string/admin_x16"
+                    android:textColor="@color/admin_info"
+                    android:textSize="32px" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="%?"/>
+                    android:text="%?"
+                    android:textColor="@color/admin_text"
+                    android:textSize="36px" />
             </LinearLayout>
         </GridLayout>
     </LinearLayout>

@@ -62,26 +62,38 @@
             android:layout_width="72px"
             android:layout_height="72px"
             android:layout_gravity="right"
-            android:background="@drawable/language_jpn"/>
+            android:background="@color/transparency"
+            android:textSize="22px"
+            android:text="日"
+            android:textColor="@color/gonju_disabled"/>
 
         <Button
             android:id="@+id/chiBtn"
             android:layout_width="72px"
             android:layout_height="72px"
             android:layout_gravity="right"
-            android:background="@drawable/language_chi"/>
+            android:text="中"
+            android:background="@color/transparency"
+            android:textSize="22px"
+            android:textColor="@color/gonju_disabled"/>
         <Button
             android:id="@+id/enBtn"
             android:layout_width="72px"
             android:layout_height="72px"
             android:layout_gravity="right"
-            android:background="@drawable/language_en"/>
+            android:text="EN"
+            android:background="@color/transparency"
+            android:textSize="22px"
+            android:textColor="@color/gonju_disabled"/>
         <Button
             android:layout_gravity="right"
             android:id="@+id/korBtn"
             android:layout_width="72px"
             android:layout_height="72px"
-            android:background="@drawable/language_ko"
-            android:enabled="true" />
+            android:text="한"
+            android:background="@color/transparency"
+            android:textSize="22px"
+            android:enabled="true"
+            android:textColor="@color/gonju_disabled"/>
     </androidx.appcompat.widget.Toolbar>
 </androidx.constraintlayout.widget.ConstraintLayout>

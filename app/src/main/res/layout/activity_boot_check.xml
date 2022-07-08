@@ -6,6 +6,7 @@
     android:background="#E6E6E6">
 
     <ImageView
+        android:id="@+id/boot_qi"
         android:src="@drawable/quai_stand_1"
         android:layout_width="216px"
         android:layout_height="285px"
@@ -13,6 +14,18 @@
         android:layout_marginTop="231px"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="60px"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="290px"
+        app:layout_constraintLeft_toRightOf="@id/boot_qi"
+        android:text="@string/boot_check_x1"
+        android:fontFamily="@font/min_sans_black"
+        android:textSize="56px"
+        android:textColor="#00395E"/>
+
 
 <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
 <!--        android:layout_width=""-->
