@@ -40,6 +40,10 @@ class TestActivity : AppCompatActivity() {
         listView.adapter = adapter
 
         //fd.create()
+        binding.btnActivation.setOnClickListener {
+            MainActivity.robotViewModel.activation()
+        }
+
         binding.btnUndocking.setOnClickListener {
             MainActivity.robotViewModel.undockingRequest()
         }
@@ -54,23 +58,25 @@ class TestActivity : AppCompatActivity() {
             adapter.notifyDataSetChanged()
         }
 
-        binding.btnCruise.setOnClickListener {
+        binding.btnGkr.setOnClickListener {
 //            robotViewModel.cruiseRequest()
             MainActivity.robotViewModel.onGkr()
         }
 
-        binding.btnStop.setOnClickListener {  }
+        binding.btnStop.setOnClickListener {
+            MainActivity.robotViewModel.stop()
+        }
 
-        binding.btnPause.setOnClickListener {  }
+        binding.btnPause.setOnClickListener {
+            MainActivity.robotViewModel.pause()
+        }
 
-        binding.btnResume.setOnClickListener {  }
+        binding.btnResume.setOnClickListener {
+            MainActivity.robotViewModel.resume()
+        }
 
         binding.btnTmp.setOnClickListener {
-            val customDialog: Dialog = CustomProgressDialogue(this)
-            customDialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
-            var isChecked = false
-            if (!isChecked) customDialog.show()
-            else customDialog.dismiss()
+
         }
 
         listView.setOnItemClickListener { parent, view, pos, id ->
@@ -104,7 +110,7 @@ class TestActivity : AppCompatActivity() {
 //            }
 //        }
 
-        var finishButton: Button = findViewById<Button>(R.id.testActivityBtn)
+        var finishButton: Button = findViewById<Button>(R.id.btn_finish)
 
         finishButton.setOnClickListener {
             this.finish()
@@ -120,6 +126,11 @@ class TestActivity : AppCompatActivity() {
         MainActivity.robotViewModel.mSLAM3DPos.observe(this) { pos ->
             draw(pos, 450, 480, 140, 40)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MainActivity.robotViewModel.initialized()
     }
 
     private fun draw(pos: SLAM3DPos, x: Int, y: Int, width: Int, height: Int) {

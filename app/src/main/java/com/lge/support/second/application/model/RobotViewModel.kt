@@ -197,8 +197,28 @@ class RobotViewModel(
         Log.d(TAG, "unDocking - end");
     }
 
+    fun initialized() {
+        robotRepository.initialized()
+    }
+
+    fun activation() {
+        robotRepository.activation()
+    }
+
     fun move(poi: POI) {
         robotRepository.moveWithPoi(poi)
+    }
+
+    fun stop() {
+        robotRepository.stop()
+    }
+
+    fun pause() {
+        robotRepository.pause()
+    }
+
+    fun resume() {
+        robotRepository.resume()
     }
 
     fun onGkr() {

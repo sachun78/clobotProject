@@ -267,8 +267,28 @@ class RobotRepository {
         awaitClose {}
     }
 
+    fun initialized() {
+        mNavigationManager.requestInitialized()
+    }
+
+    fun activation() {
+        mPowerManager.robotActivation()
+    }
+
     fun findPosition() {
         mNavigationManager.requestGKR("CLOBOT_IPARK", "F7")
+    }
+
+    fun stop() {
+        mNavigationManager.doStopEx()
+    }
+
+    fun pause() {
+        mNavigationManager.doPauseEx()
+    }
+
+    fun resume() {
+        mNavigationManager.doResumeEx()
     }
 
     fun moveWithPoi(poi: POI) {

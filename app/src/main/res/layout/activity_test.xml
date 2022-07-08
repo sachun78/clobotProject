@@ -7,7 +7,7 @@
     tools:context=".TestActivity">
 
     <Button
-        android:id="@+id/testActivityBtn"
+        android:id="@+id/btn_finish"
         android:layout_width="100dp"
         android:layout_height="55dp"
         android:text="finish Activity"
@@ -20,13 +20,13 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/btn_cruise"
+        android:id="@+id/btn_gkr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="GKR"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.544"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintStart_toEndOf="@+id/btn_pois"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
@@ -102,7 +102,7 @@
         android:layout_height="wrap_content"
         android:text="stop"
         app:layout_constraintStart_toEndOf="@+id/btn_undocking"
-        app:layout_constraintTop_toBottomOf="@+id/btn_cruise" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_gkr" />
 
     <Button
         android:id="@+id/btn_resume"
