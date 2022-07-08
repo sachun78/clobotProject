@@ -53,7 +53,7 @@ class MainViewModel(
     }
 
     fun updatePageInfo(pageId: String) {
-        _currentPageInfo.value = sceneConfigRepo.getCurrPageInfo(pageId)
+        _currentPageInfo.value = sceneConfigRepo.getPageInfo(pageId)
     }
 
     suspend fun breakChat() {
@@ -186,8 +186,8 @@ class MainViewModel(
         workManager.cancelUniqueWork("schedule")
     }
 
-    fun getCurrPageInfo(pageId: String): PageInfoItem? {
-        return sceneConfigRepo.getCurrPageInfo(pageId)
+    fun getCurrPageInfo(): PageInfoItem? {
+        return sceneConfigRepo.getCurrPageInfo()
     }
 
     class Factory(

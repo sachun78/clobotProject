@@ -83,6 +83,7 @@ dependencies {
     implementation "com.google.android.filament:filament-utils-android:$rootProject.filamentVersion"
     implementation "com.google.android.filament:gltfio-android:$rootProject.filamentVersion"
     implementation "androidx.work:work-runtime-ktx:$workmanager_version"
+
     // Testing dependencies
     testImplementation "junit:junit:4.+"
     androidTestImplementation "androidx.test.ext:junit:1.1.3"
