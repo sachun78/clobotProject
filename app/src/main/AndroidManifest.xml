@@ -4,7 +4,9 @@
     package="com.lge.support.second.application">
 
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera.any" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -22,6 +24,7 @@
         android:theme="@style/Theme.QIRobotLauncher"
         android:usesCleartextTraffic="true"
         tools:replace="android:name">
+
         <meta-data
             android:name="com.google.mlkit.vision.DEPENDENCIES"
             android:value="face" />
@@ -38,23 +41,27 @@
             android:name=".TestActivity"
             android:exported="false"
             android:screenOrientation="portrait" />
-        <!--        홈 런처 만들때 필요한 선언 - singleTask값        -->
+        <!-- 홈 런처 만들때 필요한 선언 - singleTask값 -->
+        <!-- boot_check페이지를 첫 시작 Activity로 설정 -->
         <activity
-            android:name=".MainActivity"
+            android:name=".boot_check"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <!--        홈 런처 만들때 필요한 선언        -->
+                <!-- 홈 런처 만들때 필요한 선언 -->
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.HOME" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
-        <!--        <service android:name=".RobotEventService"></service>-->
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"></activity>
     </application>
+
 </manifest>

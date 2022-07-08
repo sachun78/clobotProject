@@ -71,13 +71,17 @@ class main : Fragment() {
             mActivity.changeFragment("docent-select")
         }
 
+        Log.d("mainPage", "onCreate")
+        MainActivity.viewModel.resetCurrentPage()
+
+        MainActivity.viewModel.updatePageInfo("main")
         MainActivity.chatPage = false
         return binding.root
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("main", "fragment resume")
+        Log.d("mainPage", "fragment resume")
         (activity as MainActivity).findViewById<Button>(R.id.backBtn)
             .setBackgroundResource(R.drawable.back_main)
         (activity as MainActivity).findViewById<Button>(R.id.homeBtn)

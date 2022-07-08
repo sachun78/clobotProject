@@ -1,37 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gongju_background_5"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@drawable/gongju_background_5">
+
+    <TextView
+        android:id="@+id/move_arrive_x1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="268px"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/move_arrive_1_x1"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="64px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/b1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="540px"
+        android:layout_height="688px"
+        android:layout_marginTop="126px"
+        android:background="@drawable/arrive_btn"
         android:text="@string/move_arrive_1_b1"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintTop_toBottomOf="@id/move_arrive_x1" />
+
     <Button
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="1342px"
         android:id="@+id/b2"
-        android:layout_width="490px"
-        android:layout_height="160px"
-        android:background="@drawable/border"
-        android:backgroundTint="@color/select"
-        android:text="@string/move_arrive_1_b2" />
+        android:layout_width="470px"
+        android:layout_height="128px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="180px"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/move_arrive_1_b2"
+        android:textSize="36px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/b1" />
+
     <Button
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="1342px"
         android:id="@+id/b3"
-        android:layout_width="490px"
-        android:layout_height="160px"
-        android:background="@drawable/border"
-        android:backgroundTint="@color/select"
-        android:text="@string/move_arrive_1_b3" />
+        android:layout_width="470px"
+        android:layout_height="128px"
+        android:layout_marginTop="180px"
+        android:layout_marginRight="60px"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/move_arrive_1_b3"
+        android:textSize="36px"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/b1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

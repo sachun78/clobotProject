@@ -94,13 +94,14 @@ class MainActivity : AppCompatActivity() {
         lateinit var speechStr: String
         var descriptStr: String = ""
 
-        private val PERMISSIONS = arrayOf(
-            Manifest.permission.RECORD_AUDIO,
-            Manifest.permission.CAMERA,
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        private const val REQUEST_CODE_PERMISSION = 200
+//        private val PERMISSIONS = arrayOf(
+//            Manifest.permission.RECORD_AUDIO,
+//            Manifest.permission.CAMERA,
+//            Manifest.permission.READ_EXTERNAL_STORAGE,
+//            Manifest.permission.WRITE_EXTERNAL_STORAGE
+//        )
+//        private const val REQUEST_CODE_PERMISSION = 200
+//        private const val REQUEST_EXTERNAL_STORAGE = 1
 
         lateinit var subTest: SubScreen
         lateinit var subVideo: back_video
@@ -209,13 +210,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         // CHECK PERMISSIONS
-        if (allPermissionsGranted()) {
-            standby.show()
-        } else {
-            ActivityCompat.requestPermissions(
-                this, PERMISSIONS, REQUEST_CODE_PERMISSION
-            )
-        }
+//        if (allPermissionsGranted()) {
+//            //standby.show()
+//            Log.d(TAG, "all granted")
+//        } else {
+//            ActivityCompat.requestPermissions(
+//                this, PERMISSIONS, REQUEST_CODE_PERMISSION
+//            )
+//        }
 
         // MQTT Service start
         //mqttMgr.initFunc()
@@ -443,6 +445,25 @@ class MainActivity : AppCompatActivity() {
                 MoveState.MOVE_DONE -> movement_normal.hide()
             }
         }
+
+            viewModel.currentPageInfo.observe(this) {
+                Log.d("pageInfoStrCheck", "page change, currentPage is " + it.page_id)
+
+                if (it.is_tts) {
+                    //if(speechStr != ""){
+                    val str = it.tts_info[0].tts_id
+                    Log.d("pageInfoStrCheck", str)
+                    val changeStr = str.replace("-", "_")
+                    Log.d("pageInfoStrCheck", changeStr)
+//                viewModel.ttsSpeak(applicationContext, it.tts_info[0].tts_id)
+                    //Log.d(TAG, speechStr)
+                    //}
+                    //val testInt = changeStr.toInt()
+                    //Log.d("pageInfoStrCheck", testInt.toString())
+
+//                resources.getString(R.string.exhibits_ungjin_b1)
+                }
+            }
     } //onCreate
 
     private fun TouchContinously() { //////////좌측 상단 연속 클릭 시 호출되는 함수
@@ -475,6 +496,7 @@ class MainActivity : AppCompatActivity() {
 
     //fragment change
     fun changeFragment(page_id: String) {
+        viewModel.updatePageInfo(page_id)
         when (page_id) {
             "information" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, information())
@@ -581,9 +603,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun allPermissionsGranted() = PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(mainContext(), it) == PackageManager.PERMISSION_GRANTED
-    }
+//    private fun allPermissionsGranted() = PERMISSIONS.all {
+//        ContextCompat.checkSelfPermission(mainContext(), it) == PackageManager.PERMISSION_GRANTED
+//    }
 
     override fun onResume() {
         super.onResume()

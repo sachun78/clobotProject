@@ -76,7 +76,7 @@ class exhibits : Fragment() {
         if (!isInit) {
             Log.d("exhibits", "called in exhibits: 전시된 작품 뭐 있어 $isInit")
             lifecycleScope.launch(Dispatchers.Default) {
-                viewModel.breakChat()
+                //viewModel.breakChat()
                 viewModel.getResponse("전시된 작품 뭐 있어", changePage = false)
                 viewModel.ttsStop()
             }

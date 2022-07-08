@@ -137,7 +137,7 @@ class docent_back(outerContext: Context?, display: Display?) : Presentation(oute
     /////////////////docent_back(back)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.move_docent)
+        setContentView(R.layout.docent_back)
     }
 
     override fun onStart() {
