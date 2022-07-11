@@ -231,22 +231,14 @@ class MainActivity : AppCompatActivity() {
 
         //현재 기기에 셋팅된 국가코드 값 가져오기
         var locale : Locale
-//        var locale = applicationContext.resources.configuration.locale
-//        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) //현재 단말의 SDK
-//            locale = applicationContext.resources.configuration.locales.get(0)
-//        else
         locale = applicationContext.resources.configuration.locale
         Log.i(tk_TAG, "국가코드 : " + locale.getCountry() + " 언어 코드 : " + locale.language)
-//        fun setLanguageColor(){
-//            korBtn.setTextColor(getColor(R.color.gongju_title))
-//        }
 
         val sharedPreferences = getSharedPreferences("Setting", Activity.MODE_PRIVATE)
         val language = sharedPreferences.getString("My_Lang", locale.language)
+        
+        setLanguageColor(language)
 
-        Log.i(tk_TAG, "current Language is " + boot_check.langPref.getString("My_Lang", locale.language))
-        var currentLang = boot_check.langPref.getString("My_Lang", locale.language)
-        setLanguageColor(currentLang)
         if (language != null) {
             Log.i(tk_TAG, "language : " + language)
             language_code = language
@@ -519,9 +511,6 @@ class MainActivity : AppCompatActivity() {
         val config = Configuration()
         config.setLocale(locale)
         baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
-
-        boot_check.editor.putString("My_Lang", Lang)
-        boot_check.editor.apply()
     }
 
     //fragment change
