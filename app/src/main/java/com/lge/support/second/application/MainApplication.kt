@@ -18,13 +18,19 @@ class MainApplication : Application(), Configuration.Provider {
             .build()
 
     companion object {
+        lateinit var instance: MainApplication
         private val chatbotService = ChatbotApi.instance
 
         val mRobotRepo by lazy {
             RobotRepository()
         }
+
         val mChatbotRepo by lazy {
             ChatbotRepository(chatbotService)
+        }
+
+        fun appContext(): MainApplication {
+            return instance
         }
     }
 
