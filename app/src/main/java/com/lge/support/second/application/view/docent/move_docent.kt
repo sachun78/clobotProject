@@ -60,6 +60,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
 
     override fun surfaceCreated(p0: SurfaceHolder) {
         Log.d(TAG, "surfaceCreated");
+        (activity as MainActivity).findViewById<LinearLayout>(R.id.top).visibility = View.GONE
         //if (mediaPlayer == null) {
             mediaPlayer = MediaPlayer()
 //        } else {
@@ -69,7 +70,8 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
         try {
 //            val path =
 //                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                var uri = Uri.parse("android.resource://" + "com.lge.support.second.application" + "/raw/docent_10_")
+                //var uri = Uri.parse("android.resource://" + "com.lge.support.second.application" + "/raw/docent_10_")
+            var uri = Uri.parse(docent_select.uri)
             context?.let { mediaPlayer.setDataSource(it, uri) }
 
                 //mediaPlayer!!.setVolume(0F, 0F) //볼륨 제거
@@ -98,7 +100,6 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
         Log.e(TAG, "surfaceDestroyed");
         MainActivity.subVideo.hide()
         mediaPlayer.release() //자원해제
-        (activity as MainActivity).findViewById<LinearLayout>(R.id.top).visibility = View.VISIBLE
     }
 
 

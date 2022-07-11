@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".view.docent.move_arrive2"
+    android:background="@drawable/gongju_background_5">
+
+    <TextView
+        android:id="@+id/move_arrive_2_x1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="268px"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/move_arrive_2_x1"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="64px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/move_arrive_2_b1"
+        android:layout_width="440px"
+        android:layout_height="560px"
+        android:layout_marginTop="91px"
+        android:background="@drawable/arrive_btn"
+        android:fontFamily="@font/min_sans_bold"
+        android:text="@string/move_arrive_2_b1"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="48px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="207px"
+        app:layout_constraintTop_toBottomOf="@id/move_arrive_2_x1" />
+    <Button
+        android:id="@+id/move_arrive_2_b2"
+        android:layout_width="440px"
+        android:layout_height="560px"
+        android:layout_marginTop="550px"
+        android:background="@drawable/arrive_btn"
+        android:fontFamily="@font/min_sans_bold"
+        android:text="@string/move_arrive_2_b2"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="48px"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="200px"
+        app:layout_constraintTop_toBottomOf="@id/move_arrive_2_x1" />
+
+    <Button
+        android:id="@+id/move_arrive_2_b3"
+        android:layout_width="470px"
+        android:layout_height="128px"
+        android:layout_marginLeft="60px"
+        android:layout_marginTop="94px"
+        android:background="#333333"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/move_arrive_2_b3"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="36px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/move_arrive_2_b2" />
+
+    <Button
+        android:id="@+id/move_arrive_2_b4"
+        android:layout_width="470px"
+        android:layout_height="128px"
+        android:layout_marginTop="94px"
+        android:layout_marginRight="60px"
+        android:background="#102329"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/move_arrive_2_b4"
+        android:textColor="@color/text_darkwhite"
+        android:textSize="36px"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/move_arrive_2_b2" />
+</androidx.constraintlayout.widget.ConstraintLayout>

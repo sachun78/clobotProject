@@ -1,5 +1,6 @@
 package com.lge.support.second.application.view.docent
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -16,6 +17,10 @@ import com.lge.support.second.application.databinding.FragmentDocentSelectBindin
 class docent_select : Fragment() {
 
     private lateinit var binding: FragmentDocentSelectBinding
+
+    companion object{
+        lateinit var uri : String
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,8 +44,31 @@ class docent_select : Fragment() {
             MainActivity.robotViewModel.docentRequest(mActivity, 3)
         }
 
+        binding.docentSelectB3.setOnClickListener {
+            mActivity.changeFragment("move-arrive_2")
+            //MainActivity.robotViewModel.docentRequest(mActivity, 0)
+            uri = "android.resource://" + "com.lge.support.second.application" + "/raw/docent_10_"
+        }
+
+        binding.docentSelectB4.setOnClickListener {
+            mActivity.changeFragment("move-arrive_2")
+            //MainActivity.robotViewModel.docentRequest(mActivity, 2)
+            uri = "android.resource://" + "com.lge.support.second.application" + "/raw/docent_5_ko"
+        }
+
+        binding.docentSelectB5.setOnClickListener {
+            mActivity.changeFragment("move-arrive_2")
+            uri = "android.resource://" + "com.lge.support.second.application" + "/raw/docent_4_ko"
+        }
+        binding.docentSelectB6.setOnClickListener {
+            mActivity.changeFragment("move-arrive_2")
+            uri = "android.resource://" + "com.lge.support.second.application" + "/raw/docent_7_ko"
+        }
+
         return binding.root
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

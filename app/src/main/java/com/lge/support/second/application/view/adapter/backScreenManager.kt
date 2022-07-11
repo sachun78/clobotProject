@@ -22,7 +22,7 @@ import org.apache.log4j.chainsaw.Main
 lateinit var currentBackScreen: String
 
 fun showBackScreen(showBack: String) { /////////////screen 1번(backScreen)
-    if (currentBackScreen != showBack) {
+    //if (currentBackScreen != showBack) {
         hideBackScreen(currentBackScreen)
         currentBackScreen = showBack
         when (showBack) {
@@ -46,7 +46,7 @@ fun showBackScreen(showBack: String) { /////////////screen 1번(backScreen)
                 MainActivity.undocking_screen.show()
             }
         }
-    }
+    //}
 }
 
 fun hideBackScreen(hideBack: String) {

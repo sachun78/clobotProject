@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
+import com.lge.support.second.application.view.docent.docent_select
 import org.apache.log4j.chainsaw.Main
 
 
@@ -24,6 +25,16 @@ class information_back(outerContext: Context?, display: Display?) : Presentation
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sub_test)
+    }
+
+    override fun show() {
+        super.show()
+        Log.d("information_back", "show")
+    }
+
+    override fun hide() {
+        super.hide()
+        Log.d("information_back", "hide")
     }
 
     override fun onStart() {
@@ -62,8 +73,9 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
 //            val path =
 //                "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
 
-            var uri =
-                Uri.parse("android.resource://" + "com.lge.support.second.application" + "/raw/docent_10_")
+//            var uri =
+//                Uri.parse("android.resource://" + "com.lge.support.second.application" + "/raw/docent_10_")
+            var uri = Uri.parse(docent_select.uri)
 
             Log.d("uri check", uri.toString())
 

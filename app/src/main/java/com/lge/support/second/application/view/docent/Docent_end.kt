@@ -17,7 +17,7 @@ class docent_end : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        (activity as MainActivity).findViewById<LinearLayout>(R.id.top).visibility = View.GONE
     }
 
     override fun onCreateView(

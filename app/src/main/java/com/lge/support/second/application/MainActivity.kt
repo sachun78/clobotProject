@@ -45,10 +45,7 @@ import com.lge.support.second.application.view.adapter.currentBackScreen
 import com.lge.support.second.application.view.adapter.showBackScreen
 import com.lge.support.second.application.view.chatView.chat
 import com.lge.support.second.application.view.chatView.chat_fail
-import com.lge.support.second.application.view.docent.docent_select
-import com.lge.support.second.application.view.docent.move_arrive1
-import com.lge.support.second.application.view.docent.move_docent
-import com.lge.support.second.application.view.docent.test_docent
+import com.lge.support.second.application.view.docent.*
 import com.lge.support.second.application.view.subView.*
 import com.lge.support.second.application.view.template.*
 import java.io.InputStream
@@ -652,6 +649,11 @@ class MainActivity : AppCompatActivity() {
 //                moveArrive1.show()
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.fragment_main, move_arrive1())
+                    .addToBackStack(null).commit()
+            }
+            "move-arrive_2" -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main, move_arrive2())
                     .addToBackStack(null).commit()
             }
         }
