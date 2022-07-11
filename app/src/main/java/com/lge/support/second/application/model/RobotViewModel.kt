@@ -9,16 +9,15 @@ import com.lge.robot.platform.error.ErrorStatusBean
 import com.lge.robot.platform.navigation.NavigationMessageType
 import com.lge.robot.platform.util.poi.data.POI
 import com.lge.support.second.application.MainActivity
-import com.lge.support.second.application.data.robot.MoveState
-import com.lge.support.second.application.data.robot.NaviError
-import com.lge.support.second.application.data.robot.NaviErrorStatus
-import com.lge.support.second.application.data.robot.NavigationMessage
+import com.lge.support.second.application.data.robot.*
 import com.lge.support.second.application.repository.RobotRepository
+import com.lge.support.second.application.util.LEDState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.random.Random
 
@@ -40,15 +39,14 @@ class RobotViewModel(
     val mPowerMode = MutableLiveData<Int>()
     val mBatteryData = MutableLiveData<Battery>()
 
-    val isGkrProcessing = MutableLiveData(false)
     private val _isMoving = MutableLiveData(false)
     val isMoving: LiveData<Boolean> = _isMoving
 
     private val _moveState = MutableLiveData(MoveState.STAY)
     val moveState: LiveData<MoveState> get() = _moveState
 
-    private val _emergency = MutableLiveData(false)
-    val emergency: LiveData<Boolean> get() = _emergency
+    private val _robotState = MutableLiveData(RobotState.BOOT)
+    val robotState: LiveData<RobotState> get() = _robotState
 
     private val _isSchedule = MutableLiveData(false)
     val isSchedule: LiveData<Boolean> = _isSchedule
@@ -68,8 +66,8 @@ class RobotViewModel(
     val batterySOC = MutableLiveData<Int>()
 
     val pois = RobotRepository.mPoiManager.getAllPoi()
-    private var cruiseCount = 0
 
+    private var cruiseCount = 0
     private var gkr_try_count = 0
 
     override fun onCleared() {
@@ -92,7 +90,19 @@ class RobotViewModel(
                     mActionStatus.value = naviData
                     checkNaviActionStatus(naviData)
                 }
-                is NaviStatus2 -> mNaviStatus2.value = naviData
+                is NaviStatus2 -> {
+                    if (robotState.value == RobotState.INIT
+                        && naviData.bootSeq == NaviStatus2._e_boot_seq.eBOOT_ON_DOCK
+                    ) {
+                        _robotState.value = RobotState.CHARGING
+                    } else if (robotState.value != RobotState.INIT
+                        && naviData.bootSeq == NaviStatus2._e_boot_seq.eBOOT_OPERATION
+                        && mActionStatus.value?.geteActionStatus() == ActionStatus._e_action_status.eAction_Ready
+                    ) {
+                        _robotState.value = RobotState.INIT
+                    }
+                    mNaviStatus2.value = naviData
+                }
                 is SLAM3DPos -> {
                     mSLAM3DPos.value = naviData
                 }
@@ -111,11 +121,14 @@ class RobotViewModel(
         robotRepository.sensorManagerCallback.onEach { sensorState ->
             when (sensorState) {
                 SensorStatus.EmergencyStatusCode.EMERGENCY_PRESS -> {
-                    _emergency.value = true
+                    if (robotState.value != RobotState.EMERGENCY)
+                        _robotState.value = RobotState.EMERGENCY
                 }
                 SensorStatus.EmergencyStatusCode.EMERGENCY_RELEASE -> {
-                    println("1, EMERGENCY RELEASED")
-                    _emergency.value = false
+                    if (robotState.value == RobotState.EMERGENCY) {
+                        println("1, EMERGENCY RELEASED")
+                        _robotState.value = RobotState.EMERGENCY_RELEASE
+                    }
                 }
             }
         }.launchIn(viewModelScope)
@@ -124,11 +137,12 @@ class RobotViewModel(
             when (data) {
                 is Battery -> {
                     mBatteryData.value = data
+                    Log.i(TAG, "battery: $data")
                     if (data.soc != batterySOC.value) {
                         batterySOC.value = data.soc
                     }
-                    if (data.soc < 50) {
-                        Log.i(TAG, "battery is lower than 50% detected.")
+                    if (data.soc <= 30) {
+                        Log.e(TAG, "battery is lower than 30% detected.")
                     }
                 }
                 is RobotError -> {
@@ -164,13 +178,16 @@ class RobotViewModel(
 
     private fun docent(docentId: Int): Flow<String> = flow {
         // docking 상태가 아닌 home 위치 혹은 다른 위치에 있다고 가정.
+        if (robotState.value != RobotState.INIT) {
+            return@flow
+        }
         _isDocent1.value = true
         // 지점 이동
         pois?.get(docentId)?.let { it1 -> robotRepository.moveWithPoi(it1) }
 
         while (_isDocent1.value == true) {
             // TODO(Check EMERGENCY)
-            if (emergency.value == true) {
+            if (robotState.value == RobotState.EMERGENCY) {
                 _isDocent1.value = false
                 return@flow
             }
@@ -183,18 +200,6 @@ class RobotViewModel(
             3 -> emit("move_done3")
             else -> emit("move_done")
         }
-    }
-
-    private fun unDocking(): Flow<Boolean> = flow {
-        Log.d(TAG, "unDocking - start");
-        if (mNaviStatus2.value?.bootSeq != NaviStatus2._e_boot_seq.eBOOT_ON_DOCK) {
-            println("undocking fail, reason : Robot is not on place Docking Station")
-            return@flow
-        }
-
-        RobotRepository.mNavigationManager.doUndockingEx()
-        RobotRepository.mNavigationManager.doRelativeRotationEx(180.0, 40.0)
-        Log.d(TAG, "unDocking - end");
     }
 
     fun initialized() {
@@ -225,24 +230,30 @@ class RobotViewModel(
         robotRepository.findPosition()
     }
 
+    fun setLed(state: LEDState = LEDState.NORMAL) {
+        robotRepository.setLed(state)
+    }
+
     fun dockingRequest() {
-        docking().launchIn(viewModelScope)
+        Log.d(TAG, "docking - start");
+        _isDocking.value = true
+        // 1. Move to Goal POI Goal
+        RobotRepository.mPoiManager.getHomeCharger()
+            .let { it1 -> robotRepository.moveWithPoi(it1) }
     }
 
     fun undockingRequest() {
-        unDocking().launchIn(viewModelScope)
-    }
+        viewModelScope.launch {
+            Log.d(TAG, "unDocking - start")
+            delay(500)
+            if (mNaviStatus2.value?.bootSeq != NaviStatus2._e_boot_seq.eBOOT_ON_DOCK) {
+                println("undocking fail, reason : Robot is not on place Docking Station")
+                return@launch
+            }
 
-    private fun docking(): Flow<Boolean> = flow {
-        Log.d(TAG, "docking - start");
-        _isDocking.value = true
-
-        // 1. Move to Goal POI Goal
-        if (pois != null && pois.size > 0) {
-            pois[3].let { it1 -> robotRepository.moveWithPoi(it1) }
-            emit(true)
-        } else {
-            emit(false)
+            RobotRepository.mNavigationManager.doUndockingEx()
+            RobotRepository.mNavigationManager.doRelativeRotationEx(180.0, 40.0)
+            Log.d(TAG, "unDocking - end");
         }
     }
 
@@ -300,18 +311,26 @@ class RobotViewModel(
     private fun checkNaviError(data: NaviError) {
         when (data.errorId) {
             ErrorReport._e_error_event.eERR_SLAM.ordinal -> {
-                println("slam Error 1")
+                Log.e(TAG, "ERROR SLAM, $data")
+
             }
             ErrorReport._e_error_event.eERR_SLAM_NON_OPERATION_AREA.ordinal -> {
                 //로봇을 맵 밖으로 강제 이동시
-                if (gkr_try_count < 3) {
-                    robotRepository.findPosition()
+                Log.e(TAG, "ERROR SLAM_NON_OPERATION_AREA, $data")
+                if (_robotState.value == RobotState.BOOT && gkr_try_count < 3) {
+                    onGkr()
                     gkr_try_count++
+                } else {
+                    _robotState.value = RobotState.BOOTFAIL
                 }
             }
             ErrorReport._e_error_event.eERR_MAP_LOADING_FAIL.ordinal -> {
                 // 네비 엔진에서 맵을 못찾을 경우
-                println("slam Error 3")
+                Log.e(TAG, "ERROR MAP_LOADING_FAIL, $data")
+                _robotState.value = RobotState.BOOTFAIL
+            }
+            ErrorReport._e_error_event.eERR_ACTION.ordinal -> {
+                Log.e(TAG, "ERROR checkNaviError : ACTION, $data")
             }
         }
     }
@@ -342,14 +361,14 @@ class RobotViewModel(
                     when (statusCode) {
                         SensorStatus.EmergencyStatusCode.EMERGENCY_PRESS -> {
                             Log.d(TAG, "emergency pressed")
-                            if (emergency.value == false) {
-                                _emergency.value = true
+                            if (robotState.value != RobotState.EMERGENCY) {
+                                _robotState.value = RobotState.EMERGENCY
                             }
                         }
                         SensorStatus.EmergencyStatusCode.EMERGENCY_RELEASE -> {
                             Log.d(TAG, "emergency released")
-                            if (emergency.value == true) {
-                                _emergency.value = false
+                            if (robotState.value == RobotState.EMERGENCY) {
+                                _robotState.value = RobotState.EMERGENCY_RELEASE
                             }
                         }
                     }
@@ -365,23 +384,29 @@ class RobotViewModel(
         }
     }
 
+    fun recoverFromEmergency() {
+        activation()
+        setLed(LEDState.NORMAL)
+        _robotState.value = RobotState.INIT
+    }
+
     private fun checkNaviMessage(msg: NavigationMessage) {
         //DEBUGGING : print msg name
         Log.d(TAG, "navi message by action " + EventIndex.convertToString(msg.currentMsg))
         when (msg.currentMsg) {
             NavigationMessageType.EXTERN_NAVI_EVENT_GKR_START -> {
                 println("GKR Start")
-                isGkrProcessing.value = true
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_GKR_END -> {
                 println("GKR END")
-                isGkrProcessing.value = false
+                robotRepository.initialized()
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_MOVE_TO_GOAL_DONE -> {
                 println("MOVE GOAL DONE")
                 _moveState.value = MoveState.MOVE_DONE
                 if (isDocking.value == true) {
-                    _isDocking.postValue(true)
+                    _isDocking.value = true
+                    println("DOCKING REQ")
                     RobotRepository.mNavigationManager.doDockingEx()
                 }
                 if (isSchedule.value == true) {
@@ -401,12 +426,8 @@ class RobotViewModel(
                         _moveState.value = MoveState.MOVE_START
                     }
                 } else {
-                    TODO("DOKCING View")
+                    _moveState.value = MoveState.DOCKING_MOVE
                 }
-            }
-            NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_DOCKING_ACCEPTED -> {
-                println("DOCKING ACCEPTED")
-                _isDocking.value = true
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_DOCKING_DONE -> {
                 println("DOCKING SUCCESS")
@@ -415,10 +436,16 @@ class RobotViewModel(
 
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_UNDOCKING_ACCEPTED -> {
                 println("UNDOCKING Accepted")
-                _isDocking.value = false
             }
             NavigationMessageType.EXTERN_NAVI_EVENT_ACTION_UNDOCKING_DONE -> {
-                println("UNDOCKING SUCCESS")
+                Log.d(TAG, "UNDOCKING SUCCESS")
+                RobotRepository.mNavigationManager.doRelativeRotationEx(180.0, 40.0)
+            }
+            NavigationMessageType.EXTERN_NAVI_EVENT_INITIALIZED -> {
+                Log.d(TAG, "NAVI INITIALIZED!")
+                if (_robotState.value == RobotState.BOOT || _robotState.value == RobotState.BOOTFAIL) {
+                    _robotState.value = RobotState.INIT
+                }
             }
         }
     }

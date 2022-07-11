@@ -18,8 +18,8 @@ class docent_select : Fragment() {
 
     private lateinit var binding: FragmentDocentSelectBinding
 
-    companion object{
-        lateinit var uri : String
+    companion object {
+        lateinit var uri: String
     }
 
     override fun onCreateView(
@@ -67,7 +67,6 @@ class docent_select : Fragment() {
 
         return binding.root
     }
-
 
 
     override fun onDestroyView() {

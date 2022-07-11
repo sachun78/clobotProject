@@ -33,15 +33,19 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.googlecloudmanager.common.Language
 import com.example.googlecloudmanager.data.GoogleCloudApi
 import com.example.googlecloudmanager.domain.GoogleCloudRepository
+import com.lge.robot.platform.data.NaviStatus2
 import com.lge.support.second.application.data.chatbot.ChatbotApi
 import com.lge.support.second.application.data.robot.MoveState
+import com.lge.support.second.application.data.robot.RobotState
 import com.lge.support.second.application.databinding.ActivityMainBinding
 import com.lge.support.second.application.managers.mqtt.MessageConnector
 import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.model.RobotViewModel
 import com.lge.support.second.application.repository.SceneConfigRepo
+import com.lge.support.second.application.util.LEDState
 import com.lge.support.second.application.view.*
 import com.lge.support.second.application.view.adapter.currentBackScreen
+import com.lge.support.second.application.view.adapter.hideBackScreen
 import com.lge.support.second.application.view.adapter.showBackScreen
 import com.lge.support.second.application.view.chatView.chat
 import com.lge.support.second.application.view.chatView.chat_fail
@@ -96,15 +100,6 @@ class MainActivity : AppCompatActivity() {
         lateinit var speechStr: String
         var descriptStr: String = ""
 
-//        private val PERMISSIONS = arrayOf(
-//            Manifest.permission.RECORD_AUDIO,
-//            Manifest.permission.CAMERA,
-//            Manifest.permission.READ_EXTERNAL_STORAGE,
-//            Manifest.permission.WRITE_EXTERNAL_STORAGE
-//        )
-//        private const val REQUEST_CODE_PERMISSION = 200
-//        private const val REQUEST_EXTERNAL_STORAGE = 1
-
         lateinit var information_back: information_back
         lateinit var subVideo: back_video
         lateinit var standby: standby
@@ -112,10 +107,10 @@ class MainActivity : AppCompatActivity() {
         lateinit var promote_normal: promote_normal
         lateinit var docent_back: docent_back
         lateinit var move_docent: moveDocent
-        lateinit var emergency_back : emergency_screen
-        lateinit var emergency_front : emergency_screen
-        lateinit var docking_screen : docking
-        lateinit var undocking_screen : undocking
+        lateinit var emergency_back: emergency_screen
+        lateinit var emergency_front: emergency_screen
+        lateinit var docking_screen: docking
+        lateinit var undocking_screen: undocking
 
         fun mainContext(): Context {
             return instance
@@ -236,16 +231,13 @@ class MainActivity : AppCompatActivity() {
         //mqttMgr.initFunc()
 
         //현재 기기에 셋팅된 국가코드 값 가져오기
-        var locale: Locale
-        locale = applicationContext.resources.configuration.locale
+        val locale: Locale = applicationContext.resources.configuration.locale
         Log.i(tk_TAG, "국가코드 : " + locale.getCountry() + " 언어 코드 : " + locale.language)
 
         val sharedPreferences = getSharedPreferences("Setting", Activity.MODE_PRIVATE)
         val language = sharedPreferences.getString("My_Lang", locale.language)
 
-        var currentLang = boot_check.langPref.getString("My_Lang", locale.language)
-
-        when (currentLang) {
+        when (val currentLang = boot_check.langPref.getString("My_Lang", locale.language)) {
             "ko" -> {
                 viewModel.setLanguage(Language.Korean)
                 setLocate(currentLang.toString())
@@ -317,18 +309,28 @@ class MainActivity : AppCompatActivity() {
             TouchContinously()
         }
 
-        ////////////main-Button Listener end////////////
-
+        ////////////main-Button Listener end///////////
         // Robot Service Observer
-        robotViewModel.emergency.observe(this) {
-            println("$it, emergency")
-            if (it == true) {
-                head.changeExpression(Expression.CURIOUS)
-                standby(this, displays[0]).show()
-                standby(this, displays[1]).show()
-                return@observe
+        robotViewModel.robotState.observe(this) { state ->
+            Log.d(TAG, "$state, ROBOT STATE CHANGED")
+            when (state) {
+                RobotState.EMERGENCY -> {
+                    Log.e(TAG, "EMERGENCY DETECT ON MainActivity")
+                    head.changeExpression(Expression.CURIOUS)
+                    showBackScreen("emergency")
+                    robotViewModel.setLed(LEDState.EMERGENCY)
+                }
+                RobotState.EMERGENCY_RELEASE -> {
+                    Log.e(TAG, "EMERGENCY RELEASE DETECT ON MainActivity")
+                }
+                RobotState.INIT -> {
+                    println("robot INITIALIZED")
+                    head.changeExpression(Expression.WINK)
+                }
+                RobotState.CHARGING -> {
+
+                }
             }
-            head.changeExpression(Expression.WINK)
         }
 
         viewModel.queryResult.observe(this) {
@@ -474,7 +476,7 @@ class MainActivity : AppCompatActivity() {
         robotViewModel.moveState.observe(this) {
             when (it) {
                 MoveState.MOVE_START -> movement_normal.show()
-                MoveState.DOCENT_MOVE -> movement_normal.show()
+                MoveState.DOCENT_MOVE -> showBackScreen("move_docent")
                 MoveState.STAY -> Toast.makeText(this, "STAY", Toast.LENGTH_SHORT)
                 MoveState.MOVE_DONE -> movement_normal.hide()
             }

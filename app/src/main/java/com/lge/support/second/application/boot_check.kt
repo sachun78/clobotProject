@@ -2,27 +2,37 @@ package com.lge.support.second.application
 
 import android.Manifest
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
 import android.view.MotionEvent
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import org.apache.log4j.chainsaw.Main
+import androidx.lifecycle.ViewModelProvider
+import com.lge.support.second.application.data.robot.RobotState
+import com.lge.support.second.application.model.RobotViewModel
+import com.lge.support.second.application.repository.RobotRepository
+import java.util.*
 
 class boot_check : AppCompatActivity() {
-    private val SPLASH_TIME_OUT:Long = 5000L
+    private val SPLASH_TIME_OUT: Long = 5000L
 
     init {
         instance = this
     }
 
+    lateinit var robotViewModel: RobotViewModel
+    private lateinit var mTimerTask: Timer
+
     companion object {
+        val TAG = boot_check::class.java.simpleName
         lateinit var instance: boot_check
 
         fun bootCheckContext(): Context {
@@ -39,7 +49,7 @@ class boot_check : AppCompatActivity() {
         private const val REQUEST_CODE_PERMISSION = 200
 
         //language
-        lateinit var langPref : SharedPreferences
+        lateinit var langPref: SharedPreferences
         lateinit var editor: SharedPreferences.Editor
     }
 
@@ -60,6 +70,49 @@ class boot_check : AppCompatActivity() {
         langPref = getSharedPreferences("My_Lang", Activity.MODE_PRIVATE)
         editor = langPref.edit()
 
+
+        robotViewModel = ViewModelProvider(
+            this,
+            RobotViewModel.Factory(
+                MainApplication.mRobotRepo,
+                application as MainApplication
+            )
+        ).get(RobotViewModel::class.java)
+
+        robotViewModel.robotState.observe(this) { state ->
+            Log.d(TAG, "$state, ROBOT STATE CHANGED")
+            when (state) {
+                RobotState.EMERGENCY -> {
+                    return@observe
+                }
+                RobotState.EMERGENCY_RELEASE -> {
+                    println("emergency release button show")
+                }
+                RobotState.INIT -> {
+                    Log.d(TAG, "robot INITALIZED!")
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }
+                RobotState.BOOTFAIL -> {
+                    Log.d(TAG, "robot init fail")
+                    val builder = AlertDialog.Builder(this)
+                    builder.setMessage("Retry?").setPositiveButton(
+                        "yes"
+                    ) { dialog, id ->
+                        Log.d(
+                            "ROBOT INITIALIZE",
+                            "ROBOT INITIALIZE click"
+                        )
+                        robotViewModel.onGkr()
+                    }
+                    builder.show()
+                }
+            }
+        }
+
+        mTimerTask = kotlin.concurrent.timer(period = 1000) {
+            RobotRepository.mNavigationManager.requestInitialized()
+        }
     }
 
     //////추후 본인 위치 찾으면 => MainActivity가 뜨게 수정. 현재는 touchEvent로 Main진입
@@ -81,6 +134,19 @@ class boot_check : AppCompatActivity() {
     }
 
     private fun allPermissionsGranted() = PERMISSIONS.all {
-        ContextCompat.checkSelfPermission(bootCheckContext(), it) == PackageManager.PERMISSION_GRANTED
+        ContextCompat.checkSelfPermission(
+            bootCheckContext(),
+            it
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    override fun onStart() {
+        super.onStart()
+        RobotPlatform.connect(this)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mTimerTask.cancel()
     }
 }

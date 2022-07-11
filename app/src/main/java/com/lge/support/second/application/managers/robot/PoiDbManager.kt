@@ -65,4 +65,10 @@ class PoiDbManager {
     fun getAllPoi(): ArrayList<POI>? {
         return mPoi.allPOI
     }
+
+    fun getHomeCharger(): POI {
+        val poi = mPoi.getChargerPOI("F7")
+        println("poi: $poi")
+        return poi
+    }
 }

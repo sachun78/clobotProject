@@ -23,37 +23,33 @@ class HeadPresentation(outerContext: Context?, display: Display?) :
 
     var surfaceView: SurfaceView? = null
     var surfaceHolder: SurfaceHolder? = null
-    private val mediaPlayer: MediaPlayer = MediaPlayer()
+    lateinit var afd: AssetFileDescriptor
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = PresentationHeadBinding.inflate(layoutInflater)
         setContentView(R.layout.presentation_head)
 
-
+        mediaPlayer = MediaPlayer()
         surfaceView = findViewById(R.id.head_surfaceView)
         surfaceHolder = surfaceView?.holder
         surfaceHolder?.addCallback(this);
-    }
-
-    @Deprecated(message = "not use text on head!")
-    fun changeText(text: String?) {
-//        text1.text = text
     }
 
     fun changeExpression(exp: Expression) {
         mediaPlayer.reset()
         when (exp) {
             Expression.CURIOUS -> {
-                val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_curious.mp4")
+                afd = context.assets.openFd("face/face_type_curious.mp4")
                 mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             }
             Expression.HAPPY -> {
-                val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_happy.mp4")
+                afd = context.assets.openFd("face/face_type_happy.mp4")
                 mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             }
-            else -> {
-                val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_wink.mp4")
+            Expression.WINK -> {
+                afd = context.assets.openFd("face/face_type_wink.mp4")
                 mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
             }
         }
@@ -64,13 +60,16 @@ class HeadPresentation(outerContext: Context?, display: Display?) :
 
     override fun surfaceCreated(p0: SurfaceHolder) {
         try {
-            val afd: AssetFileDescriptor = context.assets.openFd("face/face_type_wink.mp4")
-            mediaPlayer.isLooping = true
+            afd = context.assets.openFd("face/face_type_wink.mp4")
+
             mediaPlayer.setDisplay(surfaceHolder) // 화면 호출
             mediaPlayer.setDataSource(afd.fileDescriptor, afd.startOffset, afd.length)
-
+            mediaPlayer.setOnPreparedListener {
+                it.isLooping = true
+            }
             mediaPlayer.prepare() // 비디오 load 준비
             mediaPlayer.start()
+
 
         } catch (e: Exception) {
             Log.e("HEAD", "surface view error : " + e)

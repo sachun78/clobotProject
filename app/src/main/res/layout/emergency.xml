@@ -43,13 +43,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/remain_battery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="83px"
         android:fontFamily="@font/min_sans_black"
+        android:gravity="center"
         android:text="battery 남은 양 표시"
         android:textColor="@color/gongju_title"
-        android:gravity="center"
         android:textSize="48px"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

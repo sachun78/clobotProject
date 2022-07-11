@@ -12,7 +12,7 @@ import com.lge.robot.platform.navigation.navigation.NavigationResultListener
 import com.lge.robot.platform.power.IPowerModeListener
 import com.lge.robot.platform.power.IPowerStateListener
 import com.lge.robot.platform.util.poi.data.POI
-import com.lge.support.second.application.MainActivity.Companion.mainContext
+import com.lge.support.second.application.MainApplication.Companion.appContext
 import com.lge.support.second.application.data.robot.NaviError
 import com.lge.support.second.application.data.robot.NavigationMessage
 import com.lge.support.second.application.managers.robot.NavigationManagerInstance
@@ -30,12 +30,14 @@ class RobotRepository {
 
     companion object {
         val mNavigationManager =
-            NavigationManagerInstance.instance.createNavigationManager(mainContext())
-        val mPowerManager = PowerManagerInstance.instance.createPowerManager(mainContext())
+            NavigationManagerInstance.instance.createNavigationManager(appContext())
+        val mPowerManager = PowerManagerInstance.instance.createPowerManager(appContext())
         val mMonitoringManager = MonitoringManager()
-        val mPoiManager = PoiDbManager(mainContext())
+        val mPoiManager = PoiDbManager(appContext())
         val mSensorManager = SensorManager()
-        val mLedManager: LedManager = LedManager(mainContext())
+        val mLedManager: LedManager = LedManager(appContext())
+
+        var isDocking = false
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -221,15 +223,9 @@ class RobotRepository {
                 trySendBlocking(naviActionInfo)
             }
 
-            override fun onWakeup(navigationMessageType: Int) {
-                super.onWakeup(navigationMessageType)
-                Log.d(TAG, "onWakeUp $navigationMessageType")
-                trySendBlocking(NavigationMessage(navigationMessageType))
-            }
-
             override fun onSLAM3DResult(slamPos: SLAM3DPos?) {
                 super.onSLAM3DResult(slamPos)
-//                Log.d(TAG, "onSLAM3DResult $slamPos")
+                Log.d(TAG, "onSLAM3DResult $slamPos")
                 trySendBlocking(slamPos)
             }
 
@@ -245,7 +241,7 @@ class RobotRepository {
             ) {
                 super.onNavigationEvent(navigationMessageType, actionStatus)
                 Log.d(TAG, "onNavigationEvent $navigationMessageType status: $actionStatus")
-                trySendBlocking(NavigationMessage(navigationMessageType))
+                trySendBlocking(NavigationMessage(navigationMessageType, actionStatus))
             }
 
             override fun onError(errorCode: Int, errorMsg: String?) {
@@ -256,7 +252,7 @@ class RobotRepository {
 
             override fun onAccept(navigationMessageType: Int, naviAcceptInfo: NaviAcceptInfo?) {
                 super.onAccept(navigationMessageType, naviAcceptInfo)
-                val msg = NavigationMessage(navigationMessageType)
+                val msg = NavigationMessage(navigationMessageType, null)
                 Log.d(TAG, "onAccept $msg")
                 trySendBlocking(msg)
             }
@@ -292,20 +288,11 @@ class RobotRepository {
     }
 
     fun moveWithPoi(poi: POI) {
-        val mInitPos = mPoiManager.getInitPosition()
-        val pos = PosXYZDeg(
-            poi.positionX.toDouble(), poi.positionY.toDouble(),
-            poi.positionZ.toDouble(), poi.theta.toDouble()
-        )
-        mNavigationManager.doMoveToGoalEx(
-            mInitPos?.buildingIndex, mInitPos?.floorIndex,
-            pos, 1.0, 3.0
-        )
+        mNavigationManager.doMoveToGoalWithPOI(poi.poiId, 40.0)
     }
 
     fun moveToPos(x: Double, y: Double, z: Double, deg: Double) {
         val mInitPos = mPoiManager.getInitPosition()
-
         val pos = PosXYZDeg(x, y, z, deg)
         mNavigationManager.doMoveToGoalEx(
             mInitPos?.buildingIndex, mInitPos?.floorIndex,
@@ -313,7 +300,7 @@ class RobotRepository {
         )
     }
 
-    private fun setLed(state: LEDState = LEDState.NORMAL) {
+    fun setLed(state: LEDState = LEDState.NORMAL) {
         // location: FRONT : 0, REAR : 1, LEFT : 2, RIGHT :  3 ,  ALL :255
         // mode : ALWAYS_ON : 0, BLINK : 1, GRADATION : 2
 

@@ -9,7 +9,12 @@ import com.lge.support.second.application.repository.RobotRepository
 class MainApplication : Application() {
     //val mCommonDatabase by lazy { CommonDatabase.getInstance(this) }
 
+    init {
+        instance = this
+    }
+
     companion object {
+        lateinit var instance: MainApplication
         private val chatbotService = ChatbotApi.instance
 
         val mRobotRepo by lazy {
@@ -17,6 +22,10 @@ class MainApplication : Application() {
         }
         val mChatbotRepo by lazy {
             ChatbotRepository(chatbotService)
+        }
+
+        fun appContext(): MainApplication {
+            return instance
         }
     }
 
