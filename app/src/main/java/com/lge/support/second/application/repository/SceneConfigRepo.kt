@@ -6,46 +6,27 @@ import com.google.gson.reflect.TypeToken
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.data.pageConfig.PageInfoItem
 import com.lge.support.second.application.data.pageConfig.TtsInfoItem
+import com.lge.support.second.application.database.PageInfoDao
+import kotlinx.coroutines.flow.Flow
 
-class SceneConfigRepo {
-    private var pageInfo: ArrayList<PageInfoItem>
-    private var ttsInfo : ArrayList<TtsInfoItem>
+class SceneConfigRepo private constructor(
+    private val pageInfoDao: PageInfoDao
+) {
+    fun getPageInfo(pageId: String) = pageInfoDao.getPageInfo(pageId)
+    fun getAllPageInfo() = pageInfoDao.getAllPageInfo()
+    suspend fun delete() = pageInfoDao.deleteAll()
 
     companion object {
         private const val TAG = "SceneConfig"
         private var mCurrentPage: String = ""
-    }
 
-    init {
-        val pageInfoJson = MainActivity.mainContext().assets.open("page_info.json").reader().readText()
-        val pageInfoType = object : TypeToken<ArrayList<PageInfoItem>>() {}.type
-        pageInfo = Gson().fromJson(pageInfoJson, pageInfoType)
+        @Volatile private var instance: SceneConfigRepo? = null
 
-        val ttsInfoJson = MainActivity.mainContext().assets.open("tts_info.json").reader().readText()
-        val ttsInfoType = object : TypeToken<ArrayList<TtsInfoItem>>() {}.type
-        ttsInfo = Gson().fromJson(ttsInfoJson, ttsInfoType)
-
-        for (pageInfoItem in pageInfo) {
-            if (pageInfoItem.is_tts) {
-                pageInfoItem.tts_info = ttsInfo.filter {
-                    (it.tts_id).contains(pageInfoItem.page_id)
-                } as ArrayList<TtsInfoItem>
+        @JvmStatic fun getInstance(pageInfoDao: PageInfoDao): SceneConfigRepo =
+            instance ?: synchronized(this) {
+                instance ?: SceneConfigRepo(pageInfoDao).also {
+                    instance = it
+                }
             }
-        }
-    }
-
-    fun getPageInfo(pageId: String): PageInfoItem {
-        var findData = pageInfo.find {
-            it.page_id == pageId
-        }
-        mCurrentPage = pageId
-        return findData ?: PageInfoItem()
-    }
-
-    fun getCurrPageInfo(): PageInfoItem? {
-        Log.d(TAG, "currPage: ($mCurrentPage)")
-        return pageInfo.find {
-            it.page_id == mCurrentPage
-        }
     }
 }

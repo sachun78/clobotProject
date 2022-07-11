@@ -178,10 +178,13 @@ class MainActivity : AppCompatActivity() {
             MainViewModel.Factory(
                 MainApplication.mChatbotRepo,
                 GoogleCloudRepository(googleService),
-                SceneConfigRepo(),
+                (application as MainApplication).mPageInfoRepo,
                 application as MainApplication
             )
         ).get(MainViewModel::class.java)
+
+        // DataBase init
+        viewModel.allPageInfo
 
         robotViewModel = ViewModelProvider(
             this@MainActivity,
@@ -481,25 +484,6 @@ class MainActivity : AppCompatActivity() {
                 MoveState.MOVE_DONE -> movement_normal.hide()
             }
         }
-
-        viewModel.currentPageInfo.observe(this) {
-            Log.d("pageInfoStrCheck", "page change, currentPage is " + it.page_id)
-
-            if (it.is_tts) {
-                //if(speechStr != ""){
-                val str = it.tts_info[0].tts_id
-                Log.d("pageInfoStrCheck", str)
-                val changeStr = str.replace("-", "_")
-                Log.d("pageInfoStrCheck", changeStr)
-//                viewModel.ttsSpeak(applicationContext, it.tts_info[0].tts_id)
-                //Log.d(TAG, speechStr)
-                //}
-                //val testInt = changeStr.toInt()
-                //Log.d("pageInfoStrCheck", testInt.toString())
-
-//                resources.getString(R.string.exhibits_ungjin_b1)
-            }
-        }
     } //onCreate
 
     private fun setLanguageColor(currentLang: String?) {
@@ -546,7 +530,9 @@ class MainActivity : AppCompatActivity() {
 
     //fragment change
     fun changeFragment(page_id: String) {
-        viewModel.updatePageInfo(page_id)
+        viewModel.updatePageInfo(page_id).observe(this) {
+            Log.d("hjbae", "pageInfo : $it")
+        }
         when (page_id) {
             "information" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, information())

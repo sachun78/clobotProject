@@ -17,6 +17,7 @@ import com.lge.support.second.application.repository.SceneConfigRepo
 import com.lge.support.second.application.util.Resource
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 import com.example.googlecloudmanager.common.Resource as R2
 
 class MainViewModel(
@@ -43,18 +44,16 @@ class MainViewModel(
     private val _currentPage: MutableLiveData<String> = MutableLiveData()
     val currentPage: LiveData<String> get() = _currentPage
 
-    private val _currentPageInfo: MutableLiveData<PageInfoItem> = MutableLiveData()
-    val currentPageInfo: LiveData<PageInfoItem> get() = _currentPageInfo
-
     private val workManager = WorkManager.getInstance(application)
 
     init {
         cancelSchedule()
     }
 
-    fun updatePageInfo(pageId: String) {
-        _currentPageInfo.value = sceneConfigRepo.getPageInfo(pageId)
-    }
+    // PageInfo Data
+    val allPageInfo = sceneConfigRepo.getAllPageInfo().asLiveData()
+    fun updatePageInfo(pageId: String) = sceneConfigRepo.getPageInfo(pageId).asLiveData()
+    fun delete() = viewModelScope.launch { sceneConfigRepo.delete() }
 
     suspend fun breakChat() {
         repository.breakChat().onEach { result ->
@@ -184,10 +183,6 @@ class MainViewModel(
 
     internal fun cancelSchedule() {
         workManager.cancelUniqueWork("schedule")
-    }
-
-    fun getCurrPageInfo(): PageInfoItem? {
-        return sceneConfigRepo.getCurrPageInfo()
     }
 
     class Factory(
