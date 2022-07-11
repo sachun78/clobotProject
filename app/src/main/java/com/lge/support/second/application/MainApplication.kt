@@ -17,6 +17,10 @@ class MainApplication : Application(), Configuration.Provider {
             .setMinimumLoggingLevel(if (BuildConfig.DEBUG) android.util.Log.DEBUG else android.util.Log.ERROR)
             .build()
 
+    init {
+        instance = this
+    }
+    
     companion object {
         lateinit var instance: MainApplication
         private val chatbotService = ChatbotApi.instance
