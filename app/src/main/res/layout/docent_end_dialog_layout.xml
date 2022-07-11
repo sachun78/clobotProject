@@ -21,7 +21,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="74px"
         android:gravity="center"
-        android:text="진행중인 해설을 종료\n메인 화면으로 돌아갈까요?" />
+        android:text="@string/interactive_play_x3" />
 
     <GridLayout
         android:layout_width="wrap_content"

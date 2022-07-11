@@ -40,7 +40,8 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
 
             dialog.findViewById<Button>(R.id.yes_btn).setOnClickListener {
                 dialog.hide()
-                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+//                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                parentFragmentManager.popBackStack()
             }
             dialog.findViewById<Button>(R.id.no_btn).setOnClickListener {
                 dialog.hide()
@@ -97,6 +98,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
         Log.e(TAG, "surfaceDestroyed");
         MainActivity.subVideo.hide()
         mediaPlayer.release() //자원해제
+        (activity as MainActivity).findViewById<LinearLayout>(R.id.top).visibility = View.VISIBLE
     }
 
 

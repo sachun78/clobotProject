@@ -297,7 +297,7 @@
     <string name="interactive_play_b3" translatable="false">네</string>
     <string name="interactive_play_x1" translatable="false">신선의 세계를 담은 은잔</string>
     <string name="interactive_play_x2" translatable="false">해설 종료</string>
-    <string name="interactive_play_x3" translatable="false">진행 중인 해설을 종료하고 해설 선택 화면으로 돌아갈까요?</string>
+    <string name="interactive_play_x3" translatable="false">진행 중인 해설을 종료하고\n해설 선택 화면으로 돌아갈까요?</string>
     <string name="interactive_play_x4" translatable="false">큐아이를 QR로도 만나보세요.</string>
     <string name="interactive_end_t1" translatable="false">제가 준비한 해설은 여기까지예요. 재미있게 들었나요?</string>
     <string name="interactive_end_t2" translatable="false">다시 해설을 듣고 싶거나 저와 대화하고 싶다면 화면의 버튼을 선택해 주세요.</string>

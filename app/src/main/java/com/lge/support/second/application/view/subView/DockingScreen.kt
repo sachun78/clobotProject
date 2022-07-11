@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.Display
 import android.view.MotionEvent
 import android.widget.Button
+import android.widget.ImageView
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 
@@ -49,3 +50,18 @@ class docking_guide(outerContext: Context?, display: Display?) : Presentation(ou
         }
     }
 }
+
+class emergency_screen(outerContext: Context?, display: Display?) : Presentation(outerContext, display){
+    //emergency
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.emergency)
+
+        val testBtn = findViewById<ImageView>(R.id.testEmergencyBtn)
+
+        testBtn.setOnClickListener {
+
+        }
+    }
+}
+

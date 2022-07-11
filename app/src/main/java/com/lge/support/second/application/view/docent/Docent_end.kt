@@ -48,7 +48,8 @@ class docent_end : Fragment() {
 
             dialog.findViewById<Button>(R.id.yes_btn).setOnClickListener {
                 dialog.hide()
-                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+//                fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                parentFragmentManager.popBackStack()
                 //MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("")
             }
 

@@ -46,6 +46,7 @@ import com.lge.support.second.application.view.adapter.showBackScreen
 import com.lge.support.second.application.view.chatView.chat
 import com.lge.support.second.application.view.chatView.chat_fail
 import com.lge.support.second.application.view.docent.docent_select
+import com.lge.support.second.application.view.docent.move_arrive1
 import com.lge.support.second.application.view.docent.move_docent
 import com.lge.support.second.application.view.docent.test_docent
 import com.lge.support.second.application.view.subView.*
@@ -112,9 +113,12 @@ class MainActivity : AppCompatActivity() {
         lateinit var standby: standby
         lateinit var movement_normal: movement_normal
         lateinit var promote_normal: promote_normal
-        lateinit var moveArrive1: move_arrive1
         lateinit var docent_back: docent_back
         lateinit var move_docent: moveDocent
+        lateinit var emergency_back : emergency_screen
+        lateinit var emergency_front : emergency_screen
+        lateinit var docking_screen : docking
+        lateinit var undocking_screen : undocking
 
         fun mainContext(): Context {
             return instance
@@ -214,8 +218,11 @@ class MainActivity : AppCompatActivity() {
             move_docent = moveDocent(this, displays[1])
             movement_normal = movement_normal(this, displays[0])
             promote_normal = promote_normal(this, displays[1])
-            moveArrive1 = move_arrive1(this, displays[0], this)
             docent_back = docent_back(this, displays[1])
+            emergency_back = emergency_screen(this, displays[1])
+            emergency_front = emergency_screen(this, displays[0])
+            docking_screen = docking(this, displays[1])
+            undocking_screen = undocking(this, displays[1])
         }
 
         // CHECK PERMISSIONS
@@ -642,7 +649,10 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null).commit()
             }
             "move-arrive_1" -> {
-                moveArrive1.show()
+//                moveArrive1.show()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_main, move_arrive1())
+                    .addToBackStack(null).commit()
             }
         }
     }

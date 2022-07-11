@@ -7,7 +7,7 @@
     tools:context=".view.docent.move_docent"
     android:background="@color/black">
 
-    <androidx.appcompat.widget.AppCompatButton
+    <Button
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:background="@drawable/border"
