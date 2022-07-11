@@ -13,6 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
+import com.lge.support.second.application.boot_check
 import com.lge.support.second.application.databinding.FragmentMainBinding
 import com.lge.support.second.application.model.MainViewModel
 import kotlinx.coroutines.Dispatchers

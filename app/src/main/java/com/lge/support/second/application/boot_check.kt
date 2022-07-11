@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import org.apache.log4j.chainsaw.Main
 
 class boot_check : AppCompatActivity() {
     private val SPLASH_TIME_OUT:Long = 5000L
@@ -36,6 +37,10 @@ class boot_check : AppCompatActivity() {
         )
 
         private const val REQUEST_CODE_PERMISSION = 200
+
+        //language
+        lateinit var langPref : SharedPreferences
+        lateinit var editor: SharedPreferences.Editor
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +56,10 @@ class boot_check : AppCompatActivity() {
                 this, PERMISSIONS, REQUEST_CODE_PERMISSION
             )
         }
-        
+
+        langPref = getSharedPreferences("My_Lang", Activity.MODE_PRIVATE)
+        editor = langPref.edit()
+
     }
 
     //////추후 본인 위치 찾으면 => MainActivity가 뜨게 수정. 현재는 touchEvent로 Main진입

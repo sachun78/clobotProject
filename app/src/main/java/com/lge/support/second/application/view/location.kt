@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.viewpager.widget.PagerAdapter
 import com.lge.support.second.application.MainActivity
@@ -22,6 +24,9 @@ class location : Fragment() {
     //tab menu text
     lateinit var tab1 : String
     lateinit var tab2 : String
+
+    //선택된 버튼
+    lateinit var selectedBtn : Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,7 +57,93 @@ class location : Fragment() {
 
         Log.d("location", binding.exhibitsTab.getSelectedTabPosition().toString())
 
+        //...................viewList[0]........................//
+        val menuBtn1 = viewList[0].findViewById<Button>(R.id.location_facility_b3)
+        val menuBtn2 = viewList[0].findViewById<Button>(R.id.location_facility_b4)
+        val menuBtn3 = viewList[0].findViewById<Button>(R.id.location_facility_b5)
+        val menuBtn4 = viewList[0].findViewById<Button>(R.id.location_facility_b6)
+        val menuBtn5 = viewList[0].findViewById<Button>(R.id.location_facility_b7)
+        val menuBtn6 = viewList[0].findViewById<Button>(R.id.location_facility_b8)
+        val menuBtn7 = viewList[0].findViewById<Button>(R.id.location_facility_b9)
+        val menuBtn8 = viewList[0].findViewById<Button>(R.id.location_facility_b10)
+        val menuBtn9 = viewList[0].findViewById<Button>(R.id.location_facility_b11)
 
+        //기본 화면
+        selectedBtn = menuBtn1
+        selectedBtn.isSelected = true
+
+        //클릭된 상태->action
+        menuBtn1.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn1
+            selectedBtn.isSelected = true
+        }
+
+        menuBtn2.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn2
+            selectedBtn.isSelected = true
+        }
+
+        menuBtn3.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn3
+            selectedBtn.isSelected = true
+        }
+
+        menuBtn4.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn4
+            selectedBtn.isSelected = true
+        }
+
+        menuBtn5.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn5
+            selectedBtn.isSelected = true
+        }
+
+        menuBtn6.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn6
+            selectedBtn.isSelected = true
+        }
+
+        menuBtn7.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn7
+            selectedBtn.isSelected = true
+        }
+
+        menuBtn8.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn8
+            selectedBtn.isSelected = true
+        }
+
+        menuBtn9.setOnClickListener {
+            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
+            selectedBtn.isSelected = false
+
+            selectedBtn = menuBtn9
+            selectedBtn.isSelected = true
+        }
 
         return binding.root
     }
@@ -71,6 +162,8 @@ class location : Fragment() {
         override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
             binding.locationViewPager.removeView(`object` as View)
         }
+
+
     }
 
 }

@@ -41,6 +41,8 @@ import com.lge.support.second.application.model.MainViewModel
 import com.lge.support.second.application.model.RobotViewModel
 import com.lge.support.second.application.repository.SceneConfigRepo
 import com.lge.support.second.application.view.*
+import com.lge.support.second.application.view.adapter.currentBackScreen
+import com.lge.support.second.application.view.adapter.showBackScreen
 import com.lge.support.second.application.view.chatView.chat
 import com.lge.support.second.application.view.chatView.chat_fail
 import com.lge.support.second.application.view.docent.docent_select
@@ -105,12 +107,14 @@ class MainActivity : AppCompatActivity() {
 //        private const val REQUEST_CODE_PERMISSION = 200
 //        private const val REQUEST_EXTERNAL_STORAGE = 1
 
-        lateinit var subTest: SubScreen
+        lateinit var information_back: information_back
         lateinit var subVideo: back_video
         lateinit var standby: standby
         lateinit var movement_normal: movement_normal
         lateinit var promote_normal: promote_normal
         lateinit var moveArrive1: move_arrive1
+        lateinit var docent_back: docent_back
+        lateinit var move_docent: moveDocent
 
         fun mainContext(): Context {
             return instance
@@ -127,9 +131,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var displayManager: DisplayManager
     private lateinit var displays: Array<Display>
     lateinit var head: HeadPresentation
-    lateinit var move_docent: moveDocent
-
-    lateinit var docent_back: docent_back
 
     private lateinit var googleService: GoogleCloudApi;
 
@@ -198,8 +199,9 @@ class MainActivity : AppCompatActivity() {
         displays = displayManager.displays
 
         if (displays.isNotEmpty()) {
-            subTest = SubScreen(this, displays[1])
-            subTest.show()
+            information_back = information_back(this, displays[1])
+            information_back.show()
+            currentBackScreen = "information_back"
 
             standby = standby(this, displays[0])
 
@@ -230,14 +232,33 @@ class MainActivity : AppCompatActivity() {
         //mqttMgr.initFunc()
 
         //현재 기기에 셋팅된 국가코드 값 가져오기
-        var locale : Locale
+        var locale: Locale
         locale = applicationContext.resources.configuration.locale
         Log.i(tk_TAG, "국가코드 : " + locale.getCountry() + " 언어 코드 : " + locale.language)
 
         val sharedPreferences = getSharedPreferences("Setting", Activity.MODE_PRIVATE)
         val language = sharedPreferences.getString("My_Lang", locale.language)
-        
-        setLanguageColor(language)
+
+        var currentLang = boot_check.langPref.getString("My_Lang", locale.language)
+
+        when (currentLang) {
+            "ko" -> {
+                viewModel.setLanguage(Language.Korean)
+                setLocate(currentLang.toString())
+            }
+            "en" -> {
+                setLocate("en")
+                viewModel.setLanguage(Language.English)
+            }
+            "zh" -> {
+                setLocate("zh")
+                viewModel.setLanguage(Language.Chinese)
+            }
+            "ja" -> {
+                setLocate("ja")
+                viewModel.setLanguage(Language.Japanese)
+            }
+        }
 
         if (language != null) {
             Log.i(tk_TAG, "language : " + language)
@@ -481,8 +502,8 @@ class MainActivity : AppCompatActivity() {
         chnBtn.setTextColor(getColor(R.color.gonju_disabled))
         jpnBtn.setTextColor(getColor(R.color.gonju_disabled))
 
-        when(currentLang) {
-            "ko" -> korBtn.setTextColor(getColor(R.color.gongju_title))
+        when (currentLang) {
+            "ko" -> korBtn.setTextColor(getColor(R.color.gongju_title)) //selected
             "en" -> enBtn.setTextColor(getColor(R.color.gongju_title))
             "zh" -> chnBtn.setTextColor(getColor(R.color.gongju_title))
             "ja" -> jpnBtn.setTextColor(getColor(R.color.gongju_title))
@@ -511,6 +532,10 @@ class MainActivity : AppCompatActivity() {
         val config = Configuration()
         config.setLocale(locale)
         baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
+
+        boot_check.editor.putString("My_Lang", Lang)
+        boot_check.editor.apply()
+        setLanguageColor(Lang)
     }
 
     //fragment change
@@ -669,7 +694,8 @@ class MainActivity : AppCompatActivity() {
                 var options = ActivityOptions.makeBasic()
                 options.launchDisplayId = 1
 
-                subTest.hide()
+                information_back.hide()
+                docent_back.hide()
                 startActivity(intent, options.toBundle())
             }
             R.id.webBtn -> {

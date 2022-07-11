@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/docent_background">
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/charging">
     <ImageView
         android:layout_width="240px"
         android:layout_height="240px"
         android:layout_marginTop="180px"
-        android:src="@drawable/danger"
+        android:src="@drawable/battery"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/information_back_x1"
+        android:id="@+id/charging_x1"
         android:layout_width="wrap_content"
-        android:layout_height="170px"
+        android:layout_height="wrap_content"
         android:layout_marginTop="480px"
         android:fontFamily="@font/min_sans_black"
-        android:gravity="center"
-        android:text="@string/information_back_x1"
+        android:text="@string/charging_x1"
         android:textColor="@color/gongju_title"
         android:textSize="72px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
-    <ImageView
-        android:layout_width="882px"
-        android:layout_height="882px"
-        android:layout_marginBottom="78px"
-        android:src="@drawable/quai_stand_1"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <TextView
+        android:gravity="center"
+        android:id="@+id/move_charge_x2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="634px"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/move_charge_x2"
+        android:textColor="@color/gongju_title"
+        android:textSize="72px"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
-
-
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

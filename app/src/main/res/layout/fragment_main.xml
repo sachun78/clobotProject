@@ -17,9 +17,9 @@
 
     <TextView
         android:id="@+id/gnb_b1"
-        android:layout_width="wrap_content"
+        android:layout_width="750px"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="75px"
+        android:layout_marginLeft="50px"
         android:layout_marginTop="10px"
         android:fontFamily="@font/min_sans_semi_bold"
         android:gravity="center"

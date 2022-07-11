@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/docking">
+
+    <ImageView
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="240px"
+        android:layout_height="240px"
+        android:layout_marginTop="180px"
+        android:src="@drawable/danger" />
+
+    <TextView
+        android:id="@+id/docking_guide_x1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="480px"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/docking_guide_x1"
+        android:textColor="@color/gongju_title"
+        android:textSize="72px" />
+
+    <TextView
+        android:id="@+id/docking_guide_x2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="634px"
+        android:gravity="center"
+        android:fontFamily="@font/min_sans_black"
+        android:text="@string/docking_guide_x2"
+        android:textColor="@color/gongju_title"
+        android:textSize="56px" />
+    
+    <Button
+        android:layout_width="408px"
+        android:layout_height="120px"
+        android:backgroundTint="#18D28F"
+        android:background="@drawable/docking_border"
+        android:text="@string/docking_guide_b1"
+        android:id="@+id/docking_guide_b1"
+        app:layout_constraintTop_toBottomOf="@id/docking_guide_x2"
+        android:layout_marginTop="65px"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="121px"/>
+
+    <Button
+        android:layout_width="408px"
+        android:layout_height="120px"
+        android:backgroundTint="#99333333"
+        android:background="@drawable/docking_border"
+        android:text="@string/docking_guide_b2"
+        android:id="@+id/docking_guide_b2"
+        app:layout_constraintTop_toBottomOf="@id/docking_guide_x2"
+        android:layout_marginTop="65px"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginRight="109px"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

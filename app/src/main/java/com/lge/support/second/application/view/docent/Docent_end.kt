@@ -36,7 +36,7 @@ class docent_end : Fragment() {
         //다시듣기
         rootView.findViewById<Button>(R.id.end_b1).setOnClickListener {
             fragmentManager?.popBackStack()
-            MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("")
+            //MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("")
         }
 
         //종료 하기
@@ -49,7 +49,7 @@ class docent_end : Fragment() {
             dialog.findViewById<Button>(R.id.yes_btn).setOnClickListener {
                 dialog.hide()
                 fragmentManager?.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("")
+                //MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("")
             }
 
             dialog.findViewById<Button>(R.id.no_btn).setOnClickListener {

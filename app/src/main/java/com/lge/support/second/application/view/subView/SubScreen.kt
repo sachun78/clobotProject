@@ -18,7 +18,7 @@ import com.lge.support.second.application.R
 import org.apache.log4j.chainsaw.Main
 
 
-class SubScreen(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
+class information_back(outerContext: Context?, display: Display?) : Presentation(outerContext, display) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sub_test)
@@ -103,7 +103,7 @@ class back_video(outerContext: Context?, display: Display?) : Presentation(outer
 
     override fun hide() {
         super.hide()
-        MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("문화 해설 서비스 중입니다.")
+//        MainActivity.subTest.findViewById<TextView>(R.id.sub_textView).setText("문화 해설 서비스 중입니다.")
     }
 }
 

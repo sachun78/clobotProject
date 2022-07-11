@@ -10,7 +10,7 @@
         android:layout_width="1000px"
         android:layout_height="606px"
         android:layout_marginTop="60px"
-        android:backgroundTint="@color/text_emphasis"
+        android:background="#333333"
         android:fontFamily="@font/min_sans_medium"
         android:padding="48px"
         android:text="@string/information_x1"
@@ -36,31 +36,33 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/information_info"
         android:layout_width="1000px"
-        android:layout_height="438px"
+        android:layout_height="wrap_content"
         android:layout_marginTop="44px"
-        android:backgroundTint="@color/text_emphasis"
+        android:background="#333333"
         android:padding="48px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/information_x2">
 
         <TextView
-            android:fontFamily="@font/min_sans_extra_bold"
+            android:fontFamily="@font/min_sans_semi_bold"
             android:textColor="#99FFFFFF"
             android:id="@+id/information_x3"
             android:layout_width="wrap_content"
-            android:layout_height="54px"
+            android:layout_height="wrap_content"
             android:text="@string/information_x3"
             android:textSize="36px"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+
             android:textColor="#E6FFFFFF"
             android:id="@+id/information_x4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16px"
+            android:fontFamily="@font/min_sans_medium"
             android:text="@string/information_x4"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/information_x3" />
@@ -72,11 +74,12 @@
             android:layout_height="wrap_content"
             android:text="@string/information_x5"
             android:textSize="36px"
+            android:fontFamily="@font/min_sans_medium"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/information_x4" />
 
         <TextView
-            android:fontFamily="@font/min_sans_extra_bold"
+            android:fontFamily="@font/min_sans_semi_bold"
             android:textColor="#99FFFFFF"
             android:id="@+id/information_x6"
             android:layout_width="wrap_content"
@@ -88,6 +91,7 @@
             app:layout_constraintTop_toBottomOf="@id/information_x5" />
 
         <TextView
+            android:fontFamily="@font/min_sans_medium"
             android:textColor="#E6FFFFFF"
             android:id="@+id/information_x7"
             android:layout_width="wrap_content"

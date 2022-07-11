@@ -20,7 +20,7 @@ class information : Fragment() {
         val rootView = inflater.inflate(R.layout.fragment_information, container, false)
 
         val mActivity = activity as MainActivity
-        mActivity.findViewById<ConstraintLayout>(R.id.background).setBackgroundResource(R.drawable.gongju_background_2)
+        mActivity.findViewById<ConstraintLayout>(R.id.background).setBackgroundResource(R.drawable.gongju_background_5)
 
         return rootView
     }

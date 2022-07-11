@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".view.exhibits">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/exhibits_tab"
-        android:background="@drawable/exhibits_tab"
         android:layout_width="904px"
         android:layout_height="112px"
-        app:tabIndicator="@drawable/tab_selected"
+        android:layout_marginTop="48px"
+        android:background="@drawable/exhibits_tab"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="48px"
+        app:tabIndicator="@drawable/tab_selected"
+        app:tabIndicatorColor="@color/mid_grey"
         app:tabIndicatorGravity="center"
         app:tabIndicatorHeight="96px"
-        app:tabIndicatorColor="@color/mid_grey"
+        app:tabRippleColor="@null"
         app:tabTextColor="@color/text_darkwhite">
 
         <com.google.android.material.tabs.TabItem
@@ -31,7 +32,7 @@
 
     </com.google.android.material.tabs.TabLayout>
 
-    <androidx.viewpager.widget.ViewPager
+    <com.lge.support.second.application.view.adapter.SwipeLockableViewPager
         android:id="@+id/exhibits_viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
