@@ -111,6 +111,7 @@ class MainActivity : AppCompatActivity() {
         lateinit var emergency_front: emergency_screen
         lateinit var docking_screen: docking
         lateinit var undocking_screen: undocking
+        lateinit var charging_screen : charging
 
         fun mainContext(): Context {
             return instance
@@ -218,6 +219,7 @@ class MainActivity : AppCompatActivity() {
             emergency_front = emergency_screen(this, displays[0])
             docking_screen = docking(this, displays[1])
             undocking_screen = undocking(this, displays[1])
+            charging_screen = charging(this, displays[1])
         }
 
         // CHECK PERMISSIONS

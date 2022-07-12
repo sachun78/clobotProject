@@ -14,6 +14,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:gravity="center"
         android:id="@+id/charging_x1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,12 +32,11 @@
         android:id="@+id/move_charge_x2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="634px"
         android:fontFamily="@font/min_sans_black"
         android:text="@string/move_charge_x2"
         android:textColor="@color/gongju_title"
         android:textSize="72px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/charging_x1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

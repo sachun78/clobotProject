@@ -45,6 +45,7 @@ fun showBackScreen(showBack: String) { /////////////screen 1번(backScreen)
             "undocking" -> {
                 MainActivity.undocking_screen.show()
             }
+            "charging" -> MainActivity.charging_screen.show()
         }
     //}
 }
@@ -70,6 +71,7 @@ fun hideBackScreen(hideBack: String) {
         "undocking" -> {
             MainActivity.undocking_screen.hide()
         }
+        "charging" -> MainActivity.charging_screen.hide()
     }
 }
 
