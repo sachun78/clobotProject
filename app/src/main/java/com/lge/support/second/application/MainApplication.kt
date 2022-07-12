@@ -9,8 +9,6 @@ import com.lge.support.second.application.repository.RobotRepository
 import com.lge.support.second.application.repository.SceneConfigRepo
 
 class MainApplication : Application(), Configuration.Provider {
-    private val mCommonDatabase by lazy { CommonDatabase.getInstance(this) }
-    val mPageInfoRepo by lazy { SceneConfigRepo.getInstance(mCommonDatabase.pageInfoDao()) }
 
     override fun getWorkManagerConfiguration(): Configuration =
         Configuration.Builder()
@@ -24,6 +22,9 @@ class MainApplication : Application(), Configuration.Provider {
     companion object {
         lateinit var instance: MainApplication
         private val chatbotService = ChatbotApi.instance
+
+        private val mCommonDatabase by lazy { CommonDatabase.getInstance(instance) }
+        val mPageInfoRepo by lazy { SceneConfigRepo.getInstance(mCommonDatabase.pageInfoDao()) }
 
         val mRobotRepo by lazy {
             RobotRepository()

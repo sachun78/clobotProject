@@ -178,7 +178,7 @@ class MainActivity : AppCompatActivity() {
             MainViewModel.Factory(
                 MainApplication.mChatbotRepo,
                 GoogleCloudRepository(googleService),
-                (application as MainApplication).mPageInfoRepo,
+                MainApplication.mPageInfoRepo,
                 application as MainApplication
             )
         ).get(MainViewModel::class.java)
