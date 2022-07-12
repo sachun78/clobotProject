@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentManager
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentMoveArrive2Binding
+import com.lge.support.second.application.view.adapter.currentBackScreen
+import com.lge.support.second.application.view.adapter.hideBackScreen
 
 class move_arrive2 : Fragment() {
 
@@ -31,6 +33,7 @@ class move_arrive2 : Fragment() {
         binding = FragmentMoveArrive2Binding.inflate(inflater, container, false)
 
         (activity as MainActivity).findViewById<LinearLayout>(R.id.top).visibility = View.GONE
+        hideBackScreen(currentBackScreen)
 
         binding.moveArrive2B1.setOnClickListener {
             val builder = AlertDialog.Builder(context)

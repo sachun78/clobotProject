@@ -75,3 +75,12 @@ class emergency_screen(outerContext: Context?, display: Display?) :
     }
 }
 
+class charging(outerContext: Context?, display: Display?) :
+    Presentation(outerContext, display) {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.charging)
+    }
+}
+
