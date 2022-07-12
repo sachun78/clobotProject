@@ -13,10 +13,13 @@ import android.widget.Toast
 import androidx.appcompat.widget.TooltipCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager.widget.PagerAdapter
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentLocationBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -34,6 +37,12 @@ class location : Fragment() {
     //선택된 버튼
     lateinit var selectedBtn : Button
     lateinit var currentPin : View
+
+//    var isInit: Boolean = true;
+//
+//    init {
+//        isInit = true
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -185,6 +194,34 @@ class location : Fragment() {
             currentPin = pin9
             selectedBtn.isSelected = true
             currentPin.visibility = View.VISIBLE
+        }
+
+        //...................viewList[1]........................//
+        val btn1 = viewList[1].findViewById<Button>(R.id.btn1)
+        val btn2 = viewList[1].findViewById<Button>(R.id.btn2)
+        val btn3 = viewList[1].findViewById<Button>(R.id.btn3)
+        val btn4 = viewList[1].findViewById<Button>(R.id.btn4)
+        val btn5 = viewList[1].findViewById<Button>(R.id.btn5)
+        val btn6 = viewList[1].findViewById<Button>(R.id.btn6)
+
+        btn1.setOnClickListener {
+            (activity as MainActivity).changeFragment("answer-exhibits")
+//            lifecycleScope.launch(Dispatchers.Default) {
+//                if (!isInit) {
+//                    Log.d("exhibits", "called in exhibits: 전시된 작품 뭐 있어 $isInit")
+//                    lifecycleScope.launch(Dispatchers.Default) {
+////                        MainActivity.viewModel.breakChat()
+////                        MainActivity.viewModel.getResponse("전시된 작품 뭐 있어")
+////                        MainActivity.viewModel.ttsStop()
+////                        MainActivity.viewModel.getResponse("전시된 작품 뭐 있어")
+////                        MainActivity.viewModel.ttsStop()
+////                        MainActivity.viewModel.resetCurrentPage()
+////                        MainActivity.viewModel.getResponse("유동", "param")
+//                    }
+//                } else {
+//                    isInit = false
+//                }
+//            }
         }
 
         return binding.root

@@ -53,14 +53,14 @@ class answer_location : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            MainActivity.viewModel.queryResult.value?.in_str?.let {
-                MainActivity.viewModel.getResponse(
-                    it,
-                    "query"
-                )
-            }
-        }
+//        lifecycleScope.launch(Dispatchers.IO) {
+//            MainActivity.viewModel.queryResult.value?.in_str?.let {
+//                MainActivity.viewModel.getResponse(
+//                    it,
+//                    "query"
+//                )
+//            }
+//        }
     }
 
     override fun onCreateView(
@@ -79,7 +79,8 @@ class answer_location : Fragment() {
         btnNext = binding.answerLocNext
         btnBack = binding.answerLocBack
 
-        binding.answerLocationC1.text = exhibits.nameList[position].text
+        ////////챗봇 연동 되면 바꿀 부분 !!!!!!!!!!!!!!!! 1. 주석 풀기
+        //binding.answerLocationC1.text = exhibits.nameList[position].text
 
         imageSwitcher.setFactory {
             var imageView = ImageView(activity?.applicationContext)
@@ -89,9 +90,14 @@ class answer_location : Fragment() {
 
         ////////////Main -> urlArray2[ position ]
         arrImage.clear()
-        for (imgUrl in MainActivity.urlArray2) {
-            arrImage.add(imgUrl)
-        }
+        ////////챗봇 연동 되면 바꿀 부분 !!!!!!!!!!!!!!!!
+        //1. 주석 풀기 2.urlArray2->urlArray로.. 3.수동으로 add해준 것 없애기
+//        for (imgUrl in MainActivity.urlArray2) {
+//            arrImage.add(imgUrl)
+//        }
+        arrImage.add("https://newsimg.sedaily.com/2020/12/01/1ZBIJQNGIG_1.jpg")
+        arrImage.add("https://dimg.donga.com/wps/NEWS/IMAGE/2020/08/26/102662103.1.jpg")
+        arrImage.add("http://image.dongascience.com/Photo/2020/03/32ee9fae42b5b0a8f466d61ba2acc281.jpg")
 
         //첫 화면 세팅
         Glide.with(imageSwitcher.context).load(arrImage[position])
@@ -110,7 +116,8 @@ class answer_location : Fragment() {
                     btnBack.visibility = View.INVISIBLE
                 Glide.with(imageSwitcher.context).load(arrImage[position])
                     .into(imageSwitcher.currentView as ImageView)
-                binding.answerLocationC1.text = exhibits.nameList[position].text
+                ////////챗봇 연동 되면 바꿀 부분 !!!!!!!!!!!!!!!! 1. 주석 풀기
+                //binding.answerLocationC1.text = exhibits.nameList[position].text
             }
             if (position == 0)
                 btnBack.visibility = View.INVISIBLE
@@ -121,7 +128,8 @@ class answer_location : Fragment() {
                 position += 1
                 Glide.with(imageSwitcher.context).load(arrImage[position])
                     .into(imageSwitcher.currentView as ImageView)
-                binding.answerLocationC1.text = exhibits.nameList[position].text
+                ////////챗봇 연동 되면 바꿀 부분 !!!!!!!!!!!!!!!! 1. 주석 풀기
+                //binding.answerLocationC1.text = exhibits.nameList[position].text
             }
 
             if (position == arrImage.size - 1) {

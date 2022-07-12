@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.TooltipCompat
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +24,8 @@ import com.lge.support.second.application.view.adapter.answerlist2Model
 import com.lge.support.second.application.view.tabView.*
 import kotlinx.coroutines.*
 import org.apache.log4j.chainsaw.Main
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class exhibits : Fragment() {
@@ -103,6 +106,11 @@ class exhibits : Fragment() {
         binding.exhibitsTab.getTabAt(0)?.text = tab1
         binding.exhibitsTab.getTabAt(1)?.text = tab2
 
+        for (i in 0 until binding.exhibitsTab.tabCount) {
+            Objects.requireNonNull(binding.exhibitsTab.getTabAt(i))
+                ?.let { TooltipCompat.setTooltipText(it.view, null) }
+        }
+
         MainActivity.viewModel.queryResult.observe(viewLifecycleOwner) {
             if (it == null) {
                 return@observe
@@ -135,6 +143,7 @@ class exhibits : Fragment() {
                         Arrtype[position]
                     )
                 }
+//                (activity as MainActivity).changeFragment("answer_3")
             }
         return binding.root
     }

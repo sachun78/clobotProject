@@ -559,11 +559,6 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null).commit()
             }
 
-//            "enjoy-exhbn" -> {
-//                supportFragmentManager.beginTransaction().replace(R.id.fragment_main, enjoy_1())
-//                    .addToBackStack(null).commit()
-//            }
-
             /////////////////////////////chat bot/////////////////////////////
             "answer_1", "tpl-com-00" -> {
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_main, answer_1())
@@ -595,7 +590,7 @@ class MainActivity : AppCompatActivity() {
             // TEST FOR MMCA SCENARIO
             "tpl-single-art", "answer-art" -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_main, answer_location())
+                    .replace(R.id.fragment_main, answer_3())
                     .addToBackStack(null).commit()
             }
 
@@ -627,11 +622,12 @@ class MainActivity : AppCompatActivity() {
                     .addToBackStack(null).commit()
             }
 
-            "answer-location" -> {
+            "answer-location","answer-exhibits" -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_main, answer_location())
+                    .replace(R.id.fragment_main, answer_location()) //answer_location
                     .addToBackStack(null).commit()
             }
+
             "move-arrive_1" -> {
 //                moveArrive1.show()
                 supportFragmentManager.beginTransaction()

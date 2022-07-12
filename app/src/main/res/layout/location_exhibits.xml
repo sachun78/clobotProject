@@ -18,12 +18,94 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:layout_width="996px"
-        android:layout_height="700px"
+        android:layout_width="1000px"
+        android:layout_marginRight="40px"
+        android:layout_height="996px"
         android:layout_marginTop="230px"
         android:src="@drawable/map_ungjin2"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/location_exhibits_x1" />
+
+    <ImageView
+        android:id="@+id/locationFrame"
+        android:layout_width="1000px"
+        android:layout_height="547px"
+        android:layout_marginTop="425px"
+        android:src="@drawable/frame_9"
+        android:layout_marginRight="30px"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_exhibits_x1" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="91px"
+        app:layout_constraintTop_toTopOf="@id/locationFrame"
+        app:layout_constraintLeft_toLeftOf="@id/locationFrame"
+        android:textSize="32px"
+        android:text="@string/location_exhibits_b6"
+        android:background="@color/transparency"
+        android:textColor="@color/text_darkwhite"
+        android:id="@+id/btn1"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="91px"
+        app:layout_constraintTop_toTopOf="@id/locationFrame"
+        app:layout_constraintLeft_toLeftOf="@id/locationFrame"
+        android:textSize="32px"
+        android:layout_marginTop="166px"
+        android:text="@string/location_exhibits_b7"
+        android:background="@color/transparency"
+        android:textColor="@color/text_darkwhite"
+        android:id="@+id/btn2"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="91px"
+        app:layout_constraintBottom_toBottomOf="@id/locationFrame"
+        app:layout_constraintLeft_toLeftOf="@id/locationFrame"
+        android:textSize="32px"
+        android:text="@string/location_exhibits_b8"
+        android:background="@color/transparency"
+        android:textColor="@color/text_darkwhite"
+        android:id="@+id/btn3"/>
+
+    <Button
+        android:layout_width="153px"
+        android:layout_height="91px"
+        app:layout_constraintTop_toTopOf="@id/locationFrame"
+        app:layout_constraintRight_toRightOf="@id/locationFrame"
+        android:textSize="32px"
+        android:layout_marginTop="74px"
+        android:text="@string/location_exhibits_b3"
+        android:background="@color/transparency"
+        android:textColor="@color/text_darkwhite"
+        android:id="@+id/btn4"/>
+
+    <Button
+        android:layout_width="238px"
+        android:layout_height="91px"
+        app:layout_constraintTop_toTopOf="@id/locationFrame"
+        app:layout_constraintRight_toRightOf="@id/locationFrame"
+        android:textSize="32px"
+        android:layout_marginTop="237px"
+        android:text="@string/location_exhibits_b4"
+        android:background="@color/transparency"
+        android:textColor="@color/text_darkwhite"
+        android:id="@+id/btn5"/>
+
+    <Button
+        android:layout_width="191px"
+        android:layout_height="91px"
+        app:layout_constraintBottom_toBottomOf="@id/locationFrame"
+        app:layout_constraintRight_toRightOf="@id/locationFrame"
+        android:textSize="32px"
+        android:layout_marginBottom="20px"
+        android:text="@string/location_exhibits_b5"
+        android:background="@color/transparency"
+        android:textColor="@color/text_darkwhite"
+        android:id="@+id/btn6"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,33 +8,51 @@
 
     <TextView
         android:id="@+id/answer3_t1"
-        android:layout_width="980px"
-        android:layout_height="96px"
+        android:layout_width="960px"
+        android:fontFamily="@font/min_sans_black"
+        android:textSize="40px"
+        android:textColor="@color/text_darkwhite"
+        android:layout_height="wrap_content"
         android:text="STT"
+        android:layout_marginBottom="32px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/line1" />
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="4px"
+        android:layout_marginTop="192px"
+        android:background="@color/mid_grey"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/answer3_t2"
-        android:layout_width="match_parent"
-        android:layout_height="230px"
+        android:layout_width="960px"
+        android:layout_height="wrap_content"
         android:layout_marginTop="26px"
         android:lineSpacingMultiplier="1.2"
         android:maxLength="100"
-        android:padding="16dp"
         android:text="robot"
-        android:textColor="@color/white"
+        android:fontFamily="@font/min_sans_bold"
+        android:textColor="@color/text_darkwhite"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/answer3_t1" />
+        app:layout_constraintTop_toBottomOf="@id/line1"/>
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="4px"
+        android:layout_marginTop="220px"
+        android:background="@color/mid_grey"
+        app:layout_constraintTop_toBottomOf="@id/line1" />
 
     <Button
         android:id="@+id/answer3_b1"
         android:layout_width="120px"
-        android:layout_height="120px"
+        android:layout_height="96px"
         android:layout_marginTop="600px"
-        android:text="back"
+        android:background="@drawable/left_btn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/answer3_is1" />
 
@@ -50,17 +68,17 @@
         android:id="@+id/answer3_is1"
         android:layout_width="1000px"
         android:layout_height="1225px"
-        android:layout_marginTop="24px"
+        android:layout_marginTop="46px"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/answer3_t2" />
+        app:layout_constraintTop_toBottomOf="@id/line2" />
 
     <Button
         android:id="@+id/answer3_b2"
         android:layout_width="120px"
-        android:layout_height="120px"
+        android:layout_height="96px"
         android:layout_marginTop="600px"
-        android:text="next"
+        android:background="@drawable/right_btn"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/answer3_is1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

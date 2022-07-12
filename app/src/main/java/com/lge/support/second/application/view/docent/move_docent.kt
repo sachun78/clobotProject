@@ -27,7 +27,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
         val rootView = inflater.inflate(R.layout.fragment_move_docent, container, false)
 
         val mActivity = activity as MainActivity
-        mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.GONE
+        //mActivity.findViewById<LinearLayout>(R.id.top).visibility = View.GONE
 
         MainActivity.subVideo.show()
 
@@ -100,6 +100,7 @@ class move_docent : Fragment(), SurfaceHolder.Callback {
         Log.e(TAG, "surfaceDestroyed");
         MainActivity.subVideo.hide()
         mediaPlayer.release() //자원해제
+        (activity as MainActivity).findViewById<LinearLayout>(R.id.top).visibility = View.VISIBLE
     }
 
 
