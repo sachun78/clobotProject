@@ -144,5 +144,139 @@
         app:layout_constraintLeft_toRightOf="@id/location_facility_b10"
         app:layout_constraintTop_toBottomOf="@id/location_facility_b8" />
 
+    <ImageView
+        android:id="@+id/map_facility"
+        android:layout_width="wrap_content"
+        android:layout_height="554.91px"
+        android:layout_marginTop="197px"
+        android:src="@drawable/map_facility"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/location_facility_b10" />
+
+    <!--웅진백제실-->
+    <ImageView
+        android:id="@+id/pin_1"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginLeft="335px"
+        android:layout_marginTop="116.5px"
+        android:src="@drawable/map_pin"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/map_facility" />
+
+    <!--화장실-->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/pin_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintTop_toTopOf="@id/map_facility">
+
+        <ImageView
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:layout_marginLeft="630px"
+            android:layout_marginTop="167.5px"
+            android:src="@drawable/map_pin"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="96px"
+            android:layout_height="96px"
+            android:layout_marginTop="187.5px"
+            android:layout_marginRight="100px"
+            android:src="@drawable/map_pin"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--기획전시실-->
+    <ImageView
+        android:id="@+id/pin_3"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginTop="116.5px"
+        android:layout_marginRight="110px"
+        android:layout_marginBottom="512.41px"
+        android:src="@drawable/map_pin"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/map_facility"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!--세미나실-->
+    <ImageView
+        android:id="@+id/pin_4"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginTop="116.5px"
+        android:layout_marginRight="110px"
+        android:layout_marginBottom="351.41px"
+        android:src="@drawable/map_pin"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@id/map_facility"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <!--웅진백제실-->
+    <ImageView
+        android:id="@+id/pin_5"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginLeft="155px"
+        android:layout_marginTop="238.5px"
+        android:src="@drawable/map_pin"
+        android:visibility="invisible"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/map_facility" />
+
+    <!--디지털 실감영상관-->
+    <ImageView
+        android:id="@+id/pin_6"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginTop="170px"
+        android:layout_marginRight="465px"
+        android:src="@drawable/map_pin"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/map_facility" />
+
+    <!--수유실-->
+    <ImageView
+        android:id="@+id/pin_7"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginTop="263.5px"
+        android:layout_marginRight="215px"
+        android:src="@drawable/map_pin"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/map_facility" />
+
+    <!--웅진백제 어린이 체험실-->
+    <ImageView
+        android:id="@+id/pin_8"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginTop="370px"
+        android:layout_marginRight="195px"
+        android:src="@drawable/map_pin"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/map_facility" />
+
+    <!--강당-->
+    <ImageView
+        android:id="@+id/pin_9"
+        android:layout_width="96px"
+        android:layout_height="96px"
+        android:layout_marginTop="340px"
+        android:layout_marginRight="95px"
+        android:src="@drawable/map_pin"
+        android:visibility="invisible"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/map_facility" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

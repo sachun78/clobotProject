@@ -1,18 +1,24 @@
 package com.lge.support.second.application.view
 
+import android.R.id.tabs
+import android.media.Image
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
+import androidx.appcompat.widget.TooltipCompat
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.PagerAdapter
 import com.lge.support.second.application.MainActivity
 import com.lge.support.second.application.R
 import com.lge.support.second.application.databinding.FragmentLocationBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class location : Fragment() {
@@ -27,6 +33,7 @@ class location : Fragment() {
 
     //선택된 버튼
     lateinit var selectedBtn : Button
+    lateinit var currentPin : View
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -55,6 +62,11 @@ class location : Fragment() {
         binding.exhibitsTab.getTabAt(0)?.setText(tab1)
         binding.exhibitsTab.getTabAt(1)?.setText(tab2)
 
+        for (i in 0 until binding.exhibitsTab.tabCount) {
+            Objects.requireNonNull(binding.exhibitsTab.getTabAt(i))
+                ?.let { TooltipCompat.setTooltipText(it.view, null) }
+        }
+
         Log.d("location", binding.exhibitsTab.getSelectedTabPosition().toString())
 
         //...................viewList[0]........................//
@@ -68,81 +80,111 @@ class location : Fragment() {
         val menuBtn8 = viewList[0].findViewById<Button>(R.id.location_facility_b10)
         val menuBtn9 = viewList[0].findViewById<Button>(R.id.location_facility_b11)
 
+        val pin1 = viewList[0].findViewById<ImageView>(R.id.pin_1) //웅진백제실
+        val pin2 = viewList[0].findViewById<ConstraintLayout>(R.id.pin_2) //화장실
+        val pin3 = viewList[0].findViewById<ImageView>(R.id.pin_3) //기획전시실
+        val pin4 = viewList[0].findViewById<ImageView>(R.id.pin_4) //세미나실
+        val pin5 = viewList[0].findViewById<ImageView>(R.id.pin_5) //충청권역 수장고
+        val pin6 = viewList[0].findViewById<ImageView>(R.id.pin_6) //디지털 실감영상관
+        val pin7 = viewList[0].findViewById<ImageView>(R.id.pin_7) //수유실
+        val pin8 = viewList[0].findViewById<ImageView>(R.id.pin_8) //웅진백제어린이체험실
+        val pin9 = viewList[0].findViewById<ImageView>(R.id.pin_9) //강당
+
         //기본 화면
         selectedBtn = menuBtn1
         selectedBtn.isSelected = true
+        currentPin = pin1
+        currentPin.visibility = View.VISIBLE
 
         //클릭된 상태->action
         menuBtn1.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn1
+            currentPin = pin1
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         menuBtn2.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn2
+            currentPin = pin2
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         menuBtn3.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn3
+            currentPin = pin3
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         menuBtn4.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn4
+            currentPin = pin4
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         menuBtn5.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn5
+            currentPin = pin5
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         menuBtn6.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn6
+            currentPin = pin6
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         menuBtn7.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn7
+            currentPin = pin7
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         menuBtn8.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn8
+            currentPin = pin8
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         menuBtn9.setOnClickListener {
-            Toast.makeText(context, "작업 필요", Toast.LENGTH_SHORT).show()
             selectedBtn.isSelected = false
+            currentPin.visibility = View.INVISIBLE
 
             selectedBtn = menuBtn9
+            currentPin = pin9
             selectedBtn.isSelected = true
+            currentPin.visibility = View.VISIBLE
         }
 
         return binding.root

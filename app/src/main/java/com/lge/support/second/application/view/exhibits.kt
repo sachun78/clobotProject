@@ -84,6 +84,7 @@ class exhibits : Fragment() {
             isInit = false
         }
         //보여질 화면 세팅
+        MainActivity.viewModel.updatePageInfo("exhibits-ungjin")
 
         //if(!isCreatedThisPage){
         viewList.clear()
