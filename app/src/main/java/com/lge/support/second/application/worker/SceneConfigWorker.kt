@@ -18,21 +18,21 @@ class SceneConfigWorker(
 ) : CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result = withContext(Dispatchers.IO){
         try {
-            val page_file_name = inputData.getString(KEY_PAGE_FILE)
-            val tts_file_name = inputData.getString(KEY_TTS_FILE)
+            val pageFileName = inputData.getString(KEY_PAGE_FILE)
+            val ttsFileName = inputData.getString(KEY_TTS_FILE)
 
-            Log.d("hjbae", "SceneConfigWorker Start")
-            if (page_file_name != null && tts_file_name != null) {
+            Log.d(TAG, "SceneConfigWorker Start")
+            if (pageFileName != null && ttsFileName != null) {
                 var pageData: ArrayList<PageInfoItem> = arrayListOf()
                 var ttsData: ArrayList<TtsInfoItem> = arrayListOf()
 
-                applicationContext.assets.open(page_file_name).use {
+                applicationContext.assets.open(pageFileName).use {
                     val pageInfoJson = it.reader().readText()
                     val pageInfoType = object : TypeToken<ArrayList<PageInfoItem>>() {}.type
                     pageData = Gson().fromJson<ArrayList<PageInfoItem>>(pageInfoJson, pageInfoType)
                 }
 
-                applicationContext.assets.open(tts_file_name).use {
+                applicationContext.assets.open(ttsFileName).use {
                     val ttsInfoJson = it.reader().readText()
                     val ttsInfoType = object : TypeToken<ArrayList<TtsInfoItem>>() {}.type
                     ttsData = Gson().fromJson<ArrayList<TtsInfoItem>>(ttsInfoJson, ttsInfoType)
@@ -42,13 +42,13 @@ class SceneConfigWorker(
                     if (pageInfoItem.is_tts) {
                         pageInfoItem.tts_info = ttsData.filter {
                             (it.tts_id).contains(pageInfoItem.page_id)
-                        } as ArrayList<TtsInfoItem>
+                        }
                     }
                 }
-                //Log.d("hjbae", "$pageData")
                 val database = CommonDatabase.getInstance(applicationContext)
                 database.pageInfoDao().insertAllPageInfo(pageData)
 
+		Log.d(TAG, "SceneConfigWorker success !!!")
                 Result.success()
             } else {
                 Log.e(TAG, "Error SceneConfigWorker - no valid filename")

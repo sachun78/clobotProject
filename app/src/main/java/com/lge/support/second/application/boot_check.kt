@@ -70,7 +70,6 @@ class boot_check : AppCompatActivity() {
         langPref = getSharedPreferences("My_Lang", Activity.MODE_PRIVATE)
         editor = langPref.edit()
 
-
         robotViewModel = ViewModelProvider(
             this,
             RobotViewModel.Factory(

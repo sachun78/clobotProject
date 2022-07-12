@@ -184,9 +184,6 @@ class MainActivity : AppCompatActivity() {
             )
         ).get(MainViewModel::class.java)
 
-        // DataBase init
-        viewModel.allPageInfo
-
         robotViewModel = ViewModelProvider(
             this@MainActivity,
             RobotViewModel.Factory(
